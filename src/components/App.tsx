@@ -1,6 +1,6 @@
 import { Outlet } from 'react-router-dom'
 import classes from './App.module.scss'
-import { Button, Grid } from '@mui/material'
+import { Button, Grid, ListItemButton, ListItemText } from '@mui/material'
 
 const TODO = (arg: number) => {
   console.log('todo')
@@ -11,7 +11,10 @@ export const App = () => {
   return (
     <div className={classes.className}>
       <button>123</button>
-      <h1>cool</h1>
+      <ListItemButton component="a" href="#simple-list">
+  <ListItemText primary="Spam" />
+</ListItemButton>
+
       <Outlet />
       <Button variant="contained">Hello world</Button>
       <Grid container>
