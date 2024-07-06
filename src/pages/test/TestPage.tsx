@@ -1,7 +1,7 @@
-import avatar from './../../assets/avatar.png'
-import avatarJpg from './../../assets/avatar.jpg'
-import Calendar from './../../assets/calendar.svg'
-import AvatarPng from './../../assets/app-image.svg'
+import avatar from './../../assets/avatar.png';
+import avatarJpg from './../../assets/avatar.jpg';
+import Calendar from './../../assets/calendar.svg';
+import AvatarPng from './../../assets/app-image.svg';
 
 const TestPage = () => {
   return (
@@ -14,7 +14,7 @@ const TestPage = () => {
       </div>
       test page
     </div>
-  )
-}
+  );
+};
 
-export default TestPage
+export default TestPage;

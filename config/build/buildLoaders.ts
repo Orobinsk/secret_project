@@ -1,13 +1,13 @@
-import MiniCssExtractPlugin from 'mini-css-extract-plugin'
-import webpack from 'webpack'
-import { BuildOptions } from './types/config'
-import ReactRefreshTypeScript from 'react-refresh-typescript'
+import MiniCssExtractPlugin from 'mini-css-extract-plugin';
+import webpack from 'webpack';
+import { BuildOptions } from './types/config';
+import ReactRefreshTypeScript from 'react-refresh-typescript';
 
 export function buildLoaders({ isDev }: BuildOptions): webpack.RuleSetRule[] {
   const assetLoader = {
     test: /\.(png|jpg|jpeg|gif)$/i,
     type: 'asset/resource',
-  }
+  };
 
   const svgLoader = {
     test: /\.svg$/,
@@ -18,14 +18,12 @@ export function buildLoaders({ isDev }: BuildOptions): webpack.RuleSetRule[] {
           icon: true,
           svgoConfig: {
             //позволяет передавать цвета через color={''}
-            plugins: [
-              { name: 'convertColors', params: { currentColor: true } },
-            ],
+            plugins: [{ name: 'convertColors', params: { currentColor: true } }],
           },
         },
       },
     ],
-  }
+  };
 
   const cssLoader = {
     test: /\.s[ac]ss$/i,
@@ -43,7 +41,7 @@ export function buildLoaders({ isDev }: BuildOptions): webpack.RuleSetRule[] {
       },
       'sass-loader',
     ],
-  }
+  };
 
   const typescriptLoader = {
     test: /\.tsx?$/,
@@ -59,7 +57,7 @@ export function buildLoaders({ isDev }: BuildOptions): webpack.RuleSetRule[] {
       },
     ],
     exclude: /node_modules/,
-  }
+  };
 
-  return [assetLoader, typescriptLoader, cssLoader, svgLoader]
+  return [assetLoader, typescriptLoader, cssLoader, svgLoader];
 }
