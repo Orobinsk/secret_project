@@ -6,6 +6,7 @@ export const App = () => {
     <Container maxWidth="lg">
       <Link to={'/'}>main</Link>
       <Link to={'/about'}>about</Link>
+      <Link to={'/film/1'}>film 1</Link>
       <Outlet />
     </Container>
   );
