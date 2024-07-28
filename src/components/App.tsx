@@ -1,9 +1,11 @@
 import { Link as RouterLink, Outlet } from 'react-router-dom';
 import { Container, Link } from '@mui/material';
+import { Nav } from './nav/nav';
 
 export const App = () => {
   return (
     <Container maxWidth="lg">
+      <Nav />
       <Link component={RouterLink} to={'/'}>
         main
       </Link>
