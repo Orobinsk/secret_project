@@ -9,6 +9,7 @@ export interface buildPatchs {
 export interface BuildEnv {
   mode: BuildMode;
   port: number;
+  TMDB_KEY: string;
 }
 
 export interface BuildOptions {
