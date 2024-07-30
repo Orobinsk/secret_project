@@ -17,6 +17,10 @@ export function buildPlugins({ mode, patchs }: BuildOptions): Configuration['plu
       filename: 'css/[name].[contenthash:8].css',
       chunkFilename: 'css/[name].[contenthash:8].css',
     }),
+
+    new webpack.DefinePlugin({
+      'process.env.TMDB_KEY': JSON.stringify(process.env.TMDB_KEY),
+    }),
   ];
 
   if (isDev) {
