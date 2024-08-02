@@ -4,16 +4,20 @@ import { Nav } from './nav/nav';
 import { ITmdbServerResponse, getMoviesList } from '../api/api';
 import { useState, useEffect } from 'react';
 
+import { MovieCard } from './movieCard/MovieCard';
+import { Section } from './section/Section';
+
 export const App = () => {
   // временное решение для разработки основного контента
-  const [movieList, setMovieList] = useState<ITmdbServerResponse>();
-  useEffect(() => {
-    getMoviesList().then((data) => setMovieList(data));
-  }, []);
-  console.log(movieList);
+  // const [movieList, setMovieList] = useState<ITmdbServerResponse>();
+  // useEffect(() => {
+  //   getMoviesList().then((data) => setMovieList(data));
+  // }, []);
+
   return (
     <Container maxWidth="lg">
       <Nav />
+      <Section />
       <Link component={RouterLink} to={'/'}>
         main
       </Link>
