@@ -9,10 +9,10 @@ import { Section } from './section/Section';
 
 export const App = () => {
   // временное решение для разработки основного контента
-  // const [movieList, setMovieList] = useState<ITmdbServerResponse>();
-  // useEffect(() => {
-  //   getMoviesList().then((data) => setMovieList(data));
-  // }, []);
+  const [movieList, setMovieList] = useState<ITmdbServerResponse>();
+  useEffect(() => {
+    getMoviesList().then((data) => setMovieList(data));
+  }, []);
 
   return (
     <Container maxWidth="lg">

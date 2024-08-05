@@ -1,5 +1,5 @@
 import webpack, { Configuration } from 'webpack';
-import HtmlWebpackPlugin from 'Html-Webpack-Plugin';
+import HtmlWebpackPlugin from 'html-webpack-plugin';
 import { BuildOptions } from './types/config';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
