@@ -29,8 +29,6 @@ export const Section = () => {
         </Button>
       </Box>
       <MovieCard />
-      <MovieCard />
-      <MovieCard />
     </Box>
   );
 };
