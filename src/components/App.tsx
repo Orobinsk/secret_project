@@ -6,6 +6,7 @@ import { useState, useEffect } from 'react';
 
 import { MovieCard } from './movieCard/MovieCard';
 import { Section } from './section/Section';
+import { Carousel } from './carousel/Carousel';
 
 export const App = () => {
   // временное решение для разработки основного контента
@@ -17,6 +18,7 @@ export const App = () => {
   return (
     <Container maxWidth="lg">
       <Nav />
+      <Carousel />
       <Section />
       <Link component={RouterLink} to={'/'}>
         main
