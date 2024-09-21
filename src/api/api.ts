@@ -1,6 +1,7 @@
 import { apiTMDB } from './base';
 
 export interface ITmdbServerResponse {
+  length: any;
   page: number;
   results: Array<IMovie>;
   total_pages: number;
