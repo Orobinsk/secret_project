@@ -26,8 +26,8 @@ export function buildPlugins({ mode, patchs }: BuildOptions): Configuration['plu
   if (isDev) {
     plugins.push(
       new webpack.ProgressPlugin(),
-      //проверка типов отдельным процессом
-      new ForkTsCheckerWebpackPlugin(),
+      //проверка типов отдельным процессом. (из-за этого запуск стал сильно дольше)
+      // new ForkTsCheckerWebpackPlugin(),
       new ReactRefreshWebpackPlugin(),
     );
   }
