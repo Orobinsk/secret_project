@@ -15,6 +15,7 @@ export function buildWebpackConfig(options: BuildOptions): webpack.Configuration
       filename: '[name].[contenthash].js',
       path: patchs.build,
       clean: true,
+      publicPath: '/',
     },
     plugins: buildPlugins(options),
     module: {
