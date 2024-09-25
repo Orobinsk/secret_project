@@ -1,4 +1,5 @@
 export interface ISearchResult<T> {
+  title: ReactNode;
   page: number;
   results: T;
   total_results: number;
