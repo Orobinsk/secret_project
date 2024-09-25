@@ -22,9 +22,7 @@ export const App = () => {
   return (
     <Container maxWidth="lg">
       <Nav />
-      <Carousel />
-      <Section />
-      <Link component={RouterLink} to={'/'}>
+      {/* <Link component={RouterLink} to={'/'}>
         main
       </Link>
       <Link component={RouterLink} to={'/about'}>
@@ -32,7 +30,7 @@ export const App = () => {
       </Link>
       <Link component={RouterLink} to={'/film/1'}>
         film 1
-      </Link>
+      </Link> */}
       <Outlet />
     </Container>
   );

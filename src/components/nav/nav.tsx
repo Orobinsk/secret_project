@@ -17,7 +17,7 @@ export const Nav = () => {
         bgcolor: '#12161a',
       }}
     >
-      <Link component={RouterLink} to={'/'}>
+      <Link component={RouterLink} to={'/main'}>
         <img src={Logo} style={{ width: '158px', height: '55px' }} alt="" />
       </Link>
       <Box display={'flex'}>

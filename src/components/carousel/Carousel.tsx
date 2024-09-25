@@ -9,6 +9,7 @@ import { getMovie } from '../../api/api';
 import { API_PARAM, ENDPOINTS } from '../../constants';
 import { IMovie, ISearchResult } from '../../api/apiTypes';
 import { Link } from 'react-router-dom';
+import { PosterCard } from '../../components/posterCard/PosterCard';
 
 export const Carousel = () => {
   const [movieList, setMovieList] = useState<ISearchResult<IMovie[]>>();
