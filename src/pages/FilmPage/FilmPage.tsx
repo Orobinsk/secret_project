@@ -5,8 +5,8 @@ import { IMovie, ISearchResult, MovieDetails } from '../../api/apiTypes'; //чт
 import { useEffect, useState } from 'react';
 import { getMovie } from '../../api/api';
 import { PosterCard } from '../../components/posterCard/PosterCard';
-import { MovieDesc } from '../../components/movieDesc/MovieDesc';
 import { MovieDetailsPanel } from '../../components/movieDetailsPanel/MovieDetailsPanel';
+import { MovieDesc } from './movieDesc/MovieDesc';
 
 export const FilmPage = () => {
   const { id } = useParams<{ id: string }>();
@@ -21,7 +21,7 @@ export const FilmPage = () => {
   }, []);
 
   return (
-    <Box>
+    <>
       <Grid container spacing={2}>
         <Grid item xs={3}>
           <PosterCard posterPath={movie?.poster_path} showBorder={false} />
@@ -39,6 +39,6 @@ export const FilmPage = () => {
         </Grid>
       </Grid>
       {/* <Player query="место под соснами" /> */}
-    </Box>
+    </>
   );
 };

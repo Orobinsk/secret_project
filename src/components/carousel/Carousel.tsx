@@ -8,8 +8,7 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import { getMovie } from '../../api/api';
 import { API_PARAM, ENDPOINTS } from '../../constants';
 import { IMovie, ISearchResult } from '../../api/apiTypes';
-import { Link } from 'react-router-dom';
-import { PosterCard } from '../../components/posterCard/PosterCard';
+import { Link, Link as RouterLink } from 'react-router-dom';
 
 export const Carousel = () => {
   const [movieList, setMovieList] = useState<ISearchResult<IMovie[]>>();
@@ -22,15 +21,15 @@ export const Carousel = () => {
 
   const [currentIndex, setCurrentIndex] = useState(0);
   const itemsPerPage = 4;
-  const totalItems = movieList?.results.length;
+  const totalMovies = movieList?.results.length;
 
   const handleNext = () => {
     if (currentIndex < movieList.results.length)
-      setCurrentIndex((prevIndex) => (prevIndex + 4 + totalItems) % totalItems);
+      setCurrentIndex((prevIndex) => (prevIndex + 4 + totalMovies) % totalMovies);
   };
 
   const handlePrev = () => {
-    setCurrentIndex((prevIndex) => (prevIndex - 4 + totalItems) % totalItems);
+    setCurrentIndex((prevIndex) => (prevIndex - 4 + totalMovies) % totalMovies);
   };
 
   const visibleMovies = movieList?.results
@@ -38,8 +37,8 @@ export const Carousel = () => {
     : [];
 
   return (
-    <Box sx={{ bgcolor: '#12161a' }} paddingBottom="40px">
-      <Box display="flex" justifyContent="space-between" sx={{ borderBottom: '1px solid #89a' }}>
+    <Box paddingBottom="40px">
+      <Box display="flex" justifyContent="space-between" borderBottom="1px solid #89a">
         <Button
           sx={{
             color: '#89a',
@@ -73,30 +72,22 @@ export const Carousel = () => {
         >
           <ArrowBackIosIcon />
         </IconButton>
-        <Box
-          sx={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(4, 1fr)',
-            gap: '10px',
-            width: '100%',
-            position: 'relative',
-          }}
-        >
-          {visibleMovies.map((m, i) => (
+        <Box display="grid" gridTemplateColumns="repeat(4, 1fr)" width="100%" position="relative">
+          {visibleMovies.map((movie, i) => (
             <Box
               key={i}
-              sx={{
-                border: '2px solid black',
-                borderRadius: '10px',
-                '&:hover': { border: '2px solid #00e054' },
-                width: '236px',
-                height: '351px',
-              }}
+              border="2px solid black"
+              borderRadius="10px"
+              width="236px"
+              height="351px"
               margin="10px 5px"
+              sx={{
+                '&:hover': { border: '2px solid #00e054' },
+              }}
             >
-              <Link to={`/film/${m.id}`}>
+              <Link to={`/film/${movie.id}`}>
                 <img
-                  src={`https://image.tmdb.org/t/p/original/${m.poster_path}`}
+                  src={`https://image.tmdb.org/t/p/original/${movie.poster_path}`}
                   alt=""
                   style={{ width: '100%', height: '100%', borderRadius: '10px' }}
                 />

@@ -4,23 +4,14 @@ import { IItemMenu, itemMenu } from './menuItem';
 import Logo from '../../assets/nav/logo.png';
 import { Link as RouterLink } from 'react-router-dom';
 import { Link } from '@mui/material';
-import { relative } from 'path';
 
 export const Nav = () => {
   return (
-    <Box
-      display="flex"
-      alignItems="center"
-      justifyContent="space-between"
-      padding="10px"
-      sx={{
-        bgcolor: '#12161a',
-      }}
-    >
+    <Box display="flex" alignItems="center" justifyContent="space-between" padding="10px">
       <Link component={RouterLink} to={'/main'}>
         <img src={Logo} style={{ width: '158px', height: '55px' }} alt="" />
       </Link>
-      <Box display={'flex'}>
+      <Box display="flex">
         {itemMenu.map((item: IItemMenu, index: number) => (
           <Link
             component={RouterLink}

@@ -20,7 +20,7 @@ export const App = () => {
   //пример использования возвращаемых данных
   console.log(movieList?.results[0]);
   return (
-    <Container maxWidth="lg">
+    <Container maxWidth="lg" sx={{ bgcolor: '#12161a', height: '100%' }}>
       <Nav />
       {/* <Link component={RouterLink} to={'/'}>
         main

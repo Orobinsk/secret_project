@@ -1,13 +1,15 @@
 import { Box, Typography } from '@mui/material';
 import { IMovie } from '../../api/apiTypes';
+
 interface MovieDescProps {
   mDesc: IMovie;
 }
 
 export const MovieDesc: React.FC<MovieDescProps> = ({ mDesc }) => {
   const getYear = mDesc.release_date?.slice(0, 4);
+
   return (
-    <Box>
+    <>
       <Box display="flex" alignItems="center">
         <Typography variant="h4" sx={{ color: '#fff' }} margin="10px">
           {mDesc.title}
@@ -25,6 +27,6 @@ export const MovieDesc: React.FC<MovieDescProps> = ({ mDesc }) => {
       <Box margin="10px">
         <Typography sx={{ color: '#9ab', fontSize: '26px' }}>{mDesc.overview}</Typography>
       </Box>
-    </Box>
+    </>
   );
 };

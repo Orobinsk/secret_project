@@ -27,35 +27,29 @@ export const MovieCard = () => {
             display: 'flex',
             borderBottom: '1px solid #89a',
             borderRadius: 0,
-            mb: 2,
           }}
         >
           <CardMedia
             component="img"
-            sx={{ height: 150, width: 80, borderRadius: 1, margin: '10px' }}
+            height="150px"
+            sx={{ width: 80, height: '150px', borderRadius: 1, margin: '10px', objectFit: 'cover' }}
             image={`https://image.tmdb.org/t/p/original/${movie.poster_path}`} // Предполагается, что есть свойство posterUrl
             alt={`${movie.title} Poster`}
           />
-          <Box sx={{ display: 'flex', flexDirection: 'column', p: 1, flexGrow: 1 }}>
-            <Box sx={{ display: 'flex', alignItems: 'center' }}>
-              <Typography sx={{ fontSize: 29, color: '#ffffff', fontWeight: 'bold' }} gutterBottom>
-                {movie.title} {/* Название фильма */}
+          <Box display="flex" flexDirection="column" flexGrow="1" sx={{ p: 1 }}>
+            <Box display="flex" alignItems="center">
+              <Typography color="#ffffff" fontWeight="bold" sx={{ fontSize: 29 }} gutterBottom>
+                {movie.title}
               </Typography>
-              <Typography sx={{ fontSize: 18, color: '#89a', ml: 1 }} gutterBottom>
-                {movie.release_date} {/* Год выхода */}
+              <Typography color="#89a" sx={{ fontSize: 18, ml: 1 }} gutterBottom>
+                {movie.release_date}
               </Typography>
             </Box>
             <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
-              {/* <Avatar sx={{ bgcolor: 'green', mr: 1 }}>{movie.initials}</Avatar>{' '} */}
-              {/* <Typography sx={{ fontSize: 14, color: '#ffffff', mr: 1 }}>
-                {movie.username}
-              </Typography>{' '} */}
-              {/* Имя пользователя */}
-              <Rating size="small" sx={{ color: 'green' }} value={movie.popularity} readOnly />{' '}
-              {/* Рейтинг */}
+              <Rating size="small" sx={{ color: 'green' }} value={movie.popularity} readOnly />
               <Typography sx={{ fontSize: 14, color: '#ffffff', mr: 1 }}>
                 {movie.popularity}
-              </Typography>{' '}
+              </Typography>
               <IconButton sx={{ color: 'orange' }} disableRipple>
                 <FavoriteIcon />
               </IconButton>

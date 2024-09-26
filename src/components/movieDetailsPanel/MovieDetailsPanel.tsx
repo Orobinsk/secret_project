@@ -13,15 +13,15 @@ export const MovieDetailsPanel = () => {
   };
 
   return (
-    <Box>
-      <Box borderBottom={'1px solid #9ab'} display="flex">
+    <>
+      <Box borderBottom="1px solid #9ab" display="flex">
         {labels.map((label, index) => (
           <Button
             key={index}
             onClick={() => handleButtonClick(label)}
+            border="1px solid #11171B"
             sx={{
               color: '#00e054',
-              border: '1px solid #11171B',
               borderRadius: 0,
               color: activeLabel === label ? 'white' : '#00e054',
               '&:hover': { borderBottom: '1px solid #9ab' },
@@ -39,6 +39,6 @@ export const MovieDetailsPanel = () => {
         {activeLabel === 'genres' && <div>Genres Content</div>}
         {activeLabel === 'releases' && <div>Releases Content</div>}
       </Box>
-    </Box>
+    </>
   );
 };

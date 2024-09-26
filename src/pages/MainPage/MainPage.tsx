@@ -1,12 +1,11 @@
 import { Carousel } from '../../components/carousel/Carousel';
-import { Nav } from '../../components/nav/nav';
-import { Section } from '../../components/section/Section';
+import { MovieCard } from '../../components/movieCard/MovieCard';
 
 export const MainPage = () => {
   return (
     <div>
       <Carousel />
-      <Section />
+      <MovieCard />
     </div>
   );
 };
