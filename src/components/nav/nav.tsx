@@ -8,7 +8,7 @@ import { Link } from '@mui/material';
 export const Nav = () => {
   return (
     <Box display="flex" alignItems="center" justifyContent="space-between" padding="10px">
-      <Link component={RouterLink} to={'/main'}>
+      <Link component={RouterLink} to={'/'}>
         <img src={Logo} style={{ width: '158px', height: '55px' }} alt="" />
       </Link>
       <Box display="flex">

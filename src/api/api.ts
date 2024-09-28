@@ -17,3 +17,37 @@ export async function getMovie<E extends TEndpoint>({
     throw error;
   }
 }
+
+export async function getCredits<E extends TEndpoint>({
+  endpoint,
+  params,
+}: IGetMoviesListParams = {}): Promise<ISearchResult<EndpointTypeMap[E]>> {
+  let currentEndpoint = `movie${endpoint ? `/${endpoint}` : ''}`;
+
+  try {
+    const response = await apiTMDB.get<ISearchResult<EndpointTypeMap[E]>>(currentEndpoint, {
+      params,
+    });
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+}
+
+export async function getRelease<E extends TEndpoint>({
+  endpoint,
+  params,
+}: IGetMoviesListParams = {}): Promise<ISearchResult<EndpointTypeMap[E]>> {
+  let currentEndpoint = `movie${endpoint ? `/${endpoint}` : ''}`;
+
+  try {
+    const response = await apiTMDB.get<ISearchResult<EndpointTypeMap[E]>>(currentEndpoint, {
+      params,
+    });
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+}
