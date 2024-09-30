@@ -8,7 +8,7 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import { getMovie } from '../../api/api';
 import { API_PARAM, ENDPOINTS } from '../../constants';
 import { IMovie, ISearchResult } from '../../api/apiTypes';
-import { Link, Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink } from 'react-router-dom';
 
 export const Carousel = () => {
   const [movieList, setMovieList] = useState<ISearchResult<IMovie[]>>();
@@ -29,7 +29,7 @@ export const Carousel = () => {
   };
 
   const handlePrev = () => {
-    setCurrentIndex((prevIndex) => (prevIndex - 4 + totalMovies) % totalMovies);
+    setCurrentIndex((prevIndex) => (prevIndex - 4 + totalItems) % totalItems);
   };
 
   const visibleMovies = movieList?.results
@@ -85,13 +85,13 @@ export const Carousel = () => {
                 '&:hover': { border: '2px solid #00e054' },
               }}
             >
-              <Link to={`/film/${movie.id}`}>
+              <RouterLink to={`/film/${movie.id}`}>
                 <img
                   src={`https://image.tmdb.org/t/p/original/${movie.poster_path}`}
                   alt=""
                   style={{ width: '100%', height: '100%', borderRadius: '10px' }}
                 />
-              </Link>
+              </RouterLink>
               <Box display="flex" justifyContent="center" padding="5px">
                 <IconButton sx={{ color: 'green' }}>
                   <RemoveRedEyeIcon />

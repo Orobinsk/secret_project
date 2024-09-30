@@ -1,8 +1,10 @@
 import { Box, Typography } from '@mui/material';
-import { IMovie } from '../../api/apiTypes';
 
 interface MovieDescProps {
-  mDesc: IMovie;
+  title: string;
+  overview: string;
+  release_date: string;
+  tagline: string;
 }
 
 export const MovieDesc: React.FC<MovieDescProps> = ({ mDesc }) => {
