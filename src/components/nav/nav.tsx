@@ -1,10 +1,40 @@
-import { Box, InputAdornment, MenuItem, TextField } from '@mui/material';
+import { Box, InputAdornment, MenuItem, TextField, Typography } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import { IItemMenu, itemMenu } from './menuItem';
 import Logo from '../../assets/nav/logo.png';
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink, useParams } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { getCollection } from '../../api/api';
+import { API_PARAM, ENDPOINTS } from '../../constants';
+import { IMovie, IMovieSearchResult } from '../../api/apiTypes';
 
 export const Nav = () => {
+  const { id } = useParams<{ id: string }>();
+  const [inputValue, setInputValue] = useState('');
+  const [searchMovie, setSearchMovie] = useState<IMovieSearchResult<IMovie[]>>();
+  const [filteredMovies, setFilteredMovies] = useState<IMovieSearchResult<IMovie[]>>([]);
+
+  useEffect(() => {
+    getCollection({
+      endpoint: ENDPOINTS.COLLECTION,
+      params: { [API_PARAM.QUERY]: inputValue },
+    }).then((data) => {
+      console.log('Fetched movies data:', data);
+      setSearchMovie(data);
+    });
+    console.log(2);
+  }, [inputValue]);
+  console.log(inputValue);
+
+  useEffect(() => {
+    if (searchMovie?.results) {
+      const filtered = searchMovie.results.filter((movie) =>
+        movie.name.toLowerCase().includes(inputValue.toLowerCase()),
+      );
+      setFilteredMovies(filtered);
+    }
+  }, [inputValue, searchMovie]);
+
   return (
     <Box display="flex" alignItems="center" justifyContent="space-between" padding="10px">
       <RouterLink to="/">
@@ -33,6 +63,7 @@ export const Nav = () => {
         <TextField
           variant="outlined"
           placeholder="Поиск..."
+          onChange={(e) => setInputValue(e.target.value)}
           sx={{
             '& .MuiInputBase-root': {
               height: 40,
@@ -42,13 +73,20 @@ export const Nav = () => {
             },
           }}
           InputProps={{
-            startAdornment: (
-              <InputAdornment position="start">
-                <SearchIcon sx={{ color: 'grey' }} />
-              </InputAdornment>
-            ),
+            startAdornment: <SearchIcon sx={{ color: 'grey' }} />,
           }}
         />
+        <Box position="absolute" bgcolor="white">
+          {filteredMovies.length > 0
+            ? filteredMovies.map((film) => (
+                <Typography key={film.id} sx={{ color: 'black', marginBottom: '5px' }}>
+                  {film.name}
+                </Typography>
+              ))
+            : inputValue.length > 0 && (
+                <Typography sx={{ color: 'black' }}>Фильмы не найдены</Typography>
+              )}
+        </Box>
       </Box>
     </Box>
   );
