@@ -29,7 +29,7 @@ export const Carousel = () => {
   };
 
   const handlePrev = () => {
-    setCurrentIndex((prevIndex) => (prevIndex - 4 + totalItems) % totalItems);
+    setCurrentIndex((prevIndex) => (prevIndex - 4 + totalMovies) % totalMovies);
   };
 
   const visibleMovies = movieList?.results

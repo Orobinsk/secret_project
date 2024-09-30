@@ -5,7 +5,7 @@ export async function getMovie<E extends TEndpoint>({
   endpoint,
   params,
 }: IGetMoviesListParams = {}): Promise<ISearchResult<EndpointTypeMap[E]>> {
-  let currentEndpoint = `movie${endpoint ? `/${endpoint}` : ''}`;
+  const currentEndpoint = `movie${endpoint ? `/${endpoint}` : ''}`;
 
   try {
     const response = await apiTMDB.get<ISearchResult<EndpointTypeMap[E]>>(currentEndpoint, {
