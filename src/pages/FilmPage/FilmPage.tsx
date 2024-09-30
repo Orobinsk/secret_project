@@ -11,8 +11,6 @@ import { LabelButton } from '../../UIKit/LabelButton/LabelButton';
 export const FilmPage = () => {
   const { id } = useParams<{ id: string }>();
   const [movie, setMovie] = useState<MovieDetails>();
-  const [credits, setCredits] = useState<any>(null);
-  const [release, setRelease] = useState<any>(null);
   const [activeLabel, setActiveLabel] = useState<string | null>(null);
 
   useEffect(() => {
@@ -20,8 +18,6 @@ export const FilmPage = () => {
       //@ts-ignore
       (data) => {
         setMovie(data);
-        setCredits(data.credits);
-        setRelease(data.release_dates);
       },
     );
   }, []);
@@ -85,12 +81,12 @@ export const FilmPage = () => {
         </Box>
         <Box margin="10px 0">
           {activeLabel === 'cast' &&
-            credits.cast.map((member: any, index: number) => (
+            movie?.credits?.cast.map((member: any, index: number) => (
               <LabelButton key={index} label={member.name} />
             ))}
           {activeLabel === 'crew' && (
             <Box>
-              {credits.crew
+              {movie?.credits?.crew
                 .filter(
                   (crew: any, index: number, self: any) =>
                     crew.known_for_department !== 'Acting' &&
@@ -129,7 +125,7 @@ export const FilmPage = () => {
           {activeLabel === 'releases' && (
             <>
               Sort by <Button></Button>
-              {release.results
+              {movie.results
                 ?.flatMap((result) => result.release_dates)
                 .map((date, index) => (
                   <Box key={index} display="flex" flexDirection="row">

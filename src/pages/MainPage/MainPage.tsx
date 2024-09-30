@@ -25,7 +25,7 @@ export const MainPage = () => {
             title: movie.title,
             release: movie.release_date,
             popularity: movie.popularity,
-            overview: movie.overview, // добавляем overview, если нужно
+            overview: movie.overview,
           }}
         />
       ))}
