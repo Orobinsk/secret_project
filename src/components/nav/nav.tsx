@@ -3,31 +3,16 @@ import SearchIcon from '@mui/icons-material/Search';
 import { IItemMenu, itemMenu } from './menuItem';
 import Logo from '../../assets/nav/logo.png';
 import { Link as RouterLink } from 'react-router-dom';
-import { Link } from '@mui/material';
-import { relative } from 'path';
 
 export const Nav = () => {
   return (
-    <Box
-      display="flex"
-      alignItems="center"
-      justifyContent="space-between"
-      padding="10px"
-      sx={{
-        bgcolor: '#12161a',
-      }}
-    >
-      <Link component={RouterLink} to={'/'}>
-        <img src={Logo} style={{ width: '158px', height: '55px' }} alt="" />
-      </Link>
-      <Box display={'flex'}>
+    <Box display="flex" alignItems="center" justifyContent="space-between" padding="10px">
+      <RouterLink to="/">
+        <img src={Logo} style={{ width: '158px', height: '55px' }} alt="logo" />
+      </RouterLink>
+      <Box display="flex">
         {itemMenu.map((item: IItemMenu, index: number) => (
-          <Link
-            component={RouterLink}
-            to={item.link}
-            key={index}
-            style={{ textDecoration: 'none' }}
-          >
+          <RouterLink to={item.link} key={index} style={{ textDecoration: 'none' }}>
             <MenuItem
               sx={{
                 color: 'grey',
@@ -40,11 +25,10 @@ export const Nav = () => {
                   display: 'none',
                 },
               }}
-              key={index}
             >
               {item.title}
             </MenuItem>
-          </Link>
+          </RouterLink>
         ))}
         <TextField
           variant="outlined"
