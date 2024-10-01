@@ -87,19 +87,39 @@ export const FilmPage = () => {
           {activeLabel === 'crew' && (
             <Box>
               {movie?.credits?.crew
-                .filter(
-                  (crew: any, index: number, self: any) =>
-                    crew.known_for_department !== 'Acting' &&
-                    index ===
-                      self.findIndex(
-                        (c: any) => c.known_for_department === crew.known_for_department,
-                      ),
-                )
-                .map((crew, index) => (
-                  <Box key={index} display="flex" alignItems="center">
-                    <Typography color="#9ab">{crew.known_for_department}</Typography>
-                    <Typography color="#9ab">{'.'.repeat(10)}</Typography>
-                    <LabelButton label={crew.name} />
+                // Отфильтруем, чтобы исключить актеров
+                .filter((crew: any) => crew.known_for_department !== 'Acting')
+                // Сгруппируем по департаментам
+                .reduce((acc: any, crew: any) => {
+                  // Если департамент уже есть в аккумуляторе, добавляем новое имя
+                  if (acc[crew.known_for_department]) {
+                    acc[crew.known_for_department].push(crew.name);
+                  } else {
+                    // Если департамент встречается впервые, создаем новый массив
+                    acc[crew.known_for_department] = [crew.name];
+                  }
+                  return acc;
+                }, {}) &&
+                // Теперь отобразим сгруппированные данные
+                Object.keys(
+                  movie?.credits?.crew?.reduce((acc: any, crew: any) => {
+                    if (acc[crew.known_for_department]) {
+                      acc[crew.known_for_department].push(crew.name);
+                    } else {
+                      acc[crew.known_for_department] = [crew.name];
+                    }
+                    return acc;
+                  }, {}),
+                ).map((department, index) => (
+                  <Box key={index} display="grid" gridTemplateColumns="1fr 4fr" gap={2} mb={1}>
+                    <Typography color="#9ab">{department}</Typography>
+                    <Box>
+                      {movie.credits.crew
+                        .filter((crew: any) => crew.known_for_department === department)
+                        .map((crew: any, i: number) => (
+                          <LabelButton key={i} label={crew.name} />
+                        ))}
+                    </Box>
                   </Box>
                 ))}
             </Box>
@@ -107,14 +127,14 @@ export const FilmPage = () => {
           {activeLabel === 'details' && (
             <Box display="flex" flexDirection="column" flexWrap="wrap">
               {details.map((detail, index) => (
-                <Box key={index} display="flex" alignItems="center">
-                  {detail.title && (
-                    <>
-                      <Typography color="#9ab">{detail.title}..........</Typography>
-                      {Array.isArray(detail.name) &&
-                        detail.name.length > 0 &&
-                        detail.name.map((name, i) => <LabelButton key={i} label={name} />)}
-                    </>
+                <Box key={index}>
+                  {Array.isArray(detail.name) && detail.name.length > 0 && detail.title && (
+                    <Box display="grid" gridTemplateColumns="1fr 4fr" alignItems="center">
+                      <Typography color="#9ab">{detail.title}</Typography>
+                      <Box display="flex" flexWrap="wrap">
+                        {detail.name.map((name, i) => name && <LabelButton key={i} label={name} />)}
+                      </Box>
+                    </Box>
                   )}
                 </Box>
               ))}
@@ -122,23 +142,27 @@ export const FilmPage = () => {
           )}
           {activeLabel === 'genres' &&
             movie?.genres.map((genre, index) => <LabelButton key={index} label={genre.name} />)}
+          Копировать код
           {activeLabel === 'releases' && (
             <>
-              Sort by <Button></Button>
-              {movie.results
-                ?.flatMap((result) => result.release_dates)
-                .map((date, index) => (
-                  <Box key={index} display="flex" flexDirection="row">
-                    {date?.note && (
-                      <>
-                        <Typography color="#9ab">{date.note}</Typography>
-                        <LabelButton
-                          label={date.release_date.slice(0, 4) || 'No release date available'}
-                        />
-                      </>
-                    )}
-                  </Box>
-                ))}
+              {Array.from(
+                new Set(
+                  movie?.release_dates?.results
+                    ?.flatMap((result) => result.release_dates)
+                    .filter((date) => date?.note)
+                    .map((date) => date.note),
+                ),
+              ).map((note, index) => (
+                <Box key={index} display="flex" flexDirection="row" alignItems="center">
+                  <Typography color="#9ab">{note}</Typography>
+                  <LabelButton
+                    label={movie.release_dates.results
+                      .find((result) => result.release_dates.some((date) => date.note === note))
+                      ?.release_dates.find((date) => date.note === note)
+                      ?.release_date.slice(0, 4)}
+                  />
+                </Box>
+              ))}
             </>
           )}
         </Box>

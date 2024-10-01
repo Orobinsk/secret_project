@@ -13,21 +13,23 @@ export const MovieDesc: React.FC<MovieDescProps> = ({ mDesc }) => {
   return (
     <>
       <Box display="flex" alignItems="center">
-        <Typography variant="h4" sx={{ color: '#fff' }} margin="10px">
+        <Typography variant="h5" sx={{ color: '#fff' }} margin="10px">
           {mDesc.title}
         </Typography>
-        <Typography variant="h5" sx={{ color: '#9ab' }} margin="10px">
+        <Typography variant="h7" sx={{ color: '#9ab' }} margin="10px">
           {getYear}
         </Typography>
-        <Typography variant="h5" sx={{ color: '#9ab' }} margin="10px">
+        <Typography variant="h7" sx={{ color: '#9ab' }} margin="10px">
           Directed by
         </Typography>
       </Box>
-      <Typography variant="h5" sx={{ color: '#fff' }} margin="10px">
+      <Typography variant="h7" sx={{ color: '#fff' }} margin="10px">
         {mDesc.tagline}
       </Typography>
       <Box margin="10px">
-        <Typography sx={{ color: '#9ab', fontSize: '26px' }}>{mDesc.overview}</Typography>
+        <Typography variant="h6" color="#9ab">
+          {mDesc.overview}
+        </Typography>
       </Box>
     </>
   );
