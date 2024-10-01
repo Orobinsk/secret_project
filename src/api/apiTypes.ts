@@ -65,6 +65,76 @@ export interface MovieDetails {
   video: boolean;
   vote_average: number;
   vote_count: number;
+  reviews?: ISearchResult<IAuthorDetails[]>;
+  credits?: ICredits;
+  release_dates?: IRelease;
+}
+export interface IRelease {
+  results: IReleaseDates[];
+}
+
+export interface IReleaseDates {
+  iso_3166_1: string;
+  release_dates: IReleaseDetail[];
+}
+
+export interface IReleaseDetail {
+  certification: string;
+  descriptors: string[];
+  iso_639_1: string;
+  note: string;
+  release_date: string;
+  type: number;
+}
+export interface IAuthorDetails {
+  author: string;
+  author_details: IDetails;
+  content: string;
+  created_at: string;
+  updated_at: string;
+  id: string;
+  url: string;
+}
+export interface IDetails {
+  avatar_path: null;
+  name: string;
+  rating: number;
+  username: string;
+}
+
+interface ICredits {
+  id: number;
+  cast: CastMember[];
+  crew: CrewMember[];
+}
+
+interface CastMember {
+  adult: boolean;
+  gender: number;
+  id: number;
+  known_for_department: string;
+  name: string;
+  original_name: string;
+  popularity: number;
+  profile_path: string | null;
+  cast_id: number;
+  character: string;
+  credit_id: string;
+  order: number;
+}
+
+interface CrewMember {
+  adult: boolean;
+  gender: number;
+  id: number;
+  known_for_department: string;
+  name: string;
+  original_name: string;
+  popularity: number;
+  profile_path: string | null;
+  credit_id: string;
+  department: string;
+  job: string;
 }
 
 export type TEndpoint = keyof EndpointTypeMap;

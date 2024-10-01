@@ -1,50 +1,147 @@
 import { useParams } from 'react-router-dom';
-import { Player } from '../../components/Player';
-import { Box, Button, Grid, Typography } from '@mui/material';
+import { Button, Grid, Typography } from '@mui/material';
 import { MovieDetails } from '../../api/apiTypes';
 import { useEffect, useState } from 'react';
 import { getMovie } from '../../api/api';
 import { PosterCard } from '../../components/posterCard/PosterCard';
 import { MovieDesc } from './movieDesc/MovieDesc';
 import { LabelButton } from '../../UIKit/LabelButton/LabelButton';
+import { MovieReviews } from './movieReviews/MovieReviews';
 
 export const FilmPage = () => {
   const { id } = useParams<{ id: string }>();
   const [movie, setMovie] = useState<MovieDetails>();
-  const [activeLabel, setActiveLabel] = useState<string | null>(null);
+  const [activeLabel, setActiveLabel] = useState<string | null>('cast');
+  const labels = ['cast', 'crew', 'details', 'genres', 'releases'];
 
   useEffect(() => {
-    getMovie({ endpoint: `${id}?api_key=API_KEY&append_to_response=release_dates,credits` }).then(
-      //@ts-ignore
-      (data) => {
-        setMovie(data);
-      },
-    );
-  }, []);
-
-  const labels = ['cast', 'crew', 'details', 'genres', 'releases'];
+    getMovie({
+      endpoint: `${id}?api_key=API_KEY&append_to_response=release_dates,credits,reviews`,
+    }).then((data) => {
+      // @ts-ignore
+      setMovie(data);
+    });
+  }, [id]);
 
   const details = [
     {
       title: 'Studio',
-      name: movie?.production_companies?.map((production) => production.name),
+      name: movie?.production_companies?.map((production) => production.name) ?? [],
     },
     {
       title: 'Country',
-      name: movie?.production_companies?.map((production) => production.origin_country),
+      name: movie?.production_companies?.map((production) => production.origin_country) ?? [],
     },
     {
       title: 'Language',
-      name: movie?.spoken_languages?.map((language) => language.name),
-    },
-    {
-      title: 'Alternative Titles',
-      name: movie?.spoken_languages?.map((language) => language.title),
+      name: movie?.spoken_languages?.map((language) => language.name) ?? [],
     },
   ];
 
   const handleButtonClick = (label: string) => {
     setActiveLabel(label);
+  };
+
+  const renderLabels = () =>
+    labels.map((label, index) => (
+      <Grid item key={index}>
+        <Button
+          onClick={() => handleButtonClick(label)}
+          sx={{
+            border: '1px solid #11171B',
+            color: activeLabel === label ? 'white' : '#00e054',
+            borderRadius: 0,
+            '&:hover': { borderBottom: '1px solid #9ab' },
+          }}
+          disableRipple
+        >
+          {label}
+        </Button>
+      </Grid>
+    ));
+
+  const renderCast = () =>
+    movie?.credits?.cast.map((member, index) => (
+      <Grid item key={index}>
+        <LabelButton label={member.name} />
+      </Grid>
+    ));
+  interface CrewDepartments {
+    [key: string]: string[];
+  }
+  const renderCrew = () => {
+    const crewDepartments = movie?.credits?.crew.reduce<CrewDepartments>((acc, crew) => {
+      acc[crew.known_for_department] = acc[crew.known_for_department] || [];
+      acc[crew.known_for_department].push(crew.name);
+      return acc;
+    }, {});
+
+    return (
+      <Grid container>
+        {Object.keys(crewDepartments).map((department, index) => (
+          <Grid container key={index} mb={1}>
+            <Grid item xs={4}>
+              <Typography color="#9ab">{department}</Typography>
+            </Grid>
+            <Grid item xs={8}>
+              {crewDepartments[department].map((name: string, i: number) => (
+                <LabelButton key={i} label={name} />
+              ))}
+            </Grid>
+          </Grid>
+        ))}
+      </Grid>
+    );
+  };
+
+  const renderDetails = () =>
+    details.map((detail, index) => (
+      <Grid container key={index}>
+        {Array.isArray(detail.name) && detail.name.length > 0 && detail.title && (
+          <Grid container alignItems="center">
+            <Grid item xs={4}>
+              <Typography color="#9ab">{detail.title}</Typography>
+            </Grid>
+            <Grid item xs={8}>
+              {detail.name.map((name, i) => name && <LabelButton key={i} label={name} />)}
+            </Grid>
+          </Grid>
+        )}
+      </Grid>
+    ));
+
+  const renderGenres = () =>
+    movie?.genres.map((genre, index) => (
+      <Grid item key={index}>
+        <LabelButton label={genre.name} />
+      </Grid>
+    ));
+
+  const renderReleases = () => {
+    const uniqueNotes = Array.from(
+      new Set(
+        movie?.release_dates?.results
+          ?.flatMap((result) => result.release_dates)
+          .filter((date) => date?.note)
+          .map((date) => date.note),
+      ),
+    );
+
+    return uniqueNotes.map((note, index) => (
+      <Grid container key={index} mb={1} alignItems="center">
+        <Grid item xs={6}>
+          <Typography color="#9ab">{note}</Typography>
+        </Grid>
+        <Grid item xs={6}>
+          <LabelButton
+            label={movie.release_dates.results
+              .find((result) => result.release_dates.some((date) => date.note === note))
+              ?.release_dates.find((date) => date.note === note)
+              ?.release_date.slice(0, 4)}
+          />
+        </Grid>
+      </Grid>
+    ));
   };
 
   return (
@@ -53,98 +150,23 @@ export const FilmPage = () => {
         <PosterCard posterPath={movie?.poster_path} showBorder={false} />
       </Grid>
       <Grid item xs={8}>
-        <MovieDesc
-          mDesc={{
-            title: movie?.original_title,
-            overview: movie?.overview,
-            release_date: movie?.release_date,
-            tagline: movie?.tagline,
-          }}
-        />
-        <Box borderBottom="1px solid #9ab" display="flex">
-          {labels.map((label, index) => (
-            <Button
-              key={index}
-              onClick={() => handleButtonClick(label)}
-              border="1px solid #11171B"
-              sx={{
-                color: '#00e054',
-                borderRadius: 0,
-                color: activeLabel === label ? 'white' : '#00e054',
-                '&:hover': { borderBottom: '1px solid #9ab' },
-              }}
-              disableRipple
-            >
-              {label}
-            </Button>
-          ))}
-        </Box>
-        <Box margin="10px 0">
-          {activeLabel === 'cast' &&
-            movie?.credits?.cast.map((member: any, index: number) => (
-              <LabelButton key={index} label={member.name} />
-            ))}
-          {activeLabel === 'crew' && (
-            <Box>
-              {movie?.credits?.crew
-                .filter(
-                  (crew: any, index: number, self: any) =>
-                    crew.known_for_department !== 'Acting' &&
-                    index ===
-                      self.findIndex(
-                        (c: any) => c.known_for_department === crew.known_for_department,
-                      ),
-                )
-                .map((crew, index) => (
-                  <Box key={index} display="flex" alignItems="center">
-                    <Typography color="#9ab">{crew.known_for_department}</Typography>
-                    <Typography color="#9ab">{'.'.repeat(10)}</Typography>
-                    <LabelButton label={crew.name} />
-                  </Box>
-                ))}
-            </Box>
+        <MovieDesc movie={movie} />
+        <Grid container borderBottom="1px solid #9ab" display="flex">
+          {renderLabels()}
+        </Grid>
+        <Grid container margin="10px 0">
+          {activeLabel === 'cast' && renderCast()}
+          {activeLabel === 'crew' && renderCrew()}
+          {activeLabel === 'details' && renderDetails()}
+          {activeLabel === 'genres' && renderGenres()}
+          {activeLabel === 'releases' && renderReleases()}
+          {movie ? (
+            <MovieReviews movie={movie} />
+          ) : (
+            <Typography>No movie details available.</Typography>
           )}
-          {activeLabel === 'details' && (
-            <Box display="flex" flexDirection="column" flexWrap="wrap">
-              {details.map((detail, index) => (
-                <Box key={index} display="flex" alignItems="center">
-                  {detail.title && (
-                    <>
-                      <Typography color="#9ab">{detail.title}..........</Typography>
-                      {Array.isArray(detail.name) &&
-                        detail.name.length > 0 &&
-                        detail.name.map((name, i) => <LabelButton key={i} label={name} />)}
-                    </>
-                  )}
-                </Box>
-              ))}
-            </Box>
-          )}
-          {activeLabel === 'genres' &&
-            movie?.genres.map((genre, index) => <LabelButton key={index} label={genre.name} />)}
-          {activeLabel === 'releases' && (
-            <>
-              Sort by <Button></Button>
-              {movie.results
-                ?.flatMap((result) => result.release_dates)
-                .map((date, index) => (
-                  <Box key={index} display="flex" flexDirection="row">
-                    {date?.note && (
-                      <>
-                        <Typography color="#9ab">{date.note}</Typography>
-                        <LabelButton
-                          label={date.release_date.slice(0, 4) || 'No release date available'}
-                        />
-                      </>
-                    )}
-                  </Box>
-                ))}
-            </>
-          )}
-        </Box>
+        </Grid>
       </Grid>
     </Grid>
-
-    /* <Player query="место под соснами" /> */
   );
 };
