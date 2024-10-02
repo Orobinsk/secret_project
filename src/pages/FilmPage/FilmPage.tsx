@@ -153,14 +153,23 @@ export const FilmPage = () => {
                     .map((date) => date.note),
                 ),
               ).map((note, index) => (
-                <Box key={index} display="flex" flexDirection="row" alignItems="center">
+                <Box
+                  key={index}
+                  display="grid"
+                  gridTemplateColumns="1fr 1fr"
+                  gap={2}
+                  mb={1}
+                  alignItems="center"
+                >
                   <Typography color="#9ab">{note}</Typography>
-                  <LabelButton
-                    label={movie.release_dates.results
-                      .find((result) => result.release_dates.some((date) => date.note === note))
-                      ?.release_dates.find((date) => date.note === note)
-                      ?.release_date.slice(0, 4)}
-                  />
+                  <Box>
+                    <LabelButton
+                      label={movie.release_dates.results
+                        .find((result) => result.release_dates.some((date) => date.note === note))
+                        ?.release_dates.find((date) => date.note === note)
+                        ?.release_date.slice(0, 4)}
+                    />
+                  </Box>
                 </Box>
               ))}
             </>
