@@ -71,5 +71,5 @@ export type TEndpoint = keyof EndpointTypeMap;
 
 export interface IGetMoviesListParams {
   endpoint?: string;
-  params?: any;
+  params?: { [key: string]: number | string };
 }
