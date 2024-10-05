@@ -15,8 +15,8 @@ export const FilmPage = () => {
 
   useEffect(() => {
     getMovie({ endpoint: `${id}?api_key=API_KEY&append_to_response=release_dates,credits` }).then(
-      //@ts-ignore
       (data) => {
+        //@ts-ignore
         setMovie(data);
       },
     );
@@ -53,14 +53,7 @@ export const FilmPage = () => {
         <PosterCard posterPath={movie?.poster_path} showBorder={false} />
       </Grid>
       <Grid item xs={8}>
-        <MovieDesc
-          mDesc={{
-            title: movie?.original_title,
-            overview: movie?.overview,
-            release_date: movie?.release_date,
-            tagline: movie?.tagline,
-          }}
-        />
+        <MovieDesc movie={movie} />
         <Box borderBottom="1px solid #9ab" display="flex">
           {labels.map((label, index) => (
             <Button
@@ -87,20 +80,15 @@ export const FilmPage = () => {
           {activeLabel === 'crew' && (
             <Box>
               {movie?.credits?.crew
-                // Отфильтруем, чтобы исключить актеров
                 .filter((crew: any) => crew.known_for_department !== 'Acting')
-                // Сгруппируем по департаментам
                 .reduce((acc: any, crew: any) => {
-                  // Если департамент уже есть в аккумуляторе, добавляем новое имя
                   if (acc[crew.known_for_department]) {
                     acc[crew.known_for_department].push(crew.name);
                   } else {
-                    // Если департамент встречается впервые, создаем новый массив
                     acc[crew.known_for_department] = [crew.name];
                   }
                   return acc;
                 }, {}) &&
-                // Теперь отобразим сгруппированные данные
                 Object.keys(
                   movie?.credits?.crew?.reduce((acc: any, crew: any) => {
                     if (acc[crew.known_for_department]) {
@@ -142,7 +130,7 @@ export const FilmPage = () => {
           )}
           {activeLabel === 'genres' &&
             movie?.genres.map((genre, index) => <LabelButton key={index} label={genre.name} />)}
-          Копировать код
+
           {activeLabel === 'releases' && (
             <>
               {Array.from(
