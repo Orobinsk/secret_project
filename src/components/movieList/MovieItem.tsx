@@ -2,16 +2,12 @@ import { Box, CardMedia, IconButton, Rating, Typography } from '@mui/material';
 import Card from '@mui/material/Card';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import CommentIcon from '@mui/icons-material/Comment';
+import { IMovie } from '../../api/apiTypes';
 
 interface MovieListProps {
-  movie: {
-    poster: string | null;
-    title: string;
-    release: string;
-    popularity: number;
-  };
+  movie: IMovie;
 }
-export const Movielist: React.FC<MovieListProps> = ({ movie }) => {
+export const MovieItem: React.FC<MovieListProps> = ({ movie }) => {
   return (
     <Card
       variant="outlined"
@@ -27,8 +23,8 @@ export const Movielist: React.FC<MovieListProps> = ({ movie }) => {
         height="150px"
         sx={{ width: 80, height: 150, borderRadius: 1, margin: '10px', objectFit: 'cover' }}
         image={
-          movie.poster
-            ? `https://image.tmdb.org/t/p/original/${movie.poster}`
+          movie.poster_path
+            ? `https://image.tmdb.org/t/p/original/${movie.poster_path}`
             : 'https://via.placeholder.com/80x150?text=No+Image'
         }
         alt={`${movie.title} Poster`}
@@ -39,7 +35,7 @@ export const Movielist: React.FC<MovieListProps> = ({ movie }) => {
             {movie.title}
           </Typography>
           <Typography color="#89a" sx={{ fontSize: 18, ml: 1 }} gutterBottom>
-            {movie.release}
+            {movie.release_date}
           </Typography>
         </Box>
         <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
