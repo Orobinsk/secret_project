@@ -11,7 +11,7 @@ import { LabelButton } from '../../UIKit/LabelButton/LabelButton';
 export const FilmPage = () => {
   const { id } = useParams<{ id: string }>();
   const [movie, setMovie] = useState<MovieDetails>();
-  const [activeLabel, setActiveLabel] = useState<string | null>(null);
+  const [activeLabel, setActiveLabel] = useState<string | null>('cast');
 
   useEffect(() => {
     getMovie({ endpoint: `${id}?api_key=API_KEY&append_to_response=release_dates,credits` }).then(
