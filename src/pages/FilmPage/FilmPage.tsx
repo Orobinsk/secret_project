@@ -7,6 +7,7 @@ import { getMovie } from '../../api/api';
 import { PosterCard } from '../../components/posterCard/PosterCard';
 import { MovieDesc } from './movieDesc/MovieDesc';
 import { LabelButton } from '../../UIKit/LabelButton/LabelButton';
+import { MovieReviews } from './movieReviews/MovieReviews';
 
 export const FilmPage = () => {
   const { id } = useParams<{ id: string }>();
@@ -14,13 +15,14 @@ export const FilmPage = () => {
   const [activeLabel, setActiveLabel] = useState<string | null>('cast');
 
   useEffect(() => {
-    getMovie({ endpoint: `${id}?api_key=API_KEY&append_to_response=release_dates,credits` }).then(
-      (data) => {
-        //@ts-ignore
-        setMovie(data);
-      },
-    );
+    getMovie({
+      endpoint: `${id}?api_key=API_KEY&append_to_response=release_dates,credits,reviews`,
+    }).then((data) => {
+      //@ts-ignore
+      setMovie(data);
+    });
   }, []);
+  console.log(movie);
 
   const labels = ['cast', 'crew', 'details', 'genres', 'releases'];
 
@@ -161,6 +163,11 @@ export const FilmPage = () => {
                 </Box>
               ))}
             </>
+          )}
+          {movie ? (
+            <MovieReviews movie={movie} />
+          ) : (
+            <Typography>No movie details available.</Typography>
           )}
         </Box>
       </Grid>

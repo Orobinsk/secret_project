@@ -65,6 +65,29 @@ export interface MovieDetails {
   video: boolean;
   vote_average: number;
   vote_count: number;
+  reviews?: ReviewsResponse;
+}
+
+export interface IReview {
+  author: string;
+  author_details: IDetails;
+  content: string;
+  created_at: string;
+  updated_at: string;
+  id: string;
+  url: string;
+}
+export interface IDetails {
+  avatar_path: null;
+  name: string;
+  rating: number;
+  username: string;
+}
+interface ReviewsResponse {
+  page: number;
+  results: IReview[];
+  total_results: number;
+  total_pages: number;
 }
 
 export type TEndpoint = keyof EndpointTypeMap;
