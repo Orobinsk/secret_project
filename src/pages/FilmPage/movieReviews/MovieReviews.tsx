@@ -1,4 +1,4 @@
-import { Box, Button, Rating, Typography } from '@mui/material';
+import { Button, Grid, Rating, Typography } from '@mui/material';
 import { MovieDetails } from '../../../api/apiTypes';
 import Avatar from '../../../assets/nophoto.png';
 
@@ -10,37 +10,45 @@ export const MovieReviews: React.FC<IMovieReviews> = ({ movie }) => {
   const cutArr = movie.reviews.results.slice(0, 3);
 
   return (
-    <Box display="flex" flexDirection="column">
+    <Grid container direction="column">
       {movie.reviews.results.length > 0 && (
-        <Box display="flex" justifyContent="space-between" borderBottom="1px solid #89a" mb={2}>
-          <Button
-            sx={{
-              color: '#89a',
-              ':hover': {
-                color: '#FFFF',
-              },
-            }}
-            disableRipple
-          >
-            Popular reviews
-          </Button>
-          <Button
-            sx={{
-              color: '#89a',
-              ':hover': {
-                color: '#FFFF',
-              },
-            }}
-            disableRipple
-          >
-            MORE
-          </Button>
-        </Box>
+        <Grid
+          container
+          justifyContent="space-between"
+          sx={{ borderBottom: '1px solid #89a', mb: 2 }}
+        >
+          <Grid item>
+            <Button
+              sx={{
+                color: '#89a',
+                ':hover': {
+                  color: '#FFFF',
+                },
+              }}
+              disableRipple
+            >
+              Popular reviews
+            </Button>
+          </Grid>
+          <Grid item>
+            <Button
+              sx={{
+                color: '#89a',
+                ':hover': {
+                  color: '#FFFF',
+                },
+              }}
+              disableRipple
+            >
+              MORE
+            </Button>
+          </Grid>
+        </Grid>
       )}
-      <Box>
+      <Grid container direction="column">
         {cutArr.map((review) => (
-          <Box key={review.id} display="flex" flexDirection="row" mb={2}>
-            <Box>
+          <Grid key={review.id} container direction="row" alignItems="flex-start" mb={2}>
+            <Grid item>
               <img
                 src={
                   review.author_details.avatar_path
@@ -55,17 +63,17 @@ export const MovieReviews: React.FC<IMovieReviews> = ({ movie }) => {
                   borderRadius: '50%',
                 }}
               />
-            </Box>
-            <Box ml={2}>
+            </Grid>
+            <Grid item xs ml={2}>
               <Typography color="#9ab">Review by {review.author_details.username}</Typography>
               <Rating readOnly value={review.author_details.rating / 2} sx={{ color: '#00e054' }} />
               <Typography color="#9ab" mt={1}>
                 {review.content.replace(/<[^>]*>/g, '')}
               </Typography>
-            </Box>
-          </Box>
+            </Grid>
+          </Grid>
         ))}
-      </Box>
-    </Box>
+      </Grid>
+    </Grid>
   );
 };
