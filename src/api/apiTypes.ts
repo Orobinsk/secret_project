@@ -6,6 +6,7 @@ export interface ISearchResult<T> {
 }
 export type EndpointTypeMap = {
   '/popular': IMovie[];
+  '/search': IMovie[];
 };
 
 export interface IMovie {
@@ -136,7 +137,12 @@ interface CrewMember {
   department: string;
   job: string;
 }
-
+export interface IMovieSearchResult<T> {
+  page?: number;
+  results: T;
+  total_pages?: number;
+  total_results?: number;
+}
 export type TEndpoint = keyof EndpointTypeMap;
 
 export interface IGetMoviesListParams {
