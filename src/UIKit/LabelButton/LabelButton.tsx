@@ -9,7 +9,8 @@ export const LabelButton: FC<LabelButtonProps> = ({ label }) => {
   return (
     <Button
       sx={{
-        margin: '5px',
+        margin: '2px',
+        padding: '5px',
         textTransform: 'none',
         color: '#9ab',
         bgcolor: '#283038',
