@@ -27,6 +27,7 @@ const config: Config = {
   moduleDirectories: ['node_modules'],
 
   moduleFileExtensions: ['js', 'mjs', 'cjs', 'jsx', 'ts', 'tsx', 'json', 'node'],
+  setupFilesAfterEnv: ['<rootDir>/setupTests.ts'],
 
   // Indicates whether the coverage information should be collected while executing the test
   // collectCoverage: false,
