@@ -4,21 +4,28 @@ import { MovieDetails } from '../../api/apiTypes';
 import { useEffect, useState } from 'react';
 import { getMovie } from '../../api/api';
 import { PosterCard } from '../../components/posterCard/PosterCard';
-import { MovieDesc } from './movieDesc/MovieDesc';
+import { MovieDesc } from './components/MovieDesc';
+import { MovieReviews } from './components/MovieReviews';
+import { API_PARAMS, MOVIE_ENDPOINTS } from '../../constants';
 import { LabelButton } from '../../UIKit/LabelButton/LabelButton';
-import { MovieReviews } from './movieReviews/MovieReviews';
+
+const LABELS = ['cast', 'crew', 'details', 'genres', 'releases'];
+const PARAMS = [
+  MOVIE_ENDPOINTS.RELEASE_DATES,
+  MOVIE_ENDPOINTS.CREDITS,
+  MOVIE_ENDPOINTS.REVIEW,
+].join(',');
 
 export const FilmPage = () => {
   const { id } = useParams<{ id: string }>();
   const [movie, setMovie] = useState<MovieDetails>();
-  const [activeLabel, setActiveLabel] = useState<string | null>('cast');
-  const labels = ['cast', 'crew', 'details', 'genres', 'releases'];
+  const [activeLabel, setActiveLabel] = useState<string | null>(LABELS[0]);
 
   useEffect(() => {
     getMovie({
-      endpoint: `${id}?api_key=API_KEY&append_to_response=release_dates,credits,reviews`,
+      id,
+      params: { [API_PARAMS.APPEND]: PARAMS },
     }).then((data) => {
-      // @ts-ignore
       setMovie(data);
     });
   }, [id]);
@@ -43,7 +50,7 @@ export const FilmPage = () => {
   };
 
   const renderLabels = () =>
-    labels.map((label, index) => (
+    LABELS.map((label, index) => (
       <Grid item key={index}>
         <Button
           onClick={() => handleButtonClick(label)}

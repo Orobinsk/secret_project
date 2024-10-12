@@ -1,17 +1,14 @@
 import { useEffect, useState } from 'react';
 import { Carousel } from '../../components/carousel/Carousel';
 import { MovieItem } from '../../components/movieItem/MovieItem';
-import { IMovie, ISearchResult } from '../../api/apiTypes';
-import { getMovie } from '../../api/api';
-import { API_PARAM, ENDPOINTS } from '../../constants';
+import { IMovie, IResponseList } from '../../api/apiTypes';
+import { getMovieList } from '../../api/api';
 
 export const MainPage = () => {
-  const [movieList, setMovieList] = useState<ISearchResult<IMovie[]>>();
+  const [movieList, setMovieList] = useState<IResponseList<IMovie[]>>();
 
   useEffect(() => {
-    getMovie({ endpoint: ENDPOINTS.POPULAR, params: { [API_PARAM.PAGE]: 2 } }).then((data) =>
-      setMovieList(data),
-    );
+    getMovieList().then((data) => setMovieList(data));
   }, []);
 
   return (
