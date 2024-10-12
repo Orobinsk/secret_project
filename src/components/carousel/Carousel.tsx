@@ -60,6 +60,7 @@ export const Carousel = () => {
       <Box display="flex" flexDirection="row" justifyContent="space-between">
         <IconButton
           onClick={handlePrev}
+          data-testid="carousel-slide-previous"
           sx={{
             color: '#89a',
           }}
@@ -81,8 +82,10 @@ export const Carousel = () => {
             >
               <RouterLink to={`/film/${movie.id}`}>
                 <img
-                  src={`https://image.tmdb.org/t/p/original/${movie.poster_path}`}
+                  src={`https://image.tmdb.org/t/p/original${movie.poster_path}`}
                   alt=""
+                  key={movie.id}
+                  data-testid={`movie-poster-${movie.id}`}
                   style={{ width: '100%', height: '100%', borderRadius: '10px' }}
                 />
               </RouterLink>
@@ -102,6 +105,7 @@ export const Carousel = () => {
         </Box>
         <IconButton
           onClick={handleNext}
+          data-testid="carousel-slide-next"
           sx={{
             color: '#89a',
           }}
