@@ -46,7 +46,6 @@ export const Carousel = () => {
               color: '#FFFF',
             },
           }}
-          disableRipple
         >
           POPULAR FILMS THIS WEEK
         </Button>
@@ -57,7 +56,6 @@ export const Carousel = () => {
               color: '#FFFF',
             },
           }}
-          disableRipple
         >
           MORE
         </Button>
@@ -68,7 +66,6 @@ export const Carousel = () => {
           sx={{
             color: '#89a',
           }}
-          disableRipple
         >
           <ArrowBackIosIcon />
         </IconButton>
@@ -99,7 +96,7 @@ export const Carousel = () => {
                 <IconButton sx={{ color: '#40bcf4' }}>
                   <GridViewIcon />
                 </IconButton>
-                <IconButton sx={{ color: 'orange' }} disableRipple>
+                <IconButton sx={{ color: 'orange' }}>
                   <FavoriteIcon />
                 </IconButton>
               </Box>
@@ -111,7 +108,6 @@ export const Carousel = () => {
           sx={{
             color: '#89a',
           }}
-          disableRipple
         >
           <ArrowForwardIosIcon />
         </IconButton>
