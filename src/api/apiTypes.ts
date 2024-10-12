@@ -1,12 +1,16 @@
-export interface ISearchResult<T> {
+export interface IResponseList<T> {
   page: number;
   results: T;
   total_results: number;
   total_pages: number;
 }
-export type EndpointTypeMap = {
-  '/popular': IMovie[];
-};
+export interface IEndpointTypeMap {
+  reviews: IResponseList<IAuthorDetails[]>;
+  credits: ICredits;
+  release_dates: IRelease;
+}
+
+export type TEndpoint = 'release_dates' | 'credits' | 'reviews';
 
 export interface IMovie {
   adult: boolean;
@@ -65,7 +69,9 @@ export interface MovieDetails {
   video: boolean;
   vote_average: number;
   vote_count: number;
-  reviews?: ISearchResult<IAuthorDetails[]>;
+
+  // эти поля приходят при использовании параметра append
+  reviews?: IResponseList<IAuthorDetails[]>;
   credits?: ICredits;
   release_dates?: IRelease;
 }
@@ -137,9 +143,13 @@ interface CrewMember {
   job: string;
 }
 
-export type TEndpoint = keyof EndpointTypeMap;
-
 export interface IGetMoviesListParams {
-  endpoint?: string;
   params?: { [key: string]: number | string };
 }
+
+export interface IGetMovieParams extends IGetMoviesListParams {
+  id: number | string;
+  endpoint?: TEndpoint;
+}
+
+// слишком много типов тут выходит. нужно разделить

@@ -5,18 +5,15 @@ import { useEffect, useState } from 'react';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import GridViewIcon from '@mui/icons-material/GridView';
 import FavoriteIcon from '@mui/icons-material/Favorite';
-import { getMovie } from '../../api/api';
-import { API_PARAM, ENDPOINTS } from '../../constants';
-import { IMovie, ISearchResult } from '../../api/apiTypes';
+import { getMovieList } from '../../api/api';
+import { IMovie, IResponseList } from '../../api/apiTypes';
 import { Link as RouterLink } from 'react-router-dom';
 
 export const Carousel = () => {
-  const [movieList, setMovieList] = useState<ISearchResult<IMovie[]>>();
+  const [movieList, setMovieList] = useState<IResponseList<IMovie[]>>();
 
   useEffect(() => {
-    getMovie({ endpoint: ENDPOINTS.POPULAR, params: { [API_PARAM.PAGE]: 2 } }).then((data) =>
-      setMovieList(data),
-    );
+    getMovieList().then((data) => setMovieList(data));
   }, []);
 
   const [currentIndex, setCurrentIndex] = useState(0);
