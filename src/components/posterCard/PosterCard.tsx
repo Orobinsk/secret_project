@@ -1,15 +1,29 @@
-import { Box, IconButton } from '@mui/material';
+import { Grid, IconButton, Tooltip } from '@mui/material';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import GridViewIcon from '@mui/icons-material/GridView';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
+import { MovieDetails } from '../../api/apiTypes';
+import { useState } from 'react';
+import { Modal } from '../../UIKit/Modal/Modal';
 
 interface PosterProps {
-  posterPath: string;
+  movie: MovieDetails;
   showBorder?: boolean;
 }
-export const PosterCard: React.FC<PosterProps> = ({ posterPath, showBorder = true }) => {
+export const PosterCard: React.FC<PosterProps> = ({ movie, showBorder = true }) => {
+  const { poster_path, popularity, genres, vote_count } = movie || {};
+  const [open, setOpen] = useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
   return (
-    <Box
+    <Grid
       border="2px solid black"
       borderRadius="10px"
       width="15rem"
@@ -19,24 +33,37 @@ export const PosterCard: React.FC<PosterProps> = ({ posterPath, showBorder = tru
       }}
       margin="10px 5px"
     >
-      <Box>
+      <Grid item>
         <img
-          src={`https://image.tmdb.org/t/p/original/${posterPath}`}
+          src={`https://image.tmdb.org/t/p/original/${poster_path}`}
           alt="Poster"
-          style={{ width: '100%', height: '100%', borderRadius: '10px' }}
+          style={{ width: '100%', height: '100%', borderRadius: '10px', cursor: 'pointer' }}
+          onClick={handleClickOpen}
         />
-      </Box>
-      <Box display="flex" justifyContent="center" padding="5px">
-        <IconButton sx={{ color: 'green' }}>
-          <RemoveRedEyeIcon />
-        </IconButton>
-        <IconButton sx={{ color: '#40bcf4' }}>
-          <GridViewIcon />
-        </IconButton>
-        <IconButton sx={{ color: 'orange' }}>
-          <FavoriteIcon />
-        </IconButton>
-      </Box>
-    </Box>
+      </Grid>
+      <Grid item display="flex" justifyContent="center" padding="5px">
+        <Tooltip title={`Watched by ${Math.round(popularity)} members`} placement="top">
+          <IconButton sx={{ color: 'green' }}>
+            <RemoveRedEyeIcon />
+          </IconButton>
+        </Tooltip>
+
+        <Tooltip
+          title={`Appears in genres: ${genres?.map((g) => g.name).join(', ')}`}
+          placement="top"
+        >
+          <IconButton sx={{ color: '#40bcf4' }}>
+            <GridViewIcon />
+          </IconButton>
+        </Tooltip>
+
+        <Tooltip title={`Liked by ${vote_count} members`} placement="top">
+          <IconButton sx={{ color: 'orange' }}>
+            <FavoriteIcon />
+          </IconButton>
+        </Tooltip>
+      </Grid>
+      <Modal open={open} handleClose={handleClose} posters={movie?.images?.posters || []} />
+    </Grid>
   );
 };
