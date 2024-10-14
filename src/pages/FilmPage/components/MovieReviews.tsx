@@ -1,6 +1,7 @@
 import { Button, Grid, Rating, Typography } from '@mui/material';
 import { MovieDetails } from '../../../api/apiTypes';
 import Avatar from '../../../assets/nophoto.png';
+import { useState } from 'react';
 
 interface IMovieReviews {
   movie: MovieDetails;
@@ -8,7 +9,14 @@ interface IMovieReviews {
 
 export const MovieReviews: React.FC<IMovieReviews> = ({ movie }) => {
   const cutArr = movie.reviews.results.slice(0, 3);
+  const [openReviews, setOpenReviews] = useState<Record<number, boolean>>({});
 
+  const handleToggleReviews = (id: number) => {
+    setOpenReviews((prevState) => ({
+      ...prevState,
+      [id]: !prevState[id],
+    }));
+  };
   return (
     <Grid container direction="column">
       {movie.reviews.results.length > 0 && (
@@ -68,8 +76,15 @@ export const MovieReviews: React.FC<IMovieReviews> = ({ movie }) => {
               <Typography color="#9ab">Review by {review.author_details.username}</Typography>
               <Rating readOnly value={review.author_details.rating / 2} sx={{ color: '#00e054' }} />
               <Typography color="#9ab" mt={1}>
-                {review.content.replace(/<[^>]*>/g, '')}
+                {openReviews[Number(review.id)]
+                  ? review.content.replace(/<[^>]*>/g, '')
+                  : review.content.replace(/<[^>]*>/g, '').slice(0, 150) + '...'}{' '}
               </Typography>
+              {review.content.replace(/<[^>]*>/g, '').length > 150 && (
+                <Button onClick={() => handleToggleReviews(Number(review.id))}>
+                  {openReviews[Number(review.id)] ? 'Hide' : 'Show all'}
+                </Button>
+              )}
             </Grid>
           </Grid>
         ))}
