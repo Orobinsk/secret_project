@@ -5,12 +5,13 @@ export interface IResponseList<T> {
   total_pages: number;
 }
 export interface IEndpointTypeMap {
+  images: IImage[];
   reviews: IResponseList<IAuthorDetails[]>;
   credits: ICredits;
   release_dates: IRelease;
 }
 
-export type TEndpoint = 'release_dates' | 'credits' | 'reviews';
+export type TEndpoint = 'release_dates' | 'credits' | 'reviews' | 'images';
 
 export interface IMovie {
   adult: boolean;
@@ -74,6 +75,20 @@ export interface MovieDetails {
   reviews?: IResponseList<IAuthorDetails[]>;
   credits?: ICredits;
   release_dates?: IRelease;
+  images?: IImage;
+}
+export interface IImage {
+  posters: Poster[];
+}
+export interface Poster {
+  aspect_ratio: number;
+  height: number;
+  iso_639_1: string;
+  file_path: string;
+  vote_average: number;
+  vote_count: number;
+  width: number;
+  id?: number;
 }
 export interface IRelease {
   results: IReleaseDates[];

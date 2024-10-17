@@ -14,6 +14,7 @@ const PARAMS = [
   MOVIE_ENDPOINTS.RELEASE_DATES,
   MOVIE_ENDPOINTS.CREDITS,
   MOVIE_ENDPOINTS.REVIEW,
+  MOVIE_ENDPOINTS.IMAGES,
 ].join(',');
 
 export const FilmPage = () => {
@@ -154,7 +155,7 @@ export const FilmPage = () => {
   return (
     <Grid container spacing={2}>
       <Grid item xs={3}>
-        <PosterCard posterPath={movie?.poster_path} showBorder={false} />
+        <PosterCard movie={movie} showBorder={false} />
       </Grid>
       <Grid item xs={8}>
         <MovieDesc movie={movie} />
