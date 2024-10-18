@@ -5,13 +5,14 @@ export interface IResponseList<T> {
   total_pages: number;
 }
 export interface IEndpointTypeMap {
-  images: IImage[];
   reviews: IResponseList<IAuthorDetails[]>;
   credits: ICredits;
   release_dates: IRelease;
+  images: IImage[];
+  lists?: ILists;
 }
 
-export type TEndpoint = 'release_dates' | 'credits' | 'reviews' | 'images';
+export type TEndpoint = 'release_dates' | 'credits' | 'reviews' | 'images' | 'lists';
 
 export interface IMovie {
   adult: boolean;
@@ -76,11 +77,28 @@ export interface MovieDetails {
   credits?: ICredits;
   release_dates?: IRelease;
   images?: IImage;
+  lists?: IResponseList<ILists[]>;
+}
+export interface ILists {
+  results: IResults[];
+}
+export interface IResults {
+  description: string;
+  favorite_count: number;
+  id: number;
+  item_count: number;
+  iso_639_1: string;
+  list_type: string;
+  name: string;
+  poster_path: string;
 }
 export interface IImage {
-  posters: Poster[];
+  backdrops: IBackdrops[];
+  logos: ILogos[];
+  posters: IPoster[];
+  id: number;
 }
-export interface Poster {
+export interface IBackdrops {
   aspect_ratio: number;
   height: number;
   iso_639_1: string;
@@ -88,7 +106,24 @@ export interface Poster {
   vote_average: number;
   vote_count: number;
   width: number;
-  id?: number;
+}
+export interface ILogos {
+  aspect_ratio: number;
+  height: number;
+  iso_639_1: string;
+  file_path: string;
+  vote_average: number;
+  vote_count: number;
+  width: number;
+}
+export interface IPoster {
+  aspect_ratio: number;
+  height: number;
+  iso_639_1: string;
+  file_path: string;
+  vote_average: number;
+  vote_count: number;
+  width: number;
 }
 export interface IRelease {
   results: IReleaseDates[];

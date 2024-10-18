@@ -15,6 +15,7 @@ const PARAMS = [
   MOVIE_ENDPOINTS.CREDITS,
   MOVIE_ENDPOINTS.REVIEW,
   MOVIE_ENDPOINTS.IMAGES,
+  MOVIE_ENDPOINTS.LISTS,
 ].join(',');
 
 export const FilmPage = () => {

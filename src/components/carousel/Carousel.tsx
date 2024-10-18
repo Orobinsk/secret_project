@@ -6,12 +6,15 @@ import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import GridViewIcon from '@mui/icons-material/GridView';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import { getMovieList } from '../../api/api';
-import { IResponseList, MovieDetails } from '../../api/apiTypes';
+import { IMovie, IResponseList } from '../../api/apiTypes';
 import { Link as RouterLink } from 'react-router-dom';
 import { useTheme } from '@mui/material/styles';
+import createCarouselStyles from './createCarouselStyles';
 export const Carousel = () => {
-  const [movieList, setMovieList] = useState<IResponseList<MovieDetails[]>>();
+  const [movieList, setMovieList] = useState<IResponseList<IMovie[]>>();
+
   const theme = useTheme();
+  const styles = createCarouselStyles(theme);
 
   useEffect(() => {
     getMovieList().then((data) => setMovieList(data));
@@ -33,19 +36,14 @@ export const Carousel = () => {
   const visibleMovies = movieList?.results
     ? [...movieList.results, ...movieList.results].slice(currentIndex, currentIndex + itemsPerPage)
     : [];
-  const headerBtnStyles = {
-    color: theme.palette.text.secondary,
-    ':hover': {
-      color: theme.palette.text.primary,
-    },
-  };
+
   const HeaderButtons = () => (
     <Grid container justifyContent="space-between" borderBottom="1px solid #89a">
       <Grid item>
-        <Button sx={headerBtnStyles}>POPULAR FILMS THIS WEEK</Button>
+        <Button sx={styles.headerBtnStyles}>POPULAR FILMS THIS WEEK</Button>
       </Grid>
       <Grid item>
-        <Button sx={headerBtnStyles}>MORE</Button>
+        <Button sx={styles.headerBtnStyles}>MORE</Button>
       </Grid>
     </Grid>
   );
@@ -75,26 +73,20 @@ export const Carousel = () => {
       </IconButton>
     </Grid>
   );
-  const movieGridStyles = {
-    border: '2px solid black',
-    borderRadius: '10px',
-    width: '100%',
-    height: '100%',
-    '&:hover': { border: '2px solid #00e054' },
-  };
+
   const MovieGrid = () => (
     <Grid item xs={10}>
       <Grid container spacing={2} justifyContent="center">
         {visibleMovies.map((movie, i) => (
-          <Grid item key={i} sx={{ width: '236px', height: '351px' }}>
-            <Box sx={movieGridStyles}>
+          <Grid item key={i} sx={{ width: '240px', height: '350px' }}>
+            <Box sx={styles.movieGridStyles}>
               <RouterLink to={`/film/${movie.id}`}>
                 <img
                   src={`https://image.tmdb.org/t/p/original${movie.poster_path}`}
                   alt=""
                   key={movie.id}
                   data-testid={`movie-poster-${movie.id}`}
-                  style={{ width: '100%', height: '100%', borderRadius: '10px' }}
+                  style={styles.carouselImage}
                 />
               </RouterLink>
               <Grid container justifyContent="center" padding="5px">
@@ -106,10 +98,7 @@ export const Carousel = () => {
                     <RemoveRedEyeIcon />
                   </IconButton>
                 </Tooltip>
-                <Tooltip
-                  title={`Appears in genres: ${movie?.genres?.map((g) => g.name).join(', ')}`}
-                  placement="top"
-                >
+                <Tooltip title={`Appears in ${movie?.lists} lists`} placement="top">
                   <IconButton sx={{ color: '#40bcf4' }}>
                     <GridViewIcon />
                   </IconButton>

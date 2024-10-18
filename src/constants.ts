@@ -3,6 +3,7 @@ export const MOVIE_ENDPOINTS = {
   CREDITS: 'credits',
   REVIEW: 'reviews',
   IMAGES: 'images',
+  LISTS: 'lists',
 };
 
 export const API_PARAMS = {

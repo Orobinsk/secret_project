@@ -4,14 +4,21 @@ import GridViewIcon from '@mui/icons-material/GridView';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import { MovieDetails } from '../../api/apiTypes';
 import { useState } from 'react';
-import { Modal } from '../../UIKit/Modal/Modal';
+import { PosterModal } from '../../UIKit/PosterModal/PosterModal';
 
 interface PosterProps {
   movie: MovieDetails;
   showBorder?: boolean;
 }
+const posterImgStyle = (): React.CSSProperties => ({
+  width: '100%',
+  height: '100%',
+  borderRadius: '10px',
+  cursor: 'pointer',
+});
 export const PosterCard: React.FC<PosterProps> = ({ movie, showBorder = true }) => {
-  const { poster_path, popularity, genres, vote_count } = movie || {};
+  const { poster_path, popularity, vote_count, lists } = movie || {};
+  console.log(movie);
   const [open, setOpen] = useState(false);
 
   const handleClickOpen = () => {
@@ -37,7 +44,7 @@ export const PosterCard: React.FC<PosterProps> = ({ movie, showBorder = true }) 
         <img
           src={`https://image.tmdb.org/t/p/original/${poster_path}`}
           alt="Poster"
-          style={{ width: '100%', height: '100%', borderRadius: '10px', cursor: 'pointer' }}
+          style={posterImgStyle()}
           onClick={handleClickOpen}
         />
       </Grid>
@@ -48,10 +55,7 @@ export const PosterCard: React.FC<PosterProps> = ({ movie, showBorder = true }) 
           </IconButton>
         </Tooltip>
 
-        <Tooltip
-          title={`Appears in genres: ${genres?.map((g) => g.name).join(', ')}`}
-          placement="top"
-        >
+        <Tooltip title={`Appears in ${lists?.total_pages} lists`} placement="top">
           <IconButton sx={{ color: '#40bcf4' }}>
             <GridViewIcon />
           </IconButton>
@@ -63,7 +67,7 @@ export const PosterCard: React.FC<PosterProps> = ({ movie, showBorder = true }) 
           </IconButton>
         </Tooltip>
       </Grid>
-      <Modal open={open} handleClose={handleClose} posters={movie?.images?.posters || []} />
+      <PosterModal open={open} handleClose={handleClose} posters={movie?.images?.posters || []} />
     </Grid>
   );
 };
