@@ -6,7 +6,7 @@ import { IPoster } from '../../api/apiTypes';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import { useEffect, useState } from 'react';
-import createModalStyles from './createModalStyles';
+import modalStyles from './modalStyles';
 
 export const PosterModal = ({
   open,
@@ -16,9 +16,10 @@ export const PosterModal = ({
   open: boolean;
   handleClose: () => void;
   posters: IPoster[];
+  children?: React.ReactNode;
 }) => {
   const theme = useTheme();
-  const styles = createModalStyles(theme);
+  const styles = modalStyles(theme);
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const handleNext = () => {
@@ -43,7 +44,7 @@ export const PosterModal = ({
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
     };
-  }, []);
+  }, [posters]);
 
   const ForwardButton = () => (
     <IconButton onClick={handleNext} sx={{ ...styles.buttonStyles, right: 10 }}>
@@ -64,7 +65,7 @@ export const PosterModal = ({
           <ClearIcon />
         </IconButton>
 
-        {posters.length > 0 && (
+        {posters.length > 0 && posters[currentIndex] && (
           <img
             src={`https://image.tmdb.org/t/p/original/${posters[currentIndex].file_path}`}
             alt="Poster"

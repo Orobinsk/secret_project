@@ -3,7 +3,7 @@ import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import { useEffect, useState } from 'react';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
-import GridViewIcon from '@mui/icons-material/GridView';
+import StarsIcon from '@mui/icons-material/Stars';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import { getMovieList } from '../../api/api';
 import { IMovie, IResponseList } from '../../api/apiTypes';
@@ -98,9 +98,12 @@ export const Carousel = () => {
                     <RemoveRedEyeIcon />
                   </IconButton>
                 </Tooltip>
-                <Tooltip title={`Appears in ${movie?.lists} lists`} placement="top">
+                <Tooltip
+                  title={`Average rating ${movie?.vote_average?.toFixed(1)}`}
+                  placement="top"
+                >
                   <IconButton sx={{ color: '#40bcf4' }}>
-                    <GridViewIcon />
+                    <StarsIcon />
                   </IconButton>
                 </Tooltip>
                 <Tooltip title={`Liked by ${movie?.vote_count} members`} placement="top">

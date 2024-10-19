@@ -1,6 +1,6 @@
 import { Grid, IconButton, Tooltip } from '@mui/material';
 import FavoriteIcon from '@mui/icons-material/Favorite';
-import GridViewIcon from '@mui/icons-material/GridView';
+import StarsIcon from '@mui/icons-material/Stars';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import { MovieDetails } from '../../api/apiTypes';
 import { useState } from 'react';
@@ -10,15 +10,16 @@ interface PosterProps {
   movie: MovieDetails;
   showBorder?: boolean;
 }
-const posterImgStyle = (): React.CSSProperties => ({
+const posterImgStyle = {
   width: '100%',
   height: '100%',
   borderRadius: '10px',
   cursor: 'pointer',
-});
+} as React.CSSProperties;
+
 export const PosterCard: React.FC<PosterProps> = ({ movie, showBorder = true }) => {
-  const { poster_path, popularity, vote_count, lists } = movie || {};
-  console.log(movie);
+  const { poster_path, popularity, vote_count } = movie || {};
+
   const [open, setOpen] = useState(false);
 
   const handleClickOpen = () => {
@@ -44,7 +45,7 @@ export const PosterCard: React.FC<PosterProps> = ({ movie, showBorder = true }) 
         <img
           src={`https://image.tmdb.org/t/p/original/${poster_path}`}
           alt="Poster"
-          style={posterImgStyle()}
+          style={posterImgStyle}
           onClick={handleClickOpen}
         />
       </Grid>
@@ -55,9 +56,9 @@ export const PosterCard: React.FC<PosterProps> = ({ movie, showBorder = true }) 
           </IconButton>
         </Tooltip>
 
-        <Tooltip title={`Appears in ${lists?.total_pages} lists`} placement="top">
+        <Tooltip title={`Average rating ${movie?.vote_average?.toFixed(1)}`} placement="top">
           <IconButton sx={{ color: '#40bcf4' }}>
-            <GridViewIcon />
+            <StarsIcon />
           </IconButton>
         </Tooltip>
 

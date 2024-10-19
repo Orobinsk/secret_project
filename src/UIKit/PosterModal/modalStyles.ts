@@ -1,29 +1,25 @@
 import { Theme } from '@mui/material/styles';
 
-const createModalStyles = (theme: Theme) => ({
+const modalStyles = (theme: Theme) => ({
   dialogStyles: {
     display: 'flex',
     justifyContent: 'center',
     backdropFilter: 'blur(2px)',
     width: '100%',
     height: '100%',
+    bgcolor: 'transparent',
+    '& .MuiPaper-root': {
+      bgcolor: 'transparent', // Прозрачный фон для содержимого диалога
+    },
   },
   dialogContentStyles: {
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    position: 'relative',
     padding: 0,
-    bgcolor: 'transparent',
     overflow: 'hidden',
-    width: '100%',
-    maxHeight: '100vh',
+    height: `86vh`,
   },
   modalImage: {
-    width: '100%',
+    maxWidth: '100%',
     height: '100%',
-    objectFit: 'contain',
-    display: 'block',
   } as React.CSSProperties,
   modalBtn: {
     position: 'absolute',
@@ -52,4 +48,4 @@ const createModalStyles = (theme: Theme) => ({
   },
 });
 
-export default createModalStyles;
+export default modalStyles;
