@@ -1,55 +1,80 @@
-import { Box, InputAdornment, MenuItem, TextField } from '@mui/material';
+import { Box, Drawer, IconButton, InputAdornment, MenuItem, TextField } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
-import { IItemMenu, itemMenu } from './menuItem';
-import Logo from '../../assets/nav/logo.png';
-import { Link as RouterLink } from 'react-router-dom';
+import { itemMenu } from './menuItem';
+import { Link as RouterLink, useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+import { theme } from '../../providers/theme/theme';
+import { createNavStyles } from './createNavStyles';
+import MenuIcon from '@mui/icons-material/Menu';
+import logo from '../../assets/nav/logo.png';
 
 export const Nav = () => {
+  const [query, setQuery] = useState<string>('');
+  const navigate = useNavigate();
+  const styles = createNavStyles(theme);
+  const [openMenu, setOpenMenu] = useState<boolean>(false);
+
+  function handleOpen(newOpen: boolean) {
+    setOpenMenu(newOpen);
+  }
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setQuery(event.target.value);
+  };
+
+  const handleSearch = () => {
+    if (query.trim() !== '') {
+      navigate(`/search?query=${encodeURIComponent(query)}`);
+    }
+  };
+
+  const enterClick = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === 'Enter' && query.trim() !== '') {
+      handleSearch();
+    }
+  };
+
   return (
-    <Box display="flex" alignItems="center" justifyContent="space-between" padding="10px">
-      <RouterLink to="/">
-        <img src={Logo} style={{ width: '158px', height: '55px' }} alt="logo" />
-      </RouterLink>
-      <Box display="flex">
-        {itemMenu.map((item: IItemMenu, index: number) => (
+    <Box sx={styles.container}>
+      <Box display="flex" alignItems="center">
+        <IconButton onClick={() => handleOpen(true)} sx={styles.iconButtonStyles}>
+          <MenuIcon sx={styles.openMenuBtn} />
+        </IconButton>
+        <Drawer anchor="left" open={openMenu} onClose={() => handleOpen(false)}>
+          <Box>
+            {itemMenu.map((item, index) => (
+              <RouterLink to={item.link} key={index} style={{ textDecoration: 'none' }}>
+                <MenuItem sx={styles.drawerItem}>{item.title}</MenuItem>
+              </RouterLink>
+            ))}
+          </Box>
+        </Drawer>
+        <RouterLink to="/">
+          <img src={logo} alt="/" />
+        </RouterLink>
+      </Box>
+      <Box sx={styles.menuContainer}>
+        {itemMenu.map((item, index) => (
           <RouterLink to={item.link} key={index} style={{ textDecoration: 'none' }}>
-            <MenuItem
-              sx={{
-                color: 'grey',
-                borderRadius: '20px',
-                fontSize: '14px',
-                '&:hover': {
-                  color: 'white',
-                },
-                '& .MuiTouchRipple-root': {
-                  display: 'none',
-                },
-              }}
-            >
-              {item.title}
-            </MenuItem>
+            <MenuItem sx={styles.menuItem}>{item.title}</MenuItem>
           </RouterLink>
         ))}
-        <TextField
-          variant="outlined"
-          placeholder="Поиск..."
-          sx={{
-            '& .MuiInputBase-root': {
-              height: 40,
-              borderRadius: '20px',
-              bgcolor: 'white',
-              fontSize: '14px',
-            },
-          }}
-          InputProps={{
-            startAdornment: (
-              <InputAdornment position="start">
-                <SearchIcon sx={{ color: 'grey' }} />
-              </InputAdornment>
-            ),
-          }}
-        />
       </Box>
+      <TextField
+        onChange={handleChange}
+        onKeyDown={enterClick}
+        variant="outlined"
+        placeholder="Поиск..."
+        autoComplete="off"
+        value={query}
+        sx={styles.searchField}
+        InputProps={{
+          startAdornment: (
+            <InputAdornment position="start">
+              <SearchIcon sx={styles.searchIcon} onClick={handleSearch} />
+            </InputAdornment>
+          ),
+        }}
+      />
     </Box>
   );
 };

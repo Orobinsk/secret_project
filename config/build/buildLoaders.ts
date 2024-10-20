@@ -18,7 +18,7 @@ export function buildLoaders({ isDev }: BuildOptions): webpack.RuleSetRule[] {
           icon: true,
           svgoConfig: {
             //позволяет передавать цвета через color={''}
-            plugins: [{ name: 'convertColors', params: { currentColor: true } }],
+            // plugins: [{ name: 'convertColors', params: { currentColor: true } }], //отключил потому что он заменял стандартные цвета svg на черный
           },
         },
       },

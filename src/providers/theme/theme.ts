@@ -9,13 +9,17 @@ export const theme = createTheme({
     },
   },
   palette: {
+    background: {
+      default: '#12161a',
+    },
     primary: {
-      light: `#fff`,
-      main: `#89a`,
-      contrastText: '#00e054',
+      light: `#fff`, //  используем для заголовков
+      main: `#89a`, // используем для описания
+      contrastText: '#00e054', // основной контрастный цвет
     },
     secondary: {
       main: 'rgb(0, 224, 84)',
+      contrastText: '#41BCF4', // вторичный контрастный цвет
     },
     text: {
       primary: '#fff',
