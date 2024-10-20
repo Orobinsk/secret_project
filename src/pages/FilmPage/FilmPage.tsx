@@ -32,6 +32,8 @@ export const FilmPage = () => {
     });
   }, [id]);
 
+  console.log(movie);
+
   const details = [
     {
       title: 'Studio',
