@@ -2,11 +2,11 @@ import { DialogContent, IconButton } from '@mui/material';
 import Dialog from '@mui/material/Dialog';
 import ClearIcon from '@mui/icons-material/Clear';
 import { useTheme } from '@mui/material/styles';
-import { IPoster } from '../../api/apiTypes';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import { useEffect, useState } from 'react';
 import modalStyles from './modalStyles';
+import { IPoster } from '../../types/movieTypes';
 
 export const PosterModal = ({
   open,

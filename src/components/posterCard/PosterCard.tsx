@@ -2,9 +2,9 @@ import { Grid, IconButton, Tooltip } from '@mui/material';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import StarsIcon from '@mui/icons-material/Stars';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
-import { MovieDetails } from '../../api/apiTypes';
 import { useState } from 'react';
 import { PosterModal } from '../../UIKit/PosterModal/PosterModal';
+import { MovieDetails } from '../../types/movieTypes';
 
 interface PosterProps {
   movie: MovieDetails;

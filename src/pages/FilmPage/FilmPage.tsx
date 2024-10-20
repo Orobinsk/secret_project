@@ -1,6 +1,5 @@
 import { useParams } from 'react-router-dom';
 import { Button, Grid, Typography } from '@mui/material';
-import { MovieDetails } from '../../api/apiTypes';
 import { useEffect, useState } from 'react';
 import { getMovie } from '../../api/api';
 import { PosterCard } from '../../components/posterCard/PosterCard';
@@ -8,6 +7,7 @@ import { MovieDesc } from './components/MovieDesc';
 import { MovieReviews } from './components/MovieReviews';
 import { API_PARAMS, MOVIE_ENDPOINTS } from '../../constants';
 import { LabelButton } from '../../UIKit/LabelButton/LabelButton';
+import { MovieDetails } from '../../types/movieTypes';
 
 const LABELS = ['cast', 'crew', 'details', 'genres', 'releases'];
 const PARAMS = [

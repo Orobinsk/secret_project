@@ -1,5 +1,5 @@
 import { Box, Typography, useTheme } from '@mui/material';
-import { MovieDetails } from '../../../api/apiTypes';
+import { MovieDetails } from '../../../types/movieTypes';
 
 interface IMovieDesc {
   movie: MovieDetails;

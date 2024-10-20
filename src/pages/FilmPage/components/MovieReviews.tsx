@@ -1,6 +1,6 @@
 import { Button, Grid, Rating, Typography } from '@mui/material';
-import { MovieDetails } from '../../../api/apiTypes';
 import Avatar from '../../../assets/nophoto.png';
+import { MovieDetails } from '../../../types/movieTypes';
 
 interface IMovieReviews {
   movie: MovieDetails;
