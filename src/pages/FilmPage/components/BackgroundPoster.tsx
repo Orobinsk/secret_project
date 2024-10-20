@@ -1,6 +1,9 @@
 import { Box } from '@mui/material';
 
-export const BackgroundPoster = ({ poster }) => {
+interface IBackgroundPoster {
+  poster: string;
+}
+export const BackgroundPoster = ({ poster }: IBackgroundPoster) => {
   return (
     <Box width="100vw">
       <img
