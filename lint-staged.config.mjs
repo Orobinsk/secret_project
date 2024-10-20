@@ -1,9 +1,8 @@
 export default {
-  '*.{js,jsx}': ['eslint'],
+  '*.{js,jsx}': ['eslint --config eslint.config.mjs'],
   '*.{ts,tsx}': [
-    () =>
-      'git diff --cached --name-only --diff-filter=AM | grep "\\.ts$\\|\\.tsx$" | xargs tsc --noEmit --project tsconfig.json',
-    'eslint',
-    'prettier --check',
+    () => 'tsc --noEmit --project tsconfig.json',
+    'eslint --config eslint.config.mjs',
+    'prettier --config .prettierrc --check',
   ],
 };
