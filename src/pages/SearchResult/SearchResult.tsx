@@ -1,12 +1,13 @@
 import { Grid, Typography, useTheme } from '@mui/material';
 import createSearchStyles from './searchResults';
 import { LabelButton } from '../../UIKit/LabelButton/LabelButton';
+import { useSearchParams } from 'react-router-dom';
 
 export const SearchResult = () => {
   const theme = useTheme();
   const styles = createSearchStyles(theme);
-  const url = new URL(window.location.href);
-  const query = url.searchParams.get('query');
+  const [searchParams] = useSearchParams();
+  const query = searchParams.get('query');
 
   const subfiltersItem = [
     'All',
@@ -26,7 +27,7 @@ export const SearchResult = () => {
   const Subfilters = () => {
     return (
       <Grid item xs={12} sm={2}>
-        <Typography sx={styles.typographyStyle}>SHOW RESULTS FOR</Typography>
+        <Typography sx={styles.typographyHeaderStyle}>SHOW RESULTS FOR</Typography>
         <ItemCategories />
       </Grid>
     );
@@ -43,10 +44,11 @@ export const SearchResult = () => {
       </Grid>
     );
   };
+
   const SearchResults = () => {
     return (
       <Grid item xs={12} sm={9} sx={{ marginRight: 1 }}>
-        <Typography sx={styles.typographyStyle}>
+        <Typography sx={styles.typographyHeaderStyle}>
           SHOWING MATCHES FOR {`"${query.toUpperCase()}"`}
         </Typography>
       </Grid>

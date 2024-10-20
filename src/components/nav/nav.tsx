@@ -62,6 +62,7 @@ export const Nav = () => {
               borderRadius: '20px',
               bgcolor: 'white',
               fontSize: '14px',
+              color: 'grey',
             },
           }}
           InputProps={{
