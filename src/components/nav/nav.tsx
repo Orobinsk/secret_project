@@ -2,9 +2,29 @@ import { Box, InputAdornment, MenuItem, TextField } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import { IItemMenu, itemMenu } from './menuItem';
 import Logo from '../../assets/nav/logo.png';
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink, useNavigate } from 'react-router-dom';
+import { useState } from 'react';
 
 export const Nav = () => {
+  const [query, setQuery] = useState<string>('');
+  const navigate = useNavigate();
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setQuery(event.target.value);
+  };
+  const handleSearch = () => {
+    if (query.trim() !== '') {
+      navigate(`/search?query=${encodeURIComponent(query)}`);
+    }
+    setQuery('');
+  };
+  const enterClick = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === 'Enter' && query.trim() !== '') {
+      handleSearch();
+      setQuery('');
+    }
+  };
+
   return (
     <Box display="flex" alignItems="center" justifyContent="space-between" padding="10px">
       <RouterLink to="/">
@@ -31,20 +51,24 @@ export const Nav = () => {
           </RouterLink>
         ))}
         <TextField
+          onChange={handleChange}
+          onKeyDown={enterClick}
           variant="outlined"
           placeholder="Поиск..."
+          value={query}
           sx={{
             '& .MuiInputBase-root': {
               height: 40,
               borderRadius: '20px',
               bgcolor: 'white',
               fontSize: '14px',
+              color: 'grey',
             },
           }}
           InputProps={{
             startAdornment: (
               <InputAdornment position="start">
-                <SearchIcon sx={{ color: 'grey' }} />
+                <SearchIcon sx={{ color: 'grey', cursor: 'pointer' }} onClick={handleSearch} />
               </InputAdornment>
             ),
           }}
