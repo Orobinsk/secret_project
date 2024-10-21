@@ -4,9 +4,10 @@ import { FC } from 'react';
 interface LabelButtonProps {
   label: string;
   searchProp?: boolean;
+  onClick?: () => void;
 }
 
-export const LabelButton: FC<LabelButtonProps> = ({ label, searchProp }) => {
+export const LabelButton: FC<LabelButtonProps> = ({ onClick, label, searchProp }) => {
   const buttonStyles = {
     width: searchProp ? '100%' : 'auto',
     margin: '2px',
@@ -23,5 +24,9 @@ export const LabelButton: FC<LabelButtonProps> = ({ label, searchProp }) => {
     },
   };
 
-  return <Button sx={buttonStyles}>{label}</Button>;
+  return (
+    <Button onClick={onClick} sx={buttonStyles}>
+      {label}
+    </Button>
+  );
 };
