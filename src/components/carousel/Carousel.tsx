@@ -6,12 +6,13 @@ import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import StarsIcon from '@mui/icons-material/Stars';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import { getMovieList } from '../../api/api';
-import { IMovie, IResponseList } from '../../api/apiTypes';
+import { IResponseList } from '../../api/apiTypes/apiTypes';
 import { Link as RouterLink } from 'react-router-dom';
 import { useTheme } from '@mui/material/styles';
 import createCarouselStyles from './createCarouselStyles';
+import { IMovieDiscover } from '../../types/movieTypes';
 export const Carousel = () => {
-  const [movieList, setMovieList] = useState<IResponseList<IMovie[]>>();
+  const [movieList, setMovieList] = useState<IResponseList<IMovieDiscover[]>>();
 
   const theme = useTheme();
   const styles = createCarouselStyles(theme);

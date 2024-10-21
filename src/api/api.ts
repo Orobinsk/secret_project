@@ -1,20 +1,20 @@
+import { IMovieDiscover, MovieDetails } from '../types/movieTypes';
+import { ISearchParams, TSearchEndpoint, TSearchResponse } from './apiTypes/apiSearchTypes';
 import {
   IGetMoviesListParams,
-  TEndpoint,
+  TMovieEndpoint,
   IResponseList,
-  IMovie,
   IGetMovieParams,
-  IEndpointTypeMap,
-  MovieDetails,
-} from './apiTypes';
+  IMovieEndpointTypeMap,
+} from './apiTypes/apiTypes';
 import { apiTMDB } from './base';
 
 //схема - https://developer.themoviedb.org/reference/discover-movie
 export async function getMovieList({ params }: IGetMoviesListParams = {}): Promise<
-  IResponseList<IMovie[]>
+  IResponseList<IMovieDiscover[]>
 > {
   try {
-    const response = await apiTMDB.get<IResponseList<IMovie[]>>('discover/movie', {
+    const response = await apiTMDB.get<IResponseList<IMovieDiscover[]>>('discover/movie', {
       params,
     });
     return response.data;
@@ -27,21 +27,21 @@ export async function getMovieList({ params }: IGetMoviesListParams = {}): Promi
 //схема - https://developer.themoviedb.org/reference/movie-details
 // Перегрузка функции. Применена потому что нужно получать разные типы с эндпоинтом и без
 export async function getMovie(id: IGetMovieParams): Promise<MovieDetails>;
-export async function getMovie<E extends TEndpoint>({
+export async function getMovie<E extends TMovieEndpoint>({
   id,
   endpoint,
   params,
-}: IGetMovieParams): Promise<IEndpointTypeMap[E]>;
+}: IGetMovieParams): Promise<IMovieEndpointTypeMap[E]>;
 
-export async function getMovie<E extends TEndpoint>({
+export async function getMovie<E extends TMovieEndpoint>({
   id,
   endpoint,
   params,
-}: IGetMovieParams): Promise<IEndpointTypeMap[E]> {
+}: IGetMovieParams): Promise<IMovieEndpointTypeMap[E]> {
   const currentEndpoint = `movie/${id}${endpoint ? `/${endpoint}` : ''}`;
 
   try {
-    const response = await apiTMDB.get<IEndpointTypeMap[E]>(currentEndpoint, {
+    const response = await apiTMDB.get<IMovieEndpointTypeMap[E]>(currentEndpoint, {
       params,
     });
     return response.data;
@@ -50,3 +50,22 @@ export async function getMovie<E extends TEndpoint>({
     throw error;
   }
 }
+
+export async function getSearch<E extends TSearchEndpoint>({
+  endpoint,
+  params,
+}: ISearchParams<E>): Promise<TSearchResponse<E>> {
+  const currentEndpoint = `search/${endpoint}`;
+
+  try {
+    const response = await apiTMDB.get<TSearchResponse<E>>(currentEndpoint, {
+      params,
+    });
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+}
+
+//TODO исправить типы для getMovieList и getMovie по типу getSearch

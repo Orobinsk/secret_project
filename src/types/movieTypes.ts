@@ -1,20 +1,7 @@
-export interface IResponseList<T> {
-  page: number;
-  results: T;
-  total_results: number;
-  total_pages: number;
-}
-export interface IEndpointTypeMap {
-  reviews: IResponseList<IAuthorDetails[]>;
-  credits: ICredits;
-  release_dates: IRelease;
-  images: IImage[];
-  lists?: ILists;
-}
+import { IResponseList } from '../api/apiTypes/apiTypes';
 
-export type TEndpoint = 'release_dates' | 'credits' | 'reviews' | 'images' | 'lists';
-
-export interface IMovie {
+//discover
+export interface IMovieDiscover {
   adult: boolean;
   backdrop_path: string;
   genre_ids: number[];
@@ -31,6 +18,7 @@ export interface IMovie {
   vote_count: number;
 }
 
+//movie
 export interface MovieDetails {
   adult: boolean;
   backdrop_path: string;
@@ -79,69 +67,7 @@ export interface MovieDetails {
   images?: IImage;
   lists?: IResponseList<ILists[]>;
 }
-export interface ILists {
-  results: IResults[];
-}
-export interface IResults {
-  description: string;
-  favorite_count: number;
-  id: number;
-  item_count: number;
-  iso_639_1: string;
-  list_type: string;
-  name: string;
-  poster_path: string;
-}
-export interface IImage {
-  backdrops: IBackdrops[];
-  logos: ILogos[];
-  posters: IPoster[];
-  id: number;
-}
-export interface IBackdrops {
-  aspect_ratio: number;
-  height: number;
-  iso_639_1: string;
-  file_path: string;
-  vote_average: number;
-  vote_count: number;
-  width: number;
-}
-export interface ILogos {
-  aspect_ratio: number;
-  height: number;
-  iso_639_1: string;
-  file_path: string;
-  vote_average: number;
-  vote_count: number;
-  width: number;
-}
-export interface IPoster {
-  aspect_ratio: number;
-  height: number;
-  iso_639_1: string;
-  file_path: string;
-  vote_average: number;
-  vote_count: number;
-  width: number;
-}
-export interface IRelease {
-  results: IReleaseDates[];
-}
 
-export interface IReleaseDates {
-  iso_3166_1: string;
-  release_dates: IReleaseDetail[];
-}
-
-export interface IReleaseDetail {
-  certification: string;
-  descriptors: string[];
-  iso_639_1: string;
-  note: string;
-  release_date: string;
-  type: number;
-}
 export interface IAuthorDetails {
   author: string;
   author_details: IDetails;
@@ -151,6 +77,7 @@ export interface IAuthorDetails {
   id: string;
   url: string;
 }
+
 export interface IDetails {
   avatar_path: null;
   name: string;
@@ -158,7 +85,7 @@ export interface IDetails {
   username: string;
 }
 
-interface ICredits {
+export interface ICredits {
   id: number;
   cast: CastMember[];
   crew: CrewMember[];
@@ -193,13 +120,68 @@ interface CrewMember {
   job: string;
 }
 
-export interface IGetMoviesListParams {
-  params?: { [key: string]: number | string };
+export interface IRelease {
+  results: IReleaseDates[];
 }
 
-export interface IGetMovieParams extends IGetMoviesListParams {
-  id: number | string;
-  endpoint?: TEndpoint;
+export interface IReleaseDates {
+  iso_3166_1: string;
+  release_dates: IReleaseDetail[];
 }
 
-// слишком много типов тут выходит. нужно разделить
+export interface IReleaseDetail {
+  certification: string;
+  descriptors: string[];
+  iso_639_1: string;
+  note: string;
+  release_date: string;
+  type: number;
+}
+
+export interface IImage {
+  backdrops: IBackdrops[];
+  logos: ILogos[];
+  posters: IPoster[];
+  id: number;
+}
+export interface IBackdrops {
+  aspect_ratio: number;
+  height: number;
+  iso_639_1: string;
+  file_path: string;
+  vote_average: number;
+  vote_count: number;
+  width: number;
+}
+export interface ILogos {
+  aspect_ratio: number;
+  height: number;
+  iso_639_1: string;
+  file_path: string;
+  vote_average: number;
+  vote_count: number;
+  width: number;
+}
+export interface IPoster {
+  aspect_ratio: number;
+  height: number;
+  iso_639_1: string;
+  file_path: string;
+  vote_average: number;
+  vote_count: number;
+  width: number;
+}
+
+export interface ILists {
+  results: IResults[];
+}
+export interface IResults {
+  description: string;
+  favorite_count: number;
+  id: number;
+  item_count: number;
+  iso_639_1: string;
+  list_type: string;
+  name: string;
+  poster_path: string;
+}

@@ -2,10 +2,10 @@ import { Box, CardMedia, IconButton, Rating, Theme, Typography, useTheme } from 
 import Card from '@mui/material/Card';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import CommentIcon from '@mui/icons-material/Comment';
-import { IMovie } from '../../api/apiTypes';
+import { IMovieDiscover } from '../../types/movieTypes';
 
 interface MovieListProps {
-  movie: IMovie;
+  movie: IMovieDiscover;
 }
 const createStyles = (theme: Theme) => ({
   card: {
