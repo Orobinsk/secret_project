@@ -1,23 +1,25 @@
-import { Button } from '@mui/material';
+import { Button, useTheme } from '@mui/material';
 import { FC } from 'react';
 
 interface LabelButtonProps {
   label: string;
   searchProp?: boolean;
-  onClick?: () => void;
+  changeLabel?: () => void;
 }
 
-export const LabelButton: FC<LabelButtonProps> = ({ onClick, label, searchProp }) => {
+export const LabelButton: FC<LabelButtonProps> = ({ changeLabel, label, searchProp }) => {
+  const theme = useTheme();
+
   const buttonStyles = {
     width: searchProp ? '100%' : 'auto',
     margin: '2px',
     padding: '5px',
     textTransform: 'none',
-    color: '#9ab',
+    color: theme.palette.text.secondary,
     bgcolor: '#283038',
     '&:hover': {
       bgcolor: '#283038',
-      color: '#41BCF4',
+      color: theme.palette.secondary.contrastText,
     },
     '&:active': {
       bgcolor: '#283038',
@@ -25,7 +27,7 @@ export const LabelButton: FC<LabelButtonProps> = ({ onClick, label, searchProp }
   };
 
   return (
-    <Button onClick={onClick} sx={buttonStyles}>
+    <Button onClick={changeLabel} sx={buttonStyles}>
       {label}
     </Button>
   );

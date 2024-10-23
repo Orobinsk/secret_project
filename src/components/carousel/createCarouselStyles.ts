@@ -1,6 +1,6 @@
 import { Theme } from '@mui/material/styles';
 
-const createCarouselStyles = (theme: Theme) => ({
+export const createCarouselStyles = (theme: Theme) => ({
   headerBtnStyles: {
     color: theme.palette.text.secondary,
     '&:hover': {
@@ -20,4 +20,3 @@ const createCarouselStyles = (theme: Theme) => ({
     borderRadius: '10px',
   } as React.CSSProperties,
 });
-export default createCarouselStyles;

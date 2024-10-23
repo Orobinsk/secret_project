@@ -9,8 +9,8 @@ import { getMovieList } from '../../api/api';
 import { IResponseList } from '../../api/apiTypes/apiTypes';
 import { Link as RouterLink } from 'react-router-dom';
 import { useTheme } from '@mui/material/styles';
-import createCarouselStyles from './createCarouselStyles';
 import { IMovieDiscover } from '../../types/movieTypes';
+import { createCarouselStyles } from './createCarouselStyles';
 export const Carousel = () => {
   const [movieList, setMovieList] = useState<IResponseList<IMovieDiscover[]>>();
 
@@ -76,7 +76,7 @@ export const Carousel = () => {
   );
 
   const MovieGrid = () => (
-    <Grid item xs={10}>
+    <Grid item xs={10} p={1}>
       <Grid container spacing={2} justifyContent="center">
         {visibleMovies.map((movie, i) => (
           <Grid item key={i} sx={{ width: '240px', height: '350px' }}>
