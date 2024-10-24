@@ -9,7 +9,7 @@ const modalStyles = (theme: Theme) => ({
     height: '100%',
     bgcolor: 'transparent',
     '& .MuiPaper-root': {
-      bgcolor: 'transparent', // Прозрачный фон для содержимого диалога
+      bgcolor: 'transparent',
     },
   },
   dialogContentStyles: {

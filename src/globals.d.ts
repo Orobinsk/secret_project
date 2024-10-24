@@ -7,8 +7,14 @@ declare module '*.scss' {
 }
 
 declare module '*.svg' {
-  const content: React.FunctionComponent<React.SVGAttributes<SVGElement>>;
-  export default content;
+  import * as React from 'react';
+
+  // Экспорт React-компонента (если вы хотите использовать его как компонент)
+  export const ReactComponent: React.FunctionComponent<React.SVGAttributes<SVGElement>>;
+
+  // Экспорт как строка (если вы хотите использовать его как URL)
+  const src: string;
+  export default src;
 }
 
 declare module '*.png';

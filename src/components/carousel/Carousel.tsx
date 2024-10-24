@@ -38,6 +38,24 @@ export const Carousel = () => {
     ? [...movieList.results, ...movieList.results].slice(currentIndex, currentIndex + itemsPerPage)
     : [];
 
+  const iconsData = [
+    {
+      title: (movie: IMovieDiscover) => `Watched by ${Math.round(movie?.popularity)} members`,
+      color: 'green',
+      icon: <RemoveRedEyeIcon style={{ height: '3rem', width: '3rem' }} />,
+    },
+    {
+      title: (movie: IMovieDiscover) => `Average rating ${movie?.vote_average?.toFixed(1)}`,
+      color: '#40bcf4',
+      icon: <StarsIcon style={{ height: '3rem', width: '3rem' }} />,
+    },
+    {
+      title: (movie: IMovieDiscover) => `Liked by ${movie?.vote_count} members`,
+      color: 'orange',
+      icon: <FavoriteIcon style={{ height: '3rem', width: '3rem' }} />,
+    },
+  ];
+
   const HeaderButtons = () => (
     <Grid container justifyContent="space-between" borderBottom="1px solid #89a">
       <Grid item>
@@ -49,37 +67,34 @@ export const Carousel = () => {
     </Grid>
   );
   const ForwardButton = () => (
-    <Grid item>
-      <IconButton
-        onClick={handleNext}
-        data-testid="carousel-slide-next"
-        sx={{
-          color: theme.palette.primary.main,
-        }}
-      >
-        <ArrowForwardIosIcon />
-      </IconButton>
-    </Grid>
+    <IconButton
+      onClick={handleNext}
+      data-testid="carousel-slide-next"
+      sx={{
+        color: theme.palette.primary.main,
+      }}
+    >
+      <ArrowForwardIosIcon />
+    </IconButton>
   );
   const BackButton = () => (
-    <Grid item>
-      <IconButton
-        onClick={handlePrev}
-        data-testid="carousel-slide-previous"
-        sx={{
-          color: theme.palette.primary.main,
-        }}
-      >
-        <ArrowBackIosIcon />
-      </IconButton>
-    </Grid>
+    <IconButton
+      onClick={handlePrev}
+      data-testid="carousel-slide-previous"
+      sx={{
+        color: theme.palette.primary.main,
+      }}
+    >
+      <ArrowBackIosIcon />
+    </IconButton>
   );
 
   const MovieGrid = () => (
-    <Grid item xs={10} p={1}>
-      <Grid container spacing={2} justifyContent="center">
+    <Grid item xs={12} display="flex" alignItems="center">
+      <BackButton />
+      <Grid container spacing={2} p={1} justifyContent="space-between" alignItems="center">
         {visibleMovies.map((movie, i) => (
-          <Grid item key={i} sx={{ width: '240px', height: '350px' }}>
+          <Grid item key={i} sx={{ width: '240px', height: '350px', marginBottom: '3rem' }}>
             <Box sx={styles.movieGridStyles}>
               <RouterLink to={`/film/${movie.id}`}>
                 <img
@@ -91,42 +106,29 @@ export const Carousel = () => {
                 />
               </RouterLink>
               <Grid container justifyContent="center" padding="5px">
-                <Tooltip
-                  title={`Watched by ${Math.round(movie?.popularity)} members`}
-                  placement="top"
-                >
-                  <IconButton sx={{ color: 'green' }}>
-                    <RemoveRedEyeIcon />
-                  </IconButton>
-                </Tooltip>
-                <Tooltip
-                  title={`Average rating ${movie?.vote_average?.toFixed(1)}`}
-                  placement="top"
-                >
-                  <IconButton sx={{ color: '#40bcf4' }}>
-                    <StarsIcon />
-                  </IconButton>
-                </Tooltip>
-                <Tooltip title={`Liked by ${movie?.vote_count} members`} placement="top">
-                  <IconButton sx={{ color: 'orange' }}>
-                    <FavoriteIcon />
-                  </IconButton>
-                </Tooltip>
+                {iconsData.map((data, index) => (
+                  <Tooltip
+                    key={index}
+                    title={<span style={{ fontSize: '1.5rem' }}>{data.title(movie)}</span>}
+                    placement="top"
+                  >
+                    <IconButton sx={{ color: data.color }}>{data.icon}</IconButton>
+                  </Tooltip>
+                ))}
               </Grid>
             </Box>
           </Grid>
         ))}
       </Grid>
+      <ForwardButton />
     </Grid>
   );
   return (
-    <Box paddingBottom="40px">
+    <Grid container marginBottom="4rem">
       <HeaderButtons />
       <Grid container justifyContent="space-between" alignItems="center">
-        <BackButton />
         <MovieGrid />
-        <ForwardButton />
       </Grid>
-    </Box>
+    </Grid>
   );
 };

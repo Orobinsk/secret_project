@@ -4,15 +4,15 @@ export const createSearchStyles = (theme: Theme) => ({
   gridItemStyles: {
     display: 'flex',
     flexDirection: 'row',
-    borderRadius: '8px',
+    borderRadius: '0.8rem',
     cursor: 'pointer',
-    padding: '10px',
+    padding: '1rem',
   },
   imgWrapperStyles: {
-    width: '150px',
-    height: '225px',
+    width: '15rem',
+    height: '22.5rem',
     overflow: 'hidden',
-    borderRadius: '8px',
+    borderRadius: '0.8rem',
     border: '2px solid transparent',
     '&:hover': {
       border: '2px solid #00e054',
@@ -23,7 +23,7 @@ export const createSearchStyles = (theme: Theme) => ({
     height: '100%',
     objectFit: 'contain',
     cursor: 'pointer',
-    borderRadius: '8px',
+    borderRadius: '0.8rem',
     color: '#00e054',
     '&:hover': {
       border: '2px solid #00e054',
@@ -32,16 +32,18 @@ export const createSearchStyles = (theme: Theme) => ({
 
   itemTitleStyle: {
     color: theme.palette.text.primary,
-    marginBottom: '8px',
+    fontSize: '2.5rem',
+    marginBottom: '0.8rem',
     '&:hover': {
       color: '#00e054',
     },
-    fontSize: '1.2rem',
-    '@media (max-width: 600px)': {
+  },
+  itemOverviewStyle: {
+    color: theme.palette.text.secondary,
+    fontSize: '2rem',
+    marginBottom: '0.8rem',
+    [theme.breakpoints.up('xs')]: {
       fontSize: '1.5rem',
-    },
-    '@media (max-width: 400px)': {
-      fontSize: '1.2rem',
     },
   },
 });

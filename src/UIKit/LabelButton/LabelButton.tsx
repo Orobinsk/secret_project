@@ -5,18 +5,21 @@ interface LabelButtonProps {
   label: string;
   searchProp?: boolean;
   changeLabel?: () => void;
+  isActive?: boolean;
 }
 
-export const LabelButton: FC<LabelButtonProps> = ({ changeLabel, label, searchProp }) => {
+export const LabelButton: FC<LabelButtonProps> = ({ changeLabel, label, searchProp, isActive }) => {
   const theme = useTheme();
 
   const buttonStyles = {
     width: searchProp ? '100%' : 'auto',
-    margin: '2px',
-    padding: '5px',
+    margin: '0.2rem',
+    padding: '0.5rem',
     textTransform: 'none',
-    color: theme.palette.text.secondary,
+    fontSize: '1.5rem',
+    color: isActive ? theme.palette.secondary.contrastText : theme.palette.text.secondary,
     bgcolor: '#283038',
+
     '&:hover': {
       bgcolor: '#283038',
       color: theme.palette.secondary.contrastText,

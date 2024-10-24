@@ -3,8 +3,9 @@ import { Theme } from '@mui/material/styles';
 export const createNavStyles = (theme: Theme) => ({
   iconButtonStyles: {
     color: theme.palette.primary.main,
+
     display: 'none',
-    '@media (max-width: 900px)': {
+    [theme.breakpoints.down('md')]: {
       display: 'block',
     },
   },
@@ -15,17 +16,13 @@ export const createNavStyles = (theme: Theme) => ({
     width: '100%',
     justifyContent: 'space-between',
   },
-  logo: {
-    width: '100px',
-    height: '50px',
-  },
+
   menuContainer: {
     display: 'flex',
     flex: 1,
     justifyContent: 'space-around',
-    marginTop: '10px',
-
-    '@media (max-width: 600px)': {
+    marginTop: '1rem',
+    [theme.breakpoints.down('sm')]: {
       display: 'none',
     },
   },
@@ -35,27 +32,28 @@ export const createNavStyles = (theme: Theme) => ({
   menuItem: {
     display: 'block',
     color: theme.palette.primary.main,
-    borderRadius: '20px',
-    fontSize: '14px',
-    padding: 1,
+    borderRadius: '2rem',
+    fontSize: '1.5rem',
+    padding: '0.1rem',
     '&:hover': {
       color: theme.palette.primary.light,
     },
     '& .MuiTouchRipple-root': {
       display: 'none',
     },
-    '@media (max-width: 900px)': {
+    [theme.breakpoints.down('md')]: {
       display: 'none',
     },
   },
   searchField: {
-    minWidth: '200px',
+    maxWidth: '30rem',
+    minWidth: '20rem',
     mt: 2,
     '& .MuiInputBase-root': {
-      height: 40,
-      borderRadius: '20px',
+      height: '4rem',
+      borderRadius: '2rem',
       bgcolor: 'white',
-      fontSize: '14px',
+      fontSize: '1.4rem',
       color: theme.palette.primary.main,
     },
   },

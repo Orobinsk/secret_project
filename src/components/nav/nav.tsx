@@ -1,7 +1,7 @@
 import { Box, Drawer, IconButton, InputAdornment, MenuItem, TextField } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import { itemMenu } from './menuItem';
-import Logo from '../../assets/nav/logotip.png';
+import logo from '../../assets/nav/logo.png';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { theme } from '../../providers/theme/theme';
@@ -35,24 +35,28 @@ export const Nav = () => {
 
   return (
     <Box sx={styles.container}>
-      <IconButton onClick={() => handleOpen(true)} sx={styles.iconButtonStyles}>
-        <MenuIcon />
-      </IconButton>
-      <Drawer anchor="left" open={openMenu} onClose={() => handleOpen(false)}>
-        <Box sx={{ width: 250 }}>
-          {itemMenu.map((item, index) => (
-            <RouterLink to={item.link} key={index} style={{ textDecoration: 'none' }}>
-              <MenuItem sx={styles.drawerItem}>{item.title}</MenuItem>
-            </RouterLink>
-          ))}
-          <p>123</p>
-        </Box>
-      </Drawer>
-
-      <RouterLink to="/">
-        <img src={Logo} alt="logo" style={styles.logo} />
-      </RouterLink>
-
+      <Box sx={{ display: 'flex', alignItems: 'center' }}>
+        <IconButton onClick={() => handleOpen(true)} sx={styles.iconButtonStyles}>
+          <MenuIcon
+            sx={{
+              width: '4rem',
+              height: '4rem',
+            }}
+          />
+        </IconButton>
+        <Drawer anchor="left" open={openMenu} onClose={() => handleOpen(false)}>
+          <Box sx={{ width: 250 }}>
+            {itemMenu.map((item, index) => (
+              <RouterLink to={item.link} key={index} style={{ textDecoration: 'none' }}>
+                <MenuItem sx={styles.drawerItem}>{item.title}</MenuItem>
+              </RouterLink>
+            ))}
+          </Box>
+        </Drawer>
+        <RouterLink to="/">
+          <img src={logo} alt="/" />
+        </RouterLink>
+      </Box>
       <Box sx={styles.menuContainer}>
         {itemMenu.map((item, index) => (
           <RouterLink to={item.link} key={index} style={{ textDecoration: 'none' }}>

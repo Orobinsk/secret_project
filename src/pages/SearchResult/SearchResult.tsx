@@ -4,13 +4,13 @@ import { useSearchParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { getSearch } from '../../api/api';
 import { API_SEARCH_ENDPOINTS, API_SEARCH_PARAMS } from '../../constants';
-import { ICollection, ISearchPerson } from '../../types/searchTypes';
+import { ICollection, ISearchPerson, ISearchTv } from '../../types/searchTypes';
 import { IResponseList } from '../../api/apiTypes/apiTypes';
 import { IMovieDiscover } from '../../types/movieTypes';
-import { createSearchStyles } from './searchResults';
+import { createSearchStyles } from './searchResultsStyles';
 import { FilterButton } from '../../UIKit/FilterButton/FilterButton';
 import { MediaCard } from '../../components/MediaCard/MediaCard';
-const SUBFILTERSITEM = ['Films', 'Actor', 'Collection', 'Cast, Crew or Studios', 'Series'];
+const SUBFILTERSITEM = ['Movies', 'Actor', 'Collection', 'Cast, Crew or Studios', 'Series'];
 
 export const SearchResult = () => {
   const theme = useTheme();
@@ -20,7 +20,7 @@ export const SearchResult = () => {
   const [searchMovie, setSearchMovie] = useState<IResponseList<IMovieDiscover[]>>();
   const [searchPerson, setSearchPerson] = useState<IResponseList<ISearchPerson[]>>();
   const [searchCollection, setSearchCollection] = useState<IResponseList<ICollection[]>>();
-  const [searchSeries, setSearchSeries] = useState<IResponseList<ICollection[]>>();
+  const [searchSeries, setSearchSeries] = useState<IResponseList<ISearchTv[]>>();
   const [activeLabel, setActiveLabel] = useState<string | null>(SUBFILTERSITEM[0]);
 
   useEffect(() => {
@@ -51,7 +51,7 @@ export const SearchResult = () => {
       setSearchSeries(data);
     });
   }, [query]);
-  console.log(searchSeries);
+
   const handleChange = (subfiltersItem: string) => {
     setActiveLabel(subfiltersItem);
   };
@@ -64,17 +64,8 @@ export const SearchResult = () => {
   }
 
   return (
-    <Grid
-      container
-      spacing={1}
-      sx={{
-        width: '100%',
-        display: 'flex',
-        flexWrap: 'nowrap',
-      }}
-      margin="10px"
-    >
-      <Grid item sx={{ flexGrow: 1 }}>
+    <Grid container spacing={1} width="100%" display="flex" flexWrap="nowrap" margin="1rem">
+      <Grid flexGrow="1" item>
         <Box sx={styles.movieListHeader}>
           <Typography sx={styles.headerTextStyle}>
             SHOWING MATCHES FOR {`"${query.toUpperCase()}"`}
@@ -83,7 +74,7 @@ export const SearchResult = () => {
             <FilterButton onChange={handleChange} item={SUBFILTERSITEM} />
           </Box>
         </Box>
-        {activeLabel === 'Films' && searchMovie?.results?.length > 0 && (
+        {activeLabel === 'Movies' && searchMovie?.results?.length > 0 && (
           <MediaCard media={searchMovie.results} />
         )}
         {activeLabel === 'Series' && searchSeries?.results?.length > 0 && (
@@ -106,7 +97,12 @@ export const SearchResult = () => {
         <Grid container spacing={1} display="flex" flexDirection="column" pt="10px">
           {SUBFILTERSITEM.map((item, i) => (
             <Grid item key={i}>
-              <LabelButton changeLabel={() => handleChange(item)} label={item} searchProp />
+              <LabelButton
+                isActive={activeLabel === item}
+                changeLabel={() => handleChange(item)}
+                label={item}
+                searchProp
+              />
             </Grid>
           ))}
         </Grid>

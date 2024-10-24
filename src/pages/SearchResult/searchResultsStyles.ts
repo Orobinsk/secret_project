@@ -2,15 +2,15 @@ import { Theme } from '@mui/material/styles';
 
 export const createSearchStyles = (theme: Theme) => ({
   filterDrid: {
-    maxWidth: '200px',
-    minWidth: '200px',
-    '@media (max-width: 900px)': {
+    maxWidth: '20rem',
+    minWidth: '20rem',
+    [theme.breakpoints.down('md')]: {
       display: 'none',
     },
   },
   filterMenuStyles: {
     display: 'none',
-    '@media (max-width: 900px)': {
+    [theme.breakpoints.down('md')]: {
       display: 'block',
     },
   },
@@ -19,10 +19,10 @@ export const createSearchStyles = (theme: Theme) => ({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    borderBottom: `1px solid ${theme.palette.primary.main}`,
+    borderBottom: `0.1rem solid ${theme.palette.primary.main}`,
   },
   headerTextStyle: {
     color: theme.palette.primary.main,
-    fontSize: '1rem',
+    fontSize: '2.5em',
   },
 });

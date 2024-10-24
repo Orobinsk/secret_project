@@ -12,18 +12,22 @@ export const MovieDesc: React.FC<IMovieDesc> = ({ movie }) => {
   return (
     <>
       <Box display="flex" alignItems="center">
-        <Typography variant="h5" sx={{ color: theme.palette.text.primary }} margin="10px">
+        <Typography sx={{ fontSize: '4rem', color: theme.palette.text.primary }} margin="1rem">
           {movie?.original_title}
         </Typography>
-        <Typography variant="h6" sx={{ color: theme.palette.text.secondary }} margin="10px">
+        <Typography sx={{ fontSize: '4rem', color: theme.palette.text.secondary }} margin="1rem">
           {getYear}
         </Typography>
       </Box>
-      <Typography variant="h6" sx={{ color: theme.palette.text.primary }} margin="10px">
-        {movie?.tagline}
+      <Typography
+        variant="h6"
+        sx={{ fontSize: '3.5rem', fontStyle: 'oblique', color: theme.palette.text.secondary }}
+        margin="1rem"
+      >
+        «{movie?.tagline}»
       </Typography>
-      <Box margin="10px">
-        <Typography variant="h6" color={theme.palette.text.secondary}>
+      <Box margin="1rem">
+        <Typography sx={{ fontSize: '3rem', color: theme.palette.text.secondary }}>
           {movie?.overview}
         </Typography>
       </Box>

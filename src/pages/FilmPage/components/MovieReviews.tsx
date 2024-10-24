@@ -15,11 +15,12 @@ export const MovieReviews: React.FC<IMovieReviews> = ({ movie }) => {
         <Grid
           container
           justifyContent="space-between"
-          sx={{ borderBottom: '1px solid #89a', mb: 2 }}
+          sx={{ borderBottom: '0.1rem solid #89a', mb: 2 }}
         >
           <Grid item>
             <Button
               sx={{
+                fontSize: '1.5rem',
                 color: '#89a',
                 ':hover': {
                   color: '#FFFF',
@@ -34,6 +35,7 @@ export const MovieReviews: React.FC<IMovieReviews> = ({ movie }) => {
             <Button
               sx={{
                 color: '#89a',
+                fontSize: '1.5rem',
                 ':hover': {
                   color: '#FFFF',
                 },
@@ -57,8 +59,8 @@ export const MovieReviews: React.FC<IMovieReviews> = ({ movie }) => {
                 }
                 alt="Avatar"
                 style={{
-                  width: 50,
-                  height: 50,
+                  width: '5rem',
+                  height: '5rem',
                   objectFit: 'cover',
                   borderRadius: '50%',
                 }}
@@ -67,7 +69,7 @@ export const MovieReviews: React.FC<IMovieReviews> = ({ movie }) => {
             <Grid item xs ml={2}>
               <Typography color="#9ab">Review by {review.author_details.username}</Typography>
               <Rating readOnly value={review.author_details.rating / 2} sx={{ color: '#00e054' }} />
-              <Typography color="#9ab" mt={1}>
+              <Typography color="#9ab" sx={{ fontSize: '1.5rem' }} mt={1}>
                 {review.content.replace(/<[^>]*>/g, '')}
               </Typography>
             </Grid>

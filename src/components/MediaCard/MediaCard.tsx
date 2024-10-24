@@ -4,18 +4,10 @@ import { Box, Typography, useTheme } from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom';
 import { createSearchStyles } from './createMediaCradStyles';
 import { LabelButton } from '../../UIKit/LabelButton/LabelButton';
+import { IMovieDiscover } from '../../types/movieTypes';
+import { ICollection, ISearchPerson, ISearchTv } from '../../types/searchTypes';
 
-interface MediaItem {
-  id: number;
-  poster_path?: string;
-  original_title?: string;
-  original_name?: string;
-  name?: string;
-  overview?: string;
-  profile_path?: string;
-  known_for?: Array<{ id: number; original_title?: string }>;
-  known_for_department?: string;
-}
+type MediaItem = IMovieDiscover | ISearchPerson | ICollection | ISearchTv;
 
 interface MediaListProps {
   media: MediaItem[];
@@ -27,7 +19,7 @@ export const MediaCard: React.FC<MediaListProps> = ({ media }) => {
 
   return (
     <>
-      {media?.map((film: any) => (
+      {media?.map((film: MediaItem) => (
         <Grid key={film.id} item xs={12}>
           <Box sx={styles.gridItemStyles}>
             <RouterLink
@@ -40,27 +32,40 @@ export const MediaCard: React.FC<MediaListProps> = ({ media }) => {
               }}
             >
               <Box sx={styles.imgWrapperStyles}>
-                {film.poster_path || film.profile_path ? (
+                {'poster_path' in film && film.poster_path ? (
                   <img
-                    src={`https://image.tmdb.org/t/p/original/${film.poster_path || film.profile_path}`}
-                    alt={film.original_title || film.name}
+                    src={`https://image.tmdb.org/t/p/original/${film.poster_path}`}
+                    alt="poster"
+                    style={styles.imgStyles}
+                  />
+                ) : 'profile_path' in film && film.profile_path ? (
+                  <img
+                    src={`https://image.tmdb.org/t/p/original/${film.profile_path}`}
+                    alt="poster"
                     style={styles.imgStyles}
                   />
                 ) : (
-                  <NoPhoto style={styles.imgStyles} />
+                  <img src={NoPhoto} alt="photo" style={styles.imgStyles} />
+                  // <NoPhoto style={styles.imgStyles} />
                 )}
               </Box>
             </RouterLink>
             <Box sx={{ ml: 2, flex: 1 }}>
               <Typography sx={styles.itemTitleStyle}>
-                {film.original_title || film.original_name}
+                {'original_title' in film && film.original_title
+                  ? film.original_title
+                  : 'original_name' in film && film.original_name
+                    ? film.original_name
+                    : ''}
               </Typography>
-              <Typography color="text.secondary">{film.overview}</Typography>
-              {film.known_for && film.known_for.length > 0 && (
-                <Typography variant="body2" color="text.secondary">
+              <Typography sx={styles.itemOverviewStyle} color="text.secondary">
+                {'overview' in film && film.overview ? film.overview : ''}
+              </Typography>
+              {'known_for' in film && film.known_for?.length > 0 && (
+                <Typography sx={styles.itemOverviewStyle}>
                   Star of:
-                  {film.known_for.map((movie: any) =>
-                    movie.original_title ? (
+                  {film.known_for.map((movie: MediaItem) =>
+                    'original_title' in movie && movie.original_title ? (
                       <RouterLink key={movie.id} to={`/film/${movie.id}`}>
                         <LabelButton label={movie.original_title} />
                       </RouterLink>

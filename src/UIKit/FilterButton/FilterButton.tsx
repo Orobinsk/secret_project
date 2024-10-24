@@ -25,18 +25,10 @@ export const FilterButton: FC<filterButtonProps> = ({ item, onChange }) => {
 
   return (
     <Box>
-      <Button
-        id="demo-positioned-button"
-        aria-controls={open ? 'demo-positioned-menu' : undefined}
-        aria-haspopup="true"
-        aria-expanded={open ? 'true' : undefined}
-        onClick={handleClick}
-      >
+      <Button sx={{ fontSize: '1.5rem' }} onClick={handleClick}>
         {value}
       </Button>
       <Menu
-        id="demo-positioned-menu"
-        aria-labelledby="demo-positioned-button"
         anchorEl={anchorEl}
         open={open}
         onClose={handleClose}
@@ -51,7 +43,7 @@ export const FilterButton: FC<filterButtonProps> = ({ item, onChange }) => {
       >
         {item.map((currentItem, i) => (
           <MenuItem
-            sx={{ color: theme.palette.primary.main }}
+            sx={{ color: theme.palette.primary.main, fontSize: '1.5rem' }}
             key={i}
             onClick={() => {
               handleClose();
