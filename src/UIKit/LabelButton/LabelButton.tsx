@@ -1,24 +1,37 @@
-import { Button } from '@mui/material';
+import { Button, useTheme } from '@mui/material';
 import { FC } from 'react';
-import { Theme, useTheme } from '@mui/material/styles';
 
 interface LabelButtonProps {
   label: string;
+  searchProp?: boolean;
+  changeLabel?: () => void;
+  isActive?: boolean;
 }
 
-const createStyles = (theme: Theme) => ({
-  buttonStyles: {
-    margin: '2px',
-    padding: '5px',
-    textTransform: 'none',
-    color: theme.palette.text.secondary,
-    bgcolor: '#283038',
-    '&:hover': { bgcolor: '#283038' },
-    '&:active': { bgcolor: '#283038' },
-  },
-});
-export const LabelButton: FC<LabelButtonProps> = ({ label }) => {
+export const LabelButton: FC<LabelButtonProps> = ({ changeLabel, label, searchProp, isActive }) => {
   const theme = useTheme();
-  const styles = createStyles(theme);
-  return <Button sx={styles.buttonStyles}>{label}</Button>;
+
+  const buttonStyles = {
+    width: searchProp ? '100%' : 'auto',
+    margin: '0.2rem',
+    padding: '0.5rem',
+    textTransform: 'none',
+    fontSize: '1.5rem',
+    color: isActive ? theme.palette.secondary.contrastText : theme.palette.text.secondary,
+    bgcolor: '#283038',
+
+    '&:hover': {
+      bgcolor: '#283038',
+      color: theme.palette.secondary.contrastText,
+    },
+    '&:active': {
+      bgcolor: '#283038',
+    },
+  };
+
+  return (
+    <Button onClick={changeLabel} sx={buttonStyles}>
+      {label}
+    </Button>
+  );
 };

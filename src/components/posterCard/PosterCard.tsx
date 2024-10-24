@@ -13,60 +13,65 @@ interface PosterProps {
 const posterImgStyle = {
   width: '100%',
   height: '100%',
-  borderRadius: '10px',
+  borderRadius: '1rem',
   cursor: 'pointer',
 } as React.CSSProperties;
 
 export const PosterCard: React.FC<PosterProps> = ({ movie, showBorder = true }) => {
   const { poster_path, popularity, vote_count } = movie || {};
-
+  const iconData = [
+    {
+      icon: <RemoveRedEyeIcon style={{ height: '3rem', width: '3rem' }} />,
+      title: `Watched by ${Math.round(popularity)} members`,
+      color: 'green',
+    },
+    {
+      icon: <StarsIcon style={{ height: '3rem', width: '3rem' }} />,
+      title: `Average rating ${movie?.vote_average?.toFixed(1)}`,
+      color: '#40bcf4',
+    },
+    {
+      icon: <FavoriteIcon style={{ height: '3rem', width: '3rem' }} />,
+      title: `Liked by ${vote_count} members`,
+      color: 'orange',
+    },
+  ];
   const [open, setOpen] = useState(false);
-
   const handleClickOpen = () => {
     setOpen(true);
   };
-
   const handleClose = () => {
     setOpen(false);
   };
 
   return (
     <Grid
-      border="2px solid black"
-      borderRadius="10px"
-      width="15rem"
-      height="22rem"
+      border="0.2rem solid transparent"
+      borderRadius="1rem"
       sx={{
-        '&:hover': showBorder ? { border: '2px solid #00e054' } : { border: '2px solid #12161a' },
+        '&:hover': showBorder
+          ? { border: '0.2rem  solid #00e054' }
+          : { border: '0.2rem solid #12161a' },
       }}
-      margin="10px 5px"
+      margin="1rem"
     >
-      <Grid item>
-        <img
-          src={`https://image.tmdb.org/t/p/original/${poster_path}`}
-          alt="Poster"
-          style={posterImgStyle}
-          onClick={handleClickOpen}
-        />
-      </Grid>
-      <Grid item display="flex" justifyContent="center" padding="5px">
-        <Tooltip title={`Watched by ${Math.round(popularity)} members`} placement="top">
-          <IconButton sx={{ color: 'green' }}>
-            <RemoveRedEyeIcon />
-          </IconButton>
-        </Tooltip>
+      <img
+        src={`https://image.tmdb.org/t/p/original/${poster_path}`}
+        alt="Poster"
+        style={posterImgStyle}
+        onClick={handleClickOpen}
+      />
 
-        <Tooltip title={`Average rating ${movie?.vote_average?.toFixed(1)}`} placement="top">
-          <IconButton sx={{ color: '#40bcf4' }}>
-            <StarsIcon />
-          </IconButton>
-        </Tooltip>
-
-        <Tooltip title={`Liked by ${vote_count} members`} placement="top">
-          <IconButton sx={{ color: 'orange' }}>
-            <FavoriteIcon />
-          </IconButton>
-        </Tooltip>
+      <Grid item display="flex" justifyContent="center" padding="0.5rem">
+        {iconData.map((data, index) => (
+          <Tooltip
+            key={index}
+            title={<span style={{ fontSize: '1.5rem' }}>{data.title}</span>}
+            placement="top"
+          >
+            <IconButton sx={{ color: data.color }}>{data.icon}</IconButton>
+          </Tooltip>
+        ))}
       </Grid>
       <PosterModal open={open} handleClose={handleClose} posters={movie?.images?.posters || []} />
     </Grid>
