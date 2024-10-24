@@ -1,12 +1,12 @@
 import { Box, Drawer, IconButton, InputAdornment, MenuItem, TextField } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import { itemMenu } from './menuItem';
-import logo from '../../assets/nav/logo.png';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { theme } from '../../providers/theme/theme';
 import { createNavStyles } from './createNavStyles';
 import MenuIcon from '@mui/icons-material/Menu';
+import Logo from '../../assets/nav/logotip.svg';
 
 export const Nav = () => {
   const [query, setQuery] = useState<string>('');
@@ -53,9 +53,8 @@ export const Nav = () => {
             ))}
           </Box>
         </Drawer>
-        <RouterLink to="/">
-          <img src={logo} alt="/" />
-        </RouterLink>
+        <RouterLink to="/">{/* <img src={logo} alt="/" /> */}</RouterLink>{' '}
+        <Logo width={500} height={110} />
       </Box>
       <Box sx={styles.menuContainer}>
         {itemMenu.map((item, index) => (

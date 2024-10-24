@@ -1,11 +1,11 @@
 import Grid from '@mui/material/Grid';
-import NoPhoto from '../../assets/nophoto.svg';
 import { Box, Typography, useTheme } from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom';
 import { createSearchStyles } from './createMediaCradStyles';
 import { LabelButton } from '../../UIKit/LabelButton/LabelButton';
 import { IMovieDiscover } from '../../types/movieTypes';
 import { ICollection, ISearchPerson, ISearchTv } from '../../types/searchTypes';
+import Nophoto from '../../assets/nophoto.svg';
 
 type MediaItem = IMovieDiscover | ISearchPerson | ICollection | ISearchTv;
 
@@ -45,8 +45,7 @@ export const MediaCard: React.FC<MediaListProps> = ({ media }) => {
                     style={styles.imgStyles}
                   />
                 ) : (
-                  <img src={NoPhoto} alt="photo" style={styles.imgStyles} />
-                  // <NoPhoto style={styles.imgStyles} />
+                  <Nophoto width="100%" height="100%" />
                 )}
               </Box>
             </RouterLink>
