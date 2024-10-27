@@ -1,7 +1,7 @@
 import { Box, Button, Grid, IconButton, Tooltip } from '@mui/material';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import StarsIcon from '@mui/icons-material/Stars';
 import FavoriteIcon from '@mui/icons-material/Favorite';
@@ -11,8 +11,12 @@ import { Link as RouterLink } from 'react-router-dom';
 import { useTheme } from '@mui/material/styles';
 import createCarouselStyles from './createCarouselStyles';
 import { IMovieDiscover } from '../../types/movieTypes';
+import { ImageConfig } from '../../providers/ImageConfigProvider/ImageConfigContexts';
+import { imageSizes } from '../../constants';
+
 export const Carousel = () => {
   const [movieList, setMovieList] = useState<IResponseList<IMovieDiscover[]>>();
+  const imageConfig = useContext(ImageConfig);
 
   const theme = useTheme();
   const styles = createCarouselStyles(theme);
@@ -83,7 +87,7 @@ export const Carousel = () => {
             <Box sx={styles.movieGridStyles}>
               <RouterLink to={`/film/${movie.id}`}>
                 <img
-                  src={`https://image.tmdb.org/t/p/original${movie.poster_path}`}
+                  src={`${imageConfig.images.secure_base_url}${imageSizes.medium}${movie.poster_path}`}
                   alt=""
                   key={movie.id}
                   data-testid={`movie-poster-${movie.id}`}

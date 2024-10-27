@@ -2,9 +2,11 @@ import { Grid, IconButton, Tooltip } from '@mui/material';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import StarsIcon from '@mui/icons-material/Stars';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
-import { useState } from 'react';
+import { CSSProperties, FC, useContext, useState } from 'react';
 import { PosterModal } from '../../UIKit/PosterModal/PosterModal';
 import { MovieDetails } from '../../types/movieTypes';
+import { ImageConfig } from '../../providers/ImageConfigProvider/ImageConfigContexts';
+import { imageSizes } from '../../constants';
 
 interface PosterProps {
   movie: MovieDetails;
@@ -15,10 +17,11 @@ const posterImgStyle = {
   height: '100%',
   borderRadius: '10px',
   cursor: 'pointer',
-} as React.CSSProperties;
+} as CSSProperties;
 
-export const PosterCard: React.FC<PosterProps> = ({ movie, showBorder = true }) => {
+export const PosterCard: FC<PosterProps> = ({ movie, showBorder = true }) => {
   const { poster_path, popularity, vote_count } = movie || {};
+  const imageConfig = useContext(ImageConfig);
 
   const [open, setOpen] = useState(false);
 
@@ -43,7 +46,7 @@ export const PosterCard: React.FC<PosterProps> = ({ movie, showBorder = true }) 
     >
       <Grid item>
         <img
-          src={`https://image.tmdb.org/t/p/original/${poster_path}`}
+          src={`${imageConfig.images.secure_base_url}${imageSizes.medium}${poster_path}`}
           alt="Poster"
           style={posterImgStyle}
           onClick={handleClickOpen}

@@ -3,6 +3,11 @@ import { Carousel } from './Carousel';
 import { getMovieList } from '../../api/api';
 import { BrowserRouter } from 'react-router-dom';
 import '@testing-library/jest-dom';
+import {
+  defaultImageConfig,
+  ImageConfig,
+} from '../../providers/ImageConfigProvider/ImageConfigContexts';
+import { imageSizes } from '../../constants';
 
 jest.mock('../../api/api');
 
@@ -23,6 +28,8 @@ const mockMovieData = {
   ],
 };
 
+const mockImageConfig = defaultImageConfig;
+
 describe('Carousel', () => {
   beforeEach(() => {
     (getMovieList as jest.Mock).mockResolvedValue(mockMovieData);
@@ -30,9 +37,11 @@ describe('Carousel', () => {
 
   test('4 pictures per page and correct images are displayed', async () => {
     render(
-      <BrowserRouter>
-        <Carousel />
-      </BrowserRouter>,
+      <ImageConfig.Provider value={mockImageConfig}>
+        <BrowserRouter>
+          <Carousel />
+        </BrowserRouter>
+      </ImageConfig.Provider>,
     );
 
     const images = await waitFor(() => screen.findAllByTestId(/^movie-poster-/));
@@ -40,10 +49,10 @@ describe('Carousel', () => {
     expect(images).toHaveLength(4);
 
     const expectedImageSources = [
-      'https://image.tmdb.org/t/p/original/path1.jpg',
-      'https://image.tmdb.org/t/p/original/path2.jpg',
-      'https://image.tmdb.org/t/p/original/path3.jpg',
-      'https://image.tmdb.org/t/p/original/path4.jpg',
+      `${mockImageConfig.images.secure_base_url}${imageSizes.medium}/path1.jpg`,
+      `${mockImageConfig.images.secure_base_url}${imageSizes.medium}/path2.jpg`,
+      `${mockImageConfig.images.secure_base_url}${imageSizes.medium}/path3.jpg`,
+      `${mockImageConfig.images.secure_base_url}${imageSizes.medium}/path4.jpg`,
     ];
 
     images.forEach((img, index) => {
@@ -53,9 +62,11 @@ describe('Carousel', () => {
 
   test('switching pictures', async () => {
     render(
-      <BrowserRouter>
-        <Carousel />
-      </BrowserRouter>,
+      <ImageConfig.Provider value={mockImageConfig}>
+        <BrowserRouter>
+          <Carousel />
+        </BrowserRouter>
+      </ImageConfig.Provider>,
     );
 
     const images = await waitFor(() => screen.findAllByTestId(/^movie-poster-/));
@@ -70,7 +81,7 @@ describe('Carousel', () => {
 
     expect(updatedImages[0]).toHaveAttribute(
       'src',
-      'https://image.tmdb.org/t/p/original/path5.jpg',
+      `${mockImageConfig.images.secure_base_url}${imageSizes.medium}/path5.jpg`,
     );
 
     const prevButton = screen.getByTestId('carousel-slide-previous');
@@ -81,7 +92,7 @@ describe('Carousel', () => {
     expect(revertedImages).toHaveLength(4);
     expect(revertedImages[0]).toHaveAttribute(
       'src',
-      'https://image.tmdb.org/t/p/original/path1.jpg',
+      `${mockImageConfig.images.secure_base_url}${imageSizes.medium}/path1.jpg`,
     );
   });
 });

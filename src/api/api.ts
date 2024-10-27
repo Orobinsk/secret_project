@@ -6,6 +6,7 @@ import {
   IResponseList,
   IGetMovieParams,
   IMovieEndpointTypeMap,
+  IImageConfig,
 } from './apiTypes/apiTypes';
 import { apiTMDB } from './base';
 
@@ -61,6 +62,17 @@ export async function getSearch<E extends TSearchEndpoint>({
     const response = await apiTMDB.get<TSearchResponse<E>>(currentEndpoint, {
       params,
     });
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+}
+
+//схема - https://developer.themoviedb.org/reference/configuration-details
+export async function getImageConfig(): Promise<IImageConfig> {
+  try {
+    const response = await apiTMDB.get<IImageConfig>('configuration');
     return response.data;
   } catch (error) {
     console.error(error);
