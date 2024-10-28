@@ -3,6 +3,9 @@ import Card from '@mui/material/Card';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import CommentIcon from '@mui/icons-material/Comment';
 import { IMovieDiscover } from '../../types/movieTypes';
+import { FC, useContext } from 'react';
+import { ImageConfig } from '../../providers/ImageConfigProvider/ImageConfigContexts';
+import { imageSizes } from '../../constants';
 
 interface MovieListProps {
   movie: IMovieDiscover;
@@ -23,9 +26,10 @@ const createStyles = (theme: Theme) => ({
   },
 });
 
-export const MovieItem: React.FC<MovieListProps> = ({ movie }) => {
+export const MovieItem: FC<MovieListProps> = ({ movie }) => {
   const theme = useTheme();
   const styles = createStyles(theme);
+  const imageConfig = useContext(ImageConfig);
 
   return (
     <Card variant="outlined" sx={styles.card}>
@@ -34,7 +38,7 @@ export const MovieItem: React.FC<MovieListProps> = ({ movie }) => {
         sx={styles.cardMedia}
         image={
           movie.poster_path
-            ? `https://image.tmdb.org/t/p/original/${movie.poster_path}`
+            ? `${imageConfig.images.secure_base_url}${imageSizes.small}${movie.poster_path}`
             : 'https://via.placeholder.com/80x150?text=No+Image'
         }
         alt={`${movie.title} Poster`}

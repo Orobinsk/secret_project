@@ -30,3 +30,11 @@ export const API_SEARCH_PARAMS = {
   YEAR: 'year',
   FIRST_AIR_DATE_YEAR: 'first_air_date_year',
 } as const;
+
+export const imageSizes = {
+  verySmall: 'w92',
+  small: 'w185',
+  medium: 'w300',
+  veryHigh: 'w780',
+  original: 'original',
+};

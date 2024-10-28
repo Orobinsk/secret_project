@@ -1,6 +1,9 @@
 import { Button, Grid, Rating, Typography } from '@mui/material';
 import Avatar from '../../../assets/nophoto.png';
 import { MovieDetails } from '../../../types/movieTypes';
+import { useContext } from 'react';
+import { ImageConfig } from '../../../providers/ImageConfigProvider/ImageConfigContexts';
+import { imageSizes } from '../../../constants';
 
 interface IMovieReviews {
   movie: MovieDetails;
@@ -8,6 +11,7 @@ interface IMovieReviews {
 
 export const MovieReviews: React.FC<IMovieReviews> = ({ movie }) => {
   const cutArr = movie.reviews.results.slice(0, 3);
+  const imageConfig = useContext(ImageConfig);
 
   return (
     <Grid container direction="column">
@@ -52,7 +56,7 @@ export const MovieReviews: React.FC<IMovieReviews> = ({ movie }) => {
               <img
                 src={
                   review.author_details.avatar_path
-                    ? `https://image.tmdb.org/t/p/original/${review.author_details.avatar_path}`
+                    ? `${imageConfig.images.secure_base_url}${imageSizes.small}${review.author_details.avatar_path}`
                     : Avatar
                 }
                 alt="Avatar"
