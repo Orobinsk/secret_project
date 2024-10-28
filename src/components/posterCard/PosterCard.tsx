@@ -1,4 +1,4 @@
-import { Grid, IconButton, Tooltip } from '@mui/material';
+import { Grid, IconButton, Tooltip, Typography } from '@mui/material';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import StarsIcon from '@mui/icons-material/Stars';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
@@ -23,26 +23,39 @@ export const PosterCard: FC<PosterProps> = ({ movie, showBorder = true }) => {
   const { poster_path, popularity, vote_count } = movie || {};
   const imageConfig = useContext(ImageConfig);
 
+  const iconData = [
+    {
+      icon: <RemoveRedEyeIcon style={{ height: '30px', width: '30px' }} />,
+      title: `Watched by ${Math.round(popularity)} members`,
+      color: 'green',
+    },
+    {
+      icon: <StarsIcon style={{ height: '30px', width: '30px' }} />,
+      title: `Average rating ${movie?.vote_average?.toFixed(1)}`,
+      color: '#40bcf4',
+    },
+    {
+      icon: <FavoriteIcon style={{ height: '30px', width: '30px' }} />,
+      title: `Liked by ${vote_count} members`,
+      color: 'orange',
+    },
+  ];
   const [open, setOpen] = useState(false);
-
   const handleClickOpen = () => {
     setOpen(true);
   };
-
   const handleClose = () => {
     setOpen(false);
   };
 
   return (
     <Grid
-      border="2px solid black"
+      border="2px solid transparent"
       borderRadius="10px"
-      width="15rem"
-      height="22rem"
       sx={{
-        '&:hover': showBorder ? { border: '2px solid #00e054' } : { border: '2px solid #12161a' },
+        '&:hover': showBorder ? { border: '2px  solid #00e054' } : { border: '2px solid #12161a' },
       }}
-      margin="10px 5px"
+      margin="10px"
     >
       <Grid item>
         <img
@@ -53,23 +66,15 @@ export const PosterCard: FC<PosterProps> = ({ movie, showBorder = true }) => {
         />
       </Grid>
       <Grid item display="flex" justifyContent="center" padding="5px">
-        <Tooltip title={`Watched by ${Math.round(popularity)} members`} placement="top">
-          <IconButton sx={{ color: 'green' }}>
-            <RemoveRedEyeIcon />
-          </IconButton>
-        </Tooltip>
-
-        <Tooltip title={`Average rating ${movie?.vote_average?.toFixed(1)}`} placement="top">
-          <IconButton sx={{ color: '#40bcf4' }}>
-            <StarsIcon />
-          </IconButton>
-        </Tooltip>
-
-        <Tooltip title={`Liked by ${vote_count} members`} placement="top">
-          <IconButton sx={{ color: 'orange' }}>
-            <FavoriteIcon />
-          </IconButton>
-        </Tooltip>
+        {iconData.map((data, index) => (
+          <Tooltip
+            key={index}
+            title={<Typography style={{ fontSize: '15px' }}>{data.title}</Typography>}
+            placement="top"
+          >
+            <IconButton sx={{ color: data.color }}>{data.icon}</IconButton>
+          </Tooltip>
+        ))}
       </Grid>
       <PosterModal open={open} handleClose={handleClose} posters={movie?.images?.posters || []} />
     </Grid>

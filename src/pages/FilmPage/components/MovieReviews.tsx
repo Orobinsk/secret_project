@@ -24,6 +24,7 @@ export const MovieReviews: React.FC<IMovieReviews> = ({ movie }) => {
           <Grid item>
             <Button
               sx={{
+                fontSize: '15px',
                 color: '#89a',
                 ':hover': {
                   color: '#FFFF',
@@ -38,6 +39,7 @@ export const MovieReviews: React.FC<IMovieReviews> = ({ movie }) => {
             <Button
               sx={{
                 color: '#89a',
+                fontSize: '15px',
                 ':hover': {
                   color: '#FFFF',
                 },
@@ -61,8 +63,8 @@ export const MovieReviews: React.FC<IMovieReviews> = ({ movie }) => {
                 }
                 alt="Avatar"
                 style={{
-                  width: 50,
-                  height: 50,
+                  width: '50px',
+                  height: '50px',
                   objectFit: 'cover',
                   borderRadius: '50%',
                 }}
@@ -71,7 +73,7 @@ export const MovieReviews: React.FC<IMovieReviews> = ({ movie }) => {
             <Grid item xs ml={2}>
               <Typography color="#9ab">Review by {review.author_details.username}</Typography>
               <Rating readOnly value={review.author_details.rating / 2} sx={{ color: '#00e054' }} />
-              <Typography color="#9ab" mt={1}>
+              <Typography color="#9ab" sx={{ fontSize: '15px' }} mt={1}>
                 {review.content.replace(/<[^>]*>/g, '')}
               </Typography>
             </Grid>

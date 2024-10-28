@@ -8,6 +8,7 @@ import { MovieReviews } from './components/MovieReviews';
 import { API_PARAMS, MOVIE_ENDPOINTS } from '../../constants';
 import { LabelButton } from '../../UIKit/LabelButton/LabelButton';
 import { MovieDetails } from '../../types/movieTypes';
+import { createFilmPageStyles } from './createFilmPageStyles';
 
 const LABELS = ['cast', 'crew', 'details', 'genres', 'releases'];
 const PARAMS = [
@@ -22,6 +23,7 @@ export const FilmPage = () => {
   const { id } = useParams<{ id: string }>();
   const [movie, setMovie] = useState<MovieDetails>();
   const [activeLabel, setActiveLabel] = useState<string | null>(LABELS[0]);
+  const styles = createFilmPageStyles();
 
   useEffect(() => {
     getMovie({
@@ -56,13 +58,7 @@ export const FilmPage = () => {
       <Grid item key={index}>
         <Button
           onClick={() => handleButtonClick(label)}
-          sx={{
-            border: '1px solid #11171B',
-            color: activeLabel === label ? 'white' : '#00e054',
-            borderRadius: 0,
-            '&:hover': { borderBottom: '1px solid #9ab' },
-          }}
-          disableRipple
+          sx={styles.labelButton(activeLabel === label)}
         >
           {label}
         </Button>
@@ -90,7 +86,9 @@ export const FilmPage = () => {
         {Object.keys(crewDepartments).map((department, index) => (
           <Grid container key={index} mb={1}>
             <Grid item xs={4}>
-              <Typography color="#9ab">{department}</Typography>
+              <Typography fontSize="15px" color="#9ab">
+                {department}
+              </Typography>
             </Grid>
             <Grid item xs={8}>
               {crewDepartments[department].map((name: string, i: number) => (
@@ -108,10 +106,12 @@ export const FilmPage = () => {
       <Grid container key={index}>
         {Array.isArray(detail.name) && detail.name.length > 0 && detail.title && (
           <Grid container alignItems="center">
-            <Grid item xs={4}>
-              <Typography color="#9ab">{detail.title}</Typography>
+            <Grid item xs={2}>
+              <Typography fontSize="15px" color="#9ab">
+                {detail.title}
+              </Typography>
             </Grid>
-            <Grid item xs={8}>
+            <Grid item xs={10}>
               {detail.name.map((name, i) => name && <LabelButton key={i} label={name} />)}
             </Grid>
           </Grid>
@@ -139,7 +139,9 @@ export const FilmPage = () => {
     return uniqueNotes.map((note, index) => (
       <Grid container key={index} mb={1} alignItems="center">
         <Grid item xs={6}>
-          <Typography color="#9ab">{note}</Typography>
+          <Typography fontSize="15px" color="#9ab">
+            {note}
+          </Typography>
         </Grid>
         <Grid item xs={6}>
           <LabelButton
@@ -155,10 +157,10 @@ export const FilmPage = () => {
 
   return (
     <Grid container spacing={2}>
-      <Grid item xs={3}>
+      <Grid item lg={3} md={3} sm={3}>
         <PosterCard movie={movie} showBorder={false} />
       </Grid>
-      <Grid item xs={8}>
+      <Grid item lg={9} md={9} sm={9}>
         <MovieDesc movie={movie} />
         <Grid container borderBottom="1px solid #9ab" display="flex">
           {renderLabels()}
