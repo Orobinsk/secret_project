@@ -65,13 +65,6 @@ export const PosterCard: FC<PosterProps> = ({ movie, showBorder = true }) => {
           onClick={handleClickOpen}
         />
       </Grid>
-      <img
-        src={`https://image.tmdb.org/t/p/original/${poster_path}`}
-        alt="Poster"
-        style={posterImgStyle}
-        onClick={handleClickOpen}
-      />
-
       <Grid item display="flex" justifyContent="center" padding="5px">
         {iconData.map((data, index) => (
           <Tooltip
