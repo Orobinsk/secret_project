@@ -1,4 +1,11 @@
-import { IAuthorDetails, ICredits, IImage, ILists, IRelease } from '../../types/movieTypes';
+import {
+  IAuthorDetails,
+  ICredits,
+  IImage,
+  ILists,
+  IMovieDiscover,
+  IRelease,
+} from '../../types/movieTypes';
 
 export interface IResponseList<T> {
   page: number;
@@ -12,9 +19,16 @@ export interface IMovieEndpointTypeMap {
   release_dates: IRelease;
   images: IImage[];
   lists?: ILists;
+  upcoming: IResponseList<IMovieDiscover[]>;
 }
 
-export type TMovieEndpoint = 'release_dates' | 'credits' | 'reviews' | 'images' | 'lists';
+export type TMovieEndpoint =
+  | 'release_dates'
+  | 'credits'
+  | 'reviews'
+  | 'images'
+  | 'lists'
+  | 'upcoming';
 
 export interface IGetMoviesListParams {
   params?: { [key: string]: number | string };
