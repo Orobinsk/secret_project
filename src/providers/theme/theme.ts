@@ -14,12 +14,14 @@ export const theme = createTheme({
     },
     primary: {
       light: `#fff`, //  используем для заголовков
-      main: `#89a`, // используем для описания
-      contrastText: '#00e054', // основной контрастный цвет
+      main: `#89a`, // используем для описания (серый)
+      contrastText: '#00e054',
     },
     secondary: {
-      main: 'rgb(0, 224, 84)',
-      contrastText: '#41BCF4', // вторичный контрастный цвет
+      light: `#00e054`, // зеленый
+      main: '#41BCF4', // синий
+      dark: '#ee7000', // оранжевый
+      contrastText: '#41BCF4',
     },
     text: {
       primary: '#fff',
