@@ -1,4 +1,4 @@
-import { Box, Button, Grid, IconButton, Tooltip, Typography } from '@mui/material';
+import { Box, Button, Grid, IconButton, Tooltip, Typography, useMediaQuery } from '@mui/material';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import { useContext, useEffect, useState } from 'react';
@@ -14,7 +14,6 @@ import { ImageConfig } from '../../providers/ImageConfigProvider/ImageConfigCont
 import { imageSizes } from '../../constants';
 import { createCarouselStyles } from './createCarouselStyles';
 
-const ITEMSPERPAGE = 4;
 const iconsData = [
   {
     title: (movie: IMovieDiscover) => `Watched by ${Math.round(movie?.popularity)} members`,
@@ -39,6 +38,8 @@ export const Carousel = () => {
 
   const theme = useTheme();
   const styles = createCarouselStyles(theme);
+  const isSmallScreen = useMediaQuery('(max-width:600px)');
+  const ITEMSPERPAGE = isSmallScreen ? 1 : 4;
 
   useEffect(() => {
     getMovieList().then((data) => setMovieList(data));
@@ -50,11 +51,11 @@ export const Carousel = () => {
 
   const handleNext = () => {
     if (currentIndex < movieList.results.length)
-      setCurrentIndex((prevIndex) => (prevIndex + 4 + totalMovies) % totalMovies);
+      setCurrentIndex((prevIndex) => (prevIndex + ITEMSPERPAGE + totalMovies) % totalMovies);
   };
 
   const handlePrev = () => {
-    setCurrentIndex((prevIndex) => (prevIndex - 4 + totalMovies) % totalMovies);
+    setCurrentIndex((prevIndex) => (prevIndex - ITEMSPERPAGE + totalMovies) % totalMovies);
   };
 
   const visibleMovies = movieList?.results
@@ -97,14 +98,7 @@ export const Carousel = () => {
   const MovieGrid = () => (
     <Grid item xs={12} display="flex" alignItems="center">
       <BackButton />
-      <Grid
-        container
-        spacing={2}
-        p={1}
-        justifyContent="space-around"
-        alignItems="center"
-        columns={{ xs: 2, sm: 2, md: 4, lg: 6 }}
-      >
+      <Grid container spacing={2} p={1} justifyContent="space-around" alignItems="center">
         {visibleMovies.map((movie) => (
           <Grid item key={movie.id} sx={{ height: '350px', marginBottom: '30px' }}>
             <Box sx={styles.movieGridStyles}>
