@@ -38,8 +38,10 @@ export const Carousel = () => {
 
   const theme = useTheme();
   const styles = createCarouselStyles(theme);
-  const isSmallScreen = useMediaQuery('(max-width:600px)');
-  const ITEMSPERPAGE = isSmallScreen ? 1 : 4;
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
+  const isMediumScreen = useMediaQuery(theme.breakpoints.between('sm', 'lg'));
+
+  const ITEMSPERPAGE = isSmallScreen ? 1 : isMediumScreen ? 2 : 4;
 
   useEffect(() => {
     getMovieList().then((data) => setMovieList(data));
