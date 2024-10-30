@@ -4,7 +4,7 @@ import { Nav } from './nav/nav';
 
 export const App = () => {
   return (
-    <Container maxWidth="lg" sx={{ bgcolor: '#12161a' }}>
+    <Container maxWidth="lg">
       <Nav />
       <Outlet />
     </Container>

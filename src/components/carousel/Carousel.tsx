@@ -1,4 +1,4 @@
-import { Box, Button, Grid, IconButton, Tooltip, Typography } from '@mui/material';
+import { Box, Button, Grid, IconButton, Tooltip, Typography, useMediaQuery } from '@mui/material';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import { useContext, useEffect, useState } from 'react';
@@ -14,7 +14,6 @@ import { ImageConfig } from '../../providers/ImageConfigProvider/ImageConfigCont
 import { imageSizes } from '../../constants';
 import { createCarouselStyles } from './createCarouselStyles';
 
-const ITEMSPERPAGE = 4;
 const iconsData = [
   {
     title: (movie: IMovieDiscover) => `Watched by ${Math.round(movie?.popularity)} members`,
@@ -36,25 +35,30 @@ const iconsData = [
 export const Carousel = () => {
   const [movieList, setMovieList] = useState<IResponseList<IMovieDiscover[]>>();
   const imageConfig = useContext(ImageConfig);
-
   const theme = useTheme();
   const styles = createCarouselStyles(theme);
+
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
+
+  const ITEMSPERPAGE = isSmallScreen ? 1 : 4;
 
   useEffect(() => {
     getMovieList().then((data) => setMovieList(data));
   }, []);
 
   const [currentIndex, setCurrentIndex] = useState(0);
-
   const totalMovies = movieList?.results.length;
 
   const handleNext = () => {
-    if (currentIndex < movieList.results.length)
-      setCurrentIndex((prevIndex) => (prevIndex + 4 + totalMovies) % totalMovies);
+    if (totalMovies) {
+      setCurrentIndex((prevIndex) => (prevIndex + ITEMSPERPAGE) % totalMovies);
+    }
   };
 
   const handlePrev = () => {
-    setCurrentIndex((prevIndex) => (prevIndex - 4 + totalMovies) % totalMovies);
+    if (totalMovies) {
+      setCurrentIndex((prevIndex) => (prevIndex - ITEMSPERPAGE + totalMovies) % totalMovies);
+    }
   };
 
   const visibleMovies = movieList?.results
@@ -71,6 +75,7 @@ export const Carousel = () => {
       </Grid>
     </Grid>
   );
+
   const ForwardButton = () => (
     <IconButton
       onClick={handleNext}
@@ -82,6 +87,7 @@ export const Carousel = () => {
       <ArrowForwardIosIcon />
     </IconButton>
   );
+
   const BackButton = () => (
     <IconButton
       onClick={handlePrev}
@@ -95,52 +101,43 @@ export const Carousel = () => {
   );
 
   const MovieGrid = () => (
-    <Grid item xs={12} display="flex" alignItems="center">
-      <BackButton />
-      <Grid
-        container
-        spacing={2}
-        p={1}
-        justifyContent="space-around"
-        alignItems="center"
-        columns={{ xs: 2, sm: 2, md: 4, lg: 6 }}
-      >
-        {visibleMovies.map((movie) => (
-          <Grid item key={movie.id} sx={{ height: '350px', marginBottom: '30px' }}>
-            <Box sx={styles.movieGridStyles}>
-              <RouterLink to={`/film/${movie.id}`}>
-                <img
-                  src={`${imageConfig.images.secure_base_url}${imageSizes.medium}${movie.poster_path}`}
-                  alt=""
-                  data-testid={`movie-poster-${movie.id}`}
-                  style={styles.carouselImage}
-                />
-              </RouterLink>
-              <Grid container justifyContent="center" padding="5px">
-                {iconsData.map((data, index) => (
-                  <Tooltip
-                    key={index}
-                    title={<Typography fontSize="10px">{data.title(movie)}</Typography>}
-                    placement="top"
-                  >
-                    <IconButton sx={{ color: data.color }}>{data.icon}</IconButton>
-                  </Tooltip>
-                ))}
-              </Grid>
-            </Box>
-          </Grid>
-        ))}
-      </Grid>
-      <ForwardButton />
+    <Grid container spacing={2} p={1}>
+      {visibleMovies.map((movie) => (
+        <Grid item xs={12} sm={6} md={3} key={movie.id}>
+          <Box sx={styles.movieGridStyles}>
+            <RouterLink to={`/film/${movie.id}`}>
+              <img
+                src={`${imageConfig.images.secure_base_url}${imageSizes.medium}${movie.poster_path}`}
+                alt=""
+                data-testid={`movie-poster-${movie.id}`}
+                style={styles.carouselImage}
+              />
+            </RouterLink>
+            <Grid container justifyContent="center" padding="5px">
+              {iconsData.map((data, index) => (
+                <Tooltip
+                  key={index}
+                  title={<Typography fontSize="10px">{data.title(movie)}</Typography>}
+                  placement="top"
+                >
+                  <IconButton sx={{ color: data.color }}>{data.icon}</IconButton>
+                </Tooltip>
+              ))}
+            </Grid>
+          </Box>
+        </Grid>
+      ))}
     </Grid>
   );
 
   return (
-    <Grid container>
+    <>
       <HeaderButtons />
-      <Grid container justifyContent="space-between" alignItems="center">
+      <Box display="flex" alignItems="center">
+        <BackButton />
         <MovieGrid />
-      </Grid>
-    </Grid>
+        <ForwardButton />
+      </Box>
+    </>
   );
 };
