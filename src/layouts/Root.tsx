@@ -1,13 +1,13 @@
 import { BrowserRouter } from 'react-router-dom';
 import { Router } from '../providers/router/Router';
-import { Suspense } from 'react';
 import { ThemeProvider } from '@mui/material/styles';
 import { theme } from '../providers/theme/theme';
 import { ImageConfigProvider } from '../providers/ImageConfigProvider/ImageConfigProvider';
+import { ErrorBoundary } from '../providers/ErrorBoundary/ErrorBoundary';
 
 export const Root = () => {
   return (
-    <Suspense fallback={<div>Loading...</div>}>
+    <ErrorBoundary>
       <ImageConfigProvider>
         <ThemeProvider theme={theme}>
           <BrowserRouter>
@@ -15,6 +15,6 @@ export const Root = () => {
           </BrowserRouter>
         </ThemeProvider>
       </ImageConfigProvider>
-    </Suspense>
+    </ErrorBoundary>
   );
 };
