@@ -12,8 +12,8 @@ export const createCarouselStyles = (theme: Theme) => ({
   movieGridStyles: {
     border: '2px solid black',
     borderRadius: '10px',
-    width: '100%',
-    height: '100%',
+    maxWidth: '250px',
+    margin: 'auto',
     '&:hover': { border: '2px  solid #00e054' },
   },
   carouselImage: {
