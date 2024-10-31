@@ -1,12 +1,14 @@
-import { DialogContent, IconButton } from '@mui/material';
+import { DialogContent, IconButton, useMediaQuery } from '@mui/material';
 import Dialog from '@mui/material/Dialog';
 import ClearIcon from '@mui/icons-material/Clear';
 import { useTheme } from '@mui/material/styles';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import modalStyles from './modalStyles';
 import { IPoster } from '../../types/movieTypes';
+import { ImageConfig } from '../../providers/ImageConfigProvider/ImageConfigContexts';
+import { imageSizes } from '../../constants';
 
 export const PosterModal = ({
   open,
@@ -20,6 +22,8 @@ export const PosterModal = ({
 }) => {
   const theme = useTheme();
   const styles = modalStyles(theme);
+  const smSize = useMediaQuery(theme.breakpoints.down('sm'));
+  const imageConfig = useContext(ImageConfig);
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const handleNext = () => {
@@ -67,7 +71,7 @@ export const PosterModal = ({
 
         {posters.length > 0 && posters[currentIndex] && (
           <img
-            src={`https://image.tmdb.org/t/p/original/${posters[currentIndex].file_path}`}
+            src={`${imageConfig.images.secure_base_url}${imageSizes.original}${posters[currentIndex].file_path}`}
             alt="Poster"
             style={styles.modalImage}
           />
@@ -77,7 +81,7 @@ export const PosterModal = ({
   };
 
   return (
-    <Dialog open={open} onClose={handleClose} sx={styles.dialogStyles}>
+    <Dialog open={open} onClose={handleClose} fullScreen={smSize} sx={styles.dialogStyles}>
       {posters.length <= 1 ? null : <BackButton />}
       <ModalContent />
       {posters.length <= 1 ? null : <ForwardButton />}

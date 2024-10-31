@@ -15,11 +15,15 @@ const modalStyles = (theme: Theme) => ({
   dialogContentStyles: {
     padding: 0,
     overflow: 'hidden',
-    height: `86vh`,
+    margin: 'auto',
+    [theme.breakpoints.up('sm')]: {
+      height: `86vh`,
+    },
   },
   modalImage: {
     maxWidth: '100%',
     height: '100%',
+    objectFit: 'contain',
   } as React.CSSProperties,
   modalBtn: {
     position: 'absolute',
