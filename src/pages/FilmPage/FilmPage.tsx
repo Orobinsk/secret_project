@@ -1,14 +1,15 @@
 import { useParams } from 'react-router-dom';
-import { Button, Grid, Typography } from '@mui/material';
-import { useEffect, useState } from 'react';
+import { Box, Button, Grid, Typography } from '@mui/material';
+import { useContext, useEffect, useState } from 'react';
 import { getMovie } from '../../api/api';
 import { PosterCard } from '../../components/posterCard/PosterCard';
 import { MovieDesc } from './components/MovieDesc';
 import { MovieReviews } from './components/MovieReviews';
-import { API_PARAMS, MOVIE_ENDPOINTS } from '../../constants';
+import { API_PARAMS, imageSizes, MOVIE_ENDPOINTS } from '../../constants';
 import { LabelButton } from '../../UIKit/LabelButton/LabelButton';
 import { MovieDetails } from '../../types/movieTypes';
 import { createFilmPageStyles } from './createFilmPageStyles';
+import { ImageConfig } from '../../providers/ImageConfigProvider/ImageConfigContexts';
 
 const LABELS = ['cast', 'crew', 'details', 'genres', 'releases'];
 const PARAMS = [
@@ -24,6 +25,7 @@ export const FilmPage = () => {
   const [movie, setMovie] = useState<MovieDetails>();
   const [activeLabel, setActiveLabel] = useState<string | null>(LABELS[0]);
   const styles = createFilmPageStyles();
+  const imageConfig = useContext(ImageConfig);
 
   useEffect(() => {
     getMovie({
@@ -156,11 +158,18 @@ export const FilmPage = () => {
   };
 
   return (
-    <Grid container spacing={2}>
-      <Grid item lg={3} md={3} sm={3}>
+    <Grid container spacing={1} sx={styles.container}>
+      <Box sx={styles.backdrop}>
+        <img
+          src={`${imageConfig.images.secure_base_url}${imageSizes.original}${movie?.backdrop_path}`}
+          alt=""
+          style={styles.backdropImage}
+        />
+      </Box>
+      <Grid item xs={12} sm={4} md={3} lg={3} mb={2}>
         <PosterCard movie={movie} showBorder={false} />
       </Grid>
-      <Grid item lg={9} md={9} sm={9}>
+      <Grid item xs={12} sm={8} md={9} lg={9}>
         <MovieDesc movie={movie} />
         <Grid container borderBottom="1px solid #9ab" display="flex">
           {renderLabels()}
