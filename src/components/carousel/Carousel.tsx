@@ -1,4 +1,13 @@
-import { Box, Button, Grid, IconButton, Tooltip, Typography, useMediaQuery } from '@mui/material';
+import {
+  Box,
+  Button,
+  Grid,
+  IconButton,
+  Skeleton,
+  Tooltip,
+  Typography,
+  useMediaQuery,
+} from '@mui/material';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import { useContext, useEffect, useState } from 'react';
@@ -103,7 +112,7 @@ export const Carousel = () => {
   const MovieGrid = () => (
     <Grid container spacing={2} p={1}>
       {visibleMovies.map((movie) => (
-        <Grid item xs={12} sm={6} md={3} key={movie.id}>
+        <Grid item xs={12} sm={6} md={3} key={movie.id} height={450}>
           <Box sx={styles.movieGridStyles}>
             <RouterLink to={`/film/${movie.id}`}>
               <img
@@ -130,12 +139,36 @@ export const Carousel = () => {
     </Grid>
   );
 
+  const LoadingSkeleton = () => (
+    <Grid container spacing={2} p={1} minHeight={466}>
+      {Array.from({ length: ITEMSPERPAGE }).map((_, index) => (
+        <Grid
+          item
+          xs={12}
+          sm={6}
+          md={3}
+          key={index}
+          display="flex"
+          flexDirection="column"
+          alignItems="center"
+        >
+          <Skeleton variant="rounded" width="100%" height={370} sx={{ maxWidth: 250 }} />
+          <Box display="flex" justifyContent="center" gap={2} p="5px" m={1}>
+            <Skeleton variant="circular" width={25} height={25} />
+            <Skeleton variant="circular" width={25} height={25} />
+            <Skeleton variant="circular" width={25} height={25} />
+          </Box>
+        </Grid>
+      ))}
+    </Grid>
+  );
+
   return (
     <>
       <HeaderButtons />
       <Box display="flex" alignItems="center">
         <BackButton />
-        <MovieGrid />
+        {movieList ? <MovieGrid /> : <LoadingSkeleton />}
         <ForwardButton />
       </Box>
     </>
