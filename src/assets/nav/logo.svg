@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="104.3915 -105.9268 76 28" width="76px" height="28px">
+  <defs>
+    <style>.B{fill:#fff}.C{fill:#9ab}.D{stroke-linejoin:round}.E{fill:#678}.F{fill:#000}.G{fill-rule:nonzero}.H{stroke-linecap:round}.I{opacity:.5}.J{stroke-width:1.5}.K{opacity:.25}.L{fill:#40bcf4}.M{stroke-width:2}.N{fill:#00c030}.O{opacity:.35}.P{fill:#456}.Q{fill:#567}.R{fill:#345}.S{fill:#def}.T{fill:#ff9010}.U{fill:#789}.V{opacity:.2}.W{fill:#46505b}.X{opacity:.9}.Y{stroke:#fff}.Z{fill:#00e054}.a{fill:#89a}.b{stroke:#678}.c{fill:#bcd}.d{opacity:.6}.e{stroke:#9ab}.f{fill:#66737f}.g{fill:#ff80e8}.h{fill:#435567}.i{fill:#657689}.j{opacity:.15}.k{fill:#98aabc}.l{fill:#4b5c6d}.m{stroke-width:1.79}.n{stroke:#567}.o{opacity:.352}.p{fill:#657789}.q{fill:#d8e0e8}.r{fill:#647485}.s{fill:#13181b}.t{fill:#213244}.u{fill:#ff8000}.v{fill:#2c3743}.w{fill:#14181d}.x{stroke:#91a3ac}.y{stroke:#40bcf4}.z{stroke-width:1.211}.AA{stroke-width:2.684}</style>
+  </defs>
+  <g transform="matrix(0.9999999999999999, 0, 0, 0.9999999999999999, 104.39053500280579, -105.9268280554835)">
+    <circle cx="14.001" cy="14" r="14" class="u"/>
+    <circle cx="62.001" cy="14" r="14" class="L"/>
+    <circle cx="38.001" cy="14" r="14" class="Z"/>
+  </g>
+  <g class="B" transform="matrix(0.9999999999999999, 0, 0, 0.9999999999999999, 104.39053500280579, -105.9268280554835)">
+    <path d="M50.001 6.785c1.269 2.107 2 4.576 2 7.215s-.73 5.108-2 7.215c-1.27-2.107-2-4.576-2-7.215 0-2.612.715-5.057 1.961-7.15z"/>
+    <path d="M50.001 6.785c1.269 2.107 2 4.576 2 7.215s-.73 5.108-2 7.215c-1.27-2.107-2-4.576-2-7.215 0-2.612.715-5.057 1.961-7.15z" transform="matrix(1, 0, 0, 1, -24, 0)"/>
+  </g>
+</svg>

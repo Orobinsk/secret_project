@@ -6,7 +6,7 @@ import { useState } from 'react';
 import { theme } from '../../providers/theme/theme';
 import { createNavStyles } from './createNavStyles';
 import MenuIcon from '@mui/icons-material/Menu';
-import logo from '../../assets/nav/logo.png';
+import Logo from '../../assets/nav/logo.svg';
 
 export const Nav = () => {
   const [query, setQuery] = useState<string>('');
@@ -49,7 +49,7 @@ export const Nav = () => {
           </Box>
         </Drawer>
         <RouterLink to="/">
-          <img src={logo} alt="/" />
+          <Logo width="100%" height={25} />
         </RouterLink>
       </Box>
       <Box sx={styles.menuContainer}>
