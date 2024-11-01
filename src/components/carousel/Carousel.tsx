@@ -116,7 +116,7 @@ export const Carousel = () => {
           <Box sx={styles.movieGridStyles}>
             <RouterLink to={`/film/${movie.id}`}>
               <img
-                src={`${imageConfig.images.secure_base_url}${imageSizes.medium}${movie.poster_path}`}
+                src={`${imageConfig.images.secure_base_url}${imageSizes.high}${movie.poster_path}`}
                 alt=""
                 data-testid={`movie-poster-${movie.id}`}
                 style={styles.carouselImage}

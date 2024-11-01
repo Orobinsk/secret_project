@@ -59,7 +59,7 @@ export const PosterCard: FC<PosterProps> = ({ movie, showBorder = true }) => {
     >
       <Grid item>
         <img
-          src={`${imageConfig.images.secure_base_url}${imageSizes.veryHigh}${poster_path}`}
+          src={`${imageConfig.images.secure_base_url}${imageSizes.high}${poster_path}`}
           alt="Poster"
           style={posterImgStyle}
           onClick={handleClickOpen}

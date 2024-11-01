@@ -49,10 +49,10 @@ describe('Carousel', () => {
     expect(images).toHaveLength(4);
 
     const expectedImageSources = [
-      `${mockImageConfig.images.secure_base_url}${imageSizes.medium}/path1.jpg`,
-      `${mockImageConfig.images.secure_base_url}${imageSizes.medium}/path2.jpg`,
-      `${mockImageConfig.images.secure_base_url}${imageSizes.medium}/path3.jpg`,
-      `${mockImageConfig.images.secure_base_url}${imageSizes.medium}/path4.jpg`,
+      `${mockImageConfig.images.secure_base_url}${imageSizes.high}/path1.jpg`,
+      `${mockImageConfig.images.secure_base_url}${imageSizes.high}/path2.jpg`,
+      `${mockImageConfig.images.secure_base_url}${imageSizes.high}/path3.jpg`,
+      `${mockImageConfig.images.secure_base_url}${imageSizes.high}/path4.jpg`,
     ];
 
     images.forEach((img, index) => {
@@ -81,7 +81,7 @@ describe('Carousel', () => {
 
     expect(updatedImages[0]).toHaveAttribute(
       'src',
-      `${mockImageConfig.images.secure_base_url}${imageSizes.medium}/path5.jpg`,
+      `${mockImageConfig.images.secure_base_url}${imageSizes.high}/path5.jpg`,
     );
 
     const prevButton = screen.getByTestId('carousel-slide-previous');
@@ -92,7 +92,7 @@ describe('Carousel', () => {
     expect(revertedImages).toHaveLength(4);
     expect(revertedImages[0]).toHaveAttribute(
       'src',
-      `${mockImageConfig.images.secure_base_url}${imageSizes.medium}/path1.jpg`,
+      `${mockImageConfig.images.secure_base_url}${imageSizes.high}/path1.jpg`,
     );
   });
 });

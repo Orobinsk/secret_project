@@ -58,6 +58,7 @@ export const imageSizes = {
   verySmall: 'w92',
   small: 'w185',
   medium: 'w300',
+  high: 'w500',
   veryHigh: 'w780',
   original: 'original',
 };
