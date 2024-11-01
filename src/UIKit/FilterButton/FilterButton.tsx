@@ -29,6 +29,7 @@ export const FilterButton: FC<filterButtonProps> = ({ item, onChange }) => {
         {value}
       </Button>
       <Menu
+        sx={{ maxHeight: '400px' }}
         anchorEl={anchorEl}
         open={open}
         onClose={handleClose}

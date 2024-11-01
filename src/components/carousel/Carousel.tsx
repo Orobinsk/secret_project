@@ -80,7 +80,9 @@ export const Carousel = () => {
         <Button sx={styles.headerBtnStyles}>POPULAR FILMS THIS WEEK</Button>
       </Grid>
       <Grid item>
-        <Button sx={styles.headerBtnStyles}>MORE</Button>
+        <RouterLink to="/lists">
+          <Button sx={styles.headerBtnStyles}>MORE</Button>
+        </RouterLink>
       </Grid>
     </Grid>
   );
