@@ -9,3 +9,14 @@ export const apiTMDB = axios.create({
     Authorization: `Bearer ${apiKey}`,
   },
 });
+
+export const setupAxiosInterceptors = (showError: (message: string) => void) => {
+  apiTMDB.interceptors.response.use(
+    (response) => response,
+    (error) => {
+      const message = error.response?.data?.status_message || 'Network error';
+      showError(message);
+      return Promise.reject(error);
+    },
+  );
+};
