@@ -1,6 +1,6 @@
 import { Box, Grid, Pagination, PaginationItem, Typography } from '@mui/material';
 import { createListOfMoviesStyles } from './createListOfMoviesStyles';
-import { ChangeEvent, useContext, useEffect, useMemo, useState } from 'react';
+import { ChangeEvent, useContext, useEffect, useState } from 'react';
 import { IResponseList } from '../../api/apiTypes/apiTypes';
 import { IMovieDiscover } from '../../types/movieTypes';
 import { getGenres, getMovieList } from '../../api/api';
@@ -11,14 +11,13 @@ import { DropDownMenu, TOption } from './DropDownMenu/DropDownMenu';
 import { IGenresDetails } from '../../api/apiTypes/apiGenresTypes';
 
 const styles = createListOfMoviesStyles();
+const DEFAULT_GENRE: IGenresDetails[] = [{ id: null, name: 'All Genres' }];
 
 export const ListOfMovies = () => {
   const [movieList, setMovieList] = useState<IResponseList<IMovieDiscover[]>>();
   const [activeSortBy, setActiveSortBy] = useState<TOption>(SORT_BY[0]);
-  const DEFAULT_GENRE: IGenresDetails[] = [{ id: null, name: 'All Genres' }];
   const [genresList, setGenresList] = useState<IGenresDetails[]>(DEFAULT_GENRE);
   const [activeGenre, setActiveGenre] = useState<IGenresDetails>(DEFAULT_GENRE[0]);
-
   const [page, setPage] = useState(1);
 
   const handleChange = (event: ChangeEvent, value: number) => {
@@ -72,23 +71,21 @@ export const ListOfMovies = () => {
   const MovieBox = ({ movieList }: { movieList?: IMovieDiscover[] }) => {
     const imageConfig = useContext(ImageConfig);
 
-    const movieElements = useMemo(() => {
-      return movieList?.map((movie) => (
-        <Grid item xs={6} sm={3} md={2.4} lg={2.4} key={movie.id} sx={styles.posterImgStyles}>
-          <RouterLink to={`/film/${movie.id}`}>
-            {movie.poster_path ? (
-              <img
-                src={`${imageConfig.images.secure_base_url}${imageSizes.medium}${movie.poster_path}`}
-                alt={movie.title}
-                style={styles.imgStyles}
-              />
-            ) : (
-              <Box sx={styles.imgStyles}>{movie.original_title}</Box>
-            )}
-          </RouterLink>
-        </Grid>
-      ));
-    }, [movieList, imageConfig.images.secure_base_url]);
+    const movieElements = movieList?.map((movie) => (
+      <Grid item xs={6} sm={3} md={2.4} lg={2.4} key={movie.id} sx={styles.posterImgStyles}>
+        <RouterLink to={`/film/${movie.id}`}>
+          {movie.poster_path ? (
+            <img
+              src={`${imageConfig.images.secure_base_url}${imageSizes.medium}${movie.poster_path}`}
+              alt={movie.title}
+              style={styles.imgStyles}
+            />
+          ) : (
+            <Box sx={styles.imgStyles}>{movie.original_title}</Box>
+          )}
+        </RouterLink>
+      </Grid>
+    ));
 
     return (
       <Grid item container pt={1}>

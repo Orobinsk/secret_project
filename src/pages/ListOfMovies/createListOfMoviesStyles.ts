@@ -37,7 +37,7 @@ export const createListOfMoviesStyles = () => ({
     height: '100%',
     objectFit: 'cover',
     display: 'block',
-    color: '#fff',
+    color: theme.palette.text.primary,
     textAlign: 'center',
     textDecoration: 'none',
   } as React.CSSProperties,
