@@ -42,4 +42,17 @@ export const createFilmPageStyles = () => ({
     maskSize: '100% 100%',
     WebkitMaskSize: '100% 100%',
   } as React.CSSProperties,
+  previewWrapper: {
+    position: 'relative',
+    width: '100%',
+    cursor: 'pointer',
+  },
+  playPreviewIcon: {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    color: 'secondary.dark',
+    fontSize: '50px',
+  },
 });

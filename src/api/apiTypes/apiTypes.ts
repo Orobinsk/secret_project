@@ -5,6 +5,7 @@ import {
   ILists,
   IMovieDiscover,
   IRelease,
+  ITrailerResponse,
 } from '../../types/movieTypes';
 
 export interface IResponseList<T> {
@@ -20,6 +21,7 @@ export interface IMovieEndpointTypeMap {
   images: IImage[];
   lists?: ILists;
   upcoming: IResponseList<IMovieDiscover[]>;
+  videos: ITrailerResponse;
 }
 
 export type TMovieEndpoint =
@@ -28,7 +30,8 @@ export type TMovieEndpoint =
   | 'reviews'
   | 'images'
   | 'lists'
-  | 'upcoming';
+  | 'upcoming'
+  | 'videos';
 
 export interface IGetMoviesListParams {
   params?: { [key: string]: number | string };

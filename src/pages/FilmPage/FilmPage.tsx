@@ -1,6 +1,6 @@
 import { useParams } from 'react-router-dom';
 import { Box, Button, Grid, Typography } from '@mui/material';
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useMemo, useState } from 'react';
 import { getMovie } from '../../api/api';
 import { PosterCard } from '../../components/posterCard/PosterCard';
 import { MovieDesc } from './components/MovieDesc';
@@ -10,6 +10,8 @@ import { LabelButton } from '../../UIKit/LabelButton/LabelButton';
 import { MovieDetails } from '../../types/movieTypes';
 import { createFilmPageStyles } from './createFilmPageStyles';
 import { ImageConfig } from '../../providers/ImageConfigProvider/ImageConfigContexts';
+import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline';
+import { MovieTrailerModal } from './components/MovieTrailerModal/MovieTrailerModal';
 
 const LABELS = ['cast', 'crew', 'details', 'genres', 'releases'];
 const PARAMS = [
@@ -18,14 +20,16 @@ const PARAMS = [
   MOVIE_ENDPOINTS.REVIEW,
   MOVIE_ENDPOINTS.IMAGES,
   MOVIE_ENDPOINTS.LISTS,
+  MOVIE_ENDPOINTS.VIDEOS,
 ].join(',');
+const styles = createFilmPageStyles();
 
 export const FilmPage = () => {
   const { id } = useParams<{ id: string }>();
   const [movie, setMovie] = useState<MovieDetails>();
   const [activeLabel, setActiveLabel] = useState<string | null>(LABELS[0]);
-  const styles = createFilmPageStyles();
   const imageConfig = useContext(ImageConfig);
+  const [openTrailer, setOpenTrailer] = useState(false);
 
   useEffect(() => {
     getMovie({
@@ -36,20 +40,27 @@ export const FilmPage = () => {
     });
   }, [id]);
 
-  const details = [
-    {
-      title: 'Studio',
-      name: movie?.production_companies?.map((production) => production.name) ?? [],
-    },
-    {
-      title: 'Country',
-      name: movie?.production_companies?.map((production) => production.origin_country) ?? [],
-    },
-    {
-      title: 'Language',
-      name: movie?.spoken_languages?.map((language) => language.name) ?? [],
-    },
-  ];
+  const details = useMemo(
+    () => [
+      {
+        title: 'Studio',
+        name: movie?.production_companies?.map((production) => production.name) ?? [],
+      },
+      {
+        title: 'Country',
+        name: movie?.production_companies?.map((production) => production.origin_country) ?? [],
+      },
+      {
+        title: 'Language',
+        name: movie?.spoken_languages?.map((language) => language.name) ?? [],
+      },
+    ],
+    [movie],
+  );
+
+  const toggleTrailerModal = () => {
+    setOpenTrailer((prev) => !prev);
+  };
 
   const handleButtonClick = (label: string) => {
     setActiveLabel(label);
@@ -168,6 +179,23 @@ export const FilmPage = () => {
       </Box>
       <Grid item xs={12} sm={4} md={3} lg={3} mb={2}>
         <PosterCard movie={movie} showBorder={false} />
+        {movie?.videos?.results.length > 0 && (
+          <>
+            <Box sx={styles.previewWrapper} onClick={toggleTrailerModal}>
+              <img
+                src={`https://img.youtube.com/vi/${movie.videos.results[0].key}/hqdefault.jpg`}
+                alt="Movie Trailer Poster"
+                style={{ width: '100%' }}
+              />
+              <PlayCircleOutlineIcon sx={styles.playPreviewIcon} />
+            </Box>
+            <MovieTrailerModal
+              open={openTrailer}
+              onClose={toggleTrailerModal}
+              trailers={movie.videos.results}
+            />
+          </>
+        )}
       </Grid>
       <Grid item xs={12} sm={8} md={9} lg={9}>
         <MovieDesc movie={movie} />

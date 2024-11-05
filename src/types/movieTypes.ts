@@ -66,6 +66,7 @@ export interface MovieDetails {
   release_dates?: IRelease;
   images?: IImage;
   lists?: IResponseList<ILists[]>;
+  videos?: ITrailerResponse;
 }
 
 export interface IAuthorDetails {
@@ -184,4 +185,22 @@ export interface IResults {
   list_type: string;
   name: string;
   poster_path: string;
+}
+
+export interface ITrailer {
+  iso_639_1: string;
+  iso_3166_1: string;
+  name: string;
+  key: string;
+  site: string;
+  size: number;
+  type: string;
+  official: boolean;
+  published_at: string;
+  id: string;
+}
+
+export interface ITrailerResponse {
+  id: number;
+  results: ITrailer[];
 }
