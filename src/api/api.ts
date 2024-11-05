@@ -1,4 +1,5 @@
 import { IMovieDiscover, MovieDetails } from '../types/movieTypes';
+import { IGetGenres, IGetGenresParams } from './apiTypes/apiGenresTypes';
 import { ISearchParams, TSearchEndpoint, TSearchResponse } from './apiTypes/apiSearchTypes';
 import {
   IGetMoviesListParams,
@@ -81,3 +82,15 @@ export async function getImageConfig(): Promise<IImageConfig> {
 }
 
 //TODO исправить типы для getMovieList и getMovie по типу getSearch
+
+export async function getGenres({ params }: IGetGenresParams = {}): Promise<IGetGenres> {
+  try {
+    const response = await apiTMDB.get<IGetGenres>('/genre/movie/list', {
+      params,
+    });
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+}
