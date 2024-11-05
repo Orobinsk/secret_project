@@ -6,7 +6,7 @@ import { IMovieDiscover } from '../../types/movieTypes';
 import { getGenres, getMovieList } from '../../api/api';
 import { ImageConfig } from '../../providers/ImageConfigProvider/ImageConfigContexts';
 import { API_MOVIE_LIST_PARAMS, imageSizes, SORT_BY } from '../../constants';
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink, useSearchParams } from 'react-router-dom';
 import { DropDownMenu, TOption } from './DropDownMenu/DropDownMenu';
 import { IGenresDetails } from '../../api/apiTypes/apiGenresTypes';
 
@@ -19,6 +19,19 @@ export const ListOfMovies = () => {
   const [genresList, setGenresList] = useState<IGenresDetails[]>(DEFAULT_GENRE);
   const [activeGenre, setActiveGenre] = useState<IGenresDetails>(DEFAULT_GENRE[0]);
   const [page, setPage] = useState(1);
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const sort = JSON.parse(searchParams.get('sort')) || SORT_BY[0];
+  const genre = JSON.parse(searchParams.get('genre')) || DEFAULT_GENRE[0];
+
+  useEffect(() => {
+    if (sort) {
+      setActiveSortBy(sort);
+    }
+    if (genre) {
+      setActiveGenre(genre);
+    }
+  }, [searchParams]);
 
   const handleChange = (event: ChangeEvent, value: number) => {
     setPage(value);
@@ -45,11 +58,20 @@ export const ListOfMovies = () => {
   const Header = () => {
     const handleChangeSort = (sort: TOption) => {
       setActiveSortBy(sort);
+      setSearchParams((prevParams) => {
+        const newParams = new URLSearchParams(prevParams);
+        newParams.set('sort', JSON.stringify(sort));
+        return newParams;
+      });
       setPage(1);
     };
 
     const handleChangeActiveGenre = (genre: IGenresDetails) => {
       setActiveGenre(genre);
+      setSearchParams((prevParams) => {
+        const newParams = { ...prevParams, genre: JSON.stringify(genre) };
+        return newParams;
+      });
       setPage(1);
     };
 
@@ -57,12 +79,8 @@ export const ListOfMovies = () => {
       <Grid item sx={styles.itemWrapperStyles}>
         <Typography sx={styles.headerTypographyStyles}>FILMS</Typography>
         <Box display="flex" justifyContent="center">
-          <DropDownMenu onChange={handleChangeSort} items={SORT_BY} activeItem={activeSortBy} />
-          <DropDownMenu
-            onChange={handleChangeActiveGenre}
-            items={genresList}
-            activeItem={activeGenre}
-          />
+          <DropDownMenu onChange={handleChangeSort} items={SORT_BY} activeItem={sort} />
+          <DropDownMenu onChange={handleChangeActiveGenre} items={genresList} activeItem={genre} />
         </Box>
       </Grid>
     );
