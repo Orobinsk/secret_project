@@ -158,14 +158,25 @@ export const FilmPage = () => {
   };
 
   return (
-    <Grid container spacing={1} sx={styles.container}>
-      <Box sx={styles.backdrop}>
-        <img
-          src={`${imageConfig.images.secure_base_url}${imageSizes.original}${movie?.backdrop_path}`}
-          alt=""
-          style={styles.backdropImage}
-        />
-      </Box>
+    <Grid
+      container
+      spacing={1}
+      sx={{
+        marginTop: movie?.backdrop_path ? '300px' : 0,
+        ...styles.container,
+      }}
+    >
+      {movie?.backdrop_path ? (
+        <Box sx={styles.backdrop}>
+          <img
+            src={`${imageConfig.images.secure_base_url}${imageSizes.original}${movie?.backdrop_path}`}
+            alt=""
+            style={styles.backdropImage}
+          />
+        </Box>
+      ) : (
+        <Box sx={styles.backdropNone} />
+      )}
       <Grid item xs={12} sm={4} md={3} lg={3} mb={2}>
         <PosterCard movie={movie} showBorder={false} />
       </Grid>

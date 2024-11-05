@@ -9,7 +9,6 @@ export const createFilmPageStyles = () => ({
     '&:hover': { borderBottom: '1px solid #9ab' },
   }),
   container: {
-    marginTop: '300px',
     position: 'relative',
     [theme.breakpoints.down('md')]: {
       marginTop: '0px',
@@ -26,6 +25,9 @@ export const createFilmPageStyles = () => ({
     [theme.breakpoints.down('md')]: {
       display: 'none',
     },
+  },
+  backdropNone: {
+    display: 'none',
   },
   backdropImage: {
     width: '100%',
