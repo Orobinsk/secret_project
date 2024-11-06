@@ -4,6 +4,7 @@ export const MOVIE_ENDPOINTS = {
   REVIEW: 'reviews',
   IMAGES: 'images',
   LISTS: 'lists',
+  VIDEOS: 'videos',
 };
 
 export enum SORT_BY_OPTIONS {

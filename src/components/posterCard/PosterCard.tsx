@@ -27,17 +27,17 @@ export const PosterCard: FC<PosterProps> = ({ movie, showBorder = true }) => {
     {
       icon: <RemoveRedEyeIcon style={{ height: '30px', width: '30px' }} />,
       title: `Watched by ${Math.round(popularity)} members`,
-      color: 'green',
+      color: 'secondary.light',
     },
     {
       icon: <StarsIcon style={{ height: '30px', width: '30px' }} />,
       title: `Average rating ${movie?.vote_average?.toFixed(1)}`,
-      color: '#40bcf4',
+      color: 'secondary.main',
     },
     {
       icon: <FavoriteIcon style={{ height: '30px', width: '30px' }} />,
       title: `Liked by ${vote_count} members`,
-      color: 'orange',
+      color: 'secondary.dark',
     },
   ];
   const [open, setOpen] = useState(false);
@@ -55,7 +55,6 @@ export const PosterCard: FC<PosterProps> = ({ movie, showBorder = true }) => {
       sx={{
         '&:hover': showBorder ? { border: '2px  solid #00e054' } : { border: '2px solid #12161a' },
       }}
-      margin="10px"
     >
       <Grid item>
         <img
