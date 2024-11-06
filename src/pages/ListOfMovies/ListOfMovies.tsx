@@ -15,26 +15,23 @@ const DEFAULT_GENRE: IGenresDetails[] = [{ id: null, name: 'All Genres' }];
 
 export const ListOfMovies = () => {
   const [movieList, setMovieList] = useState<IResponseList<IMovieDiscover[]>>();
-  const [activeSortBy, setActiveSortBy] = useState<TOption>(SORT_BY[0]);
-  const [genresList, setGenresList] = useState<IGenresDetails[]>(DEFAULT_GENRE);
-  const [activeGenre, setActiveGenre] = useState<IGenresDetails>(DEFAULT_GENRE[0]);
-  const [page, setPage] = useState(1);
-  const [searchParams, setSearchParams] = useSearchParams();
 
+  const [searchParams, setSearchParams] = useSearchParams();
   const sort = JSON.parse(searchParams.get('sort')) || SORT_BY[0];
   const genre = JSON.parse(searchParams.get('genre')) || DEFAULT_GENRE[0];
-
-  useEffect(() => {
-    if (sort) {
-      setActiveSortBy(sort);
-    }
-    if (genre) {
-      setActiveGenre(genre);
-    }
-  }, [searchParams]);
+  const selectedPage = searchParams.get('page') || 1;
+  const [page, setPage] = useState(selectedPage);
+  const [activeGenre, setActiveGenre] = useState<IGenresDetails>(genre);
+  const [activeSortBy, setActiveSortBy] = useState<TOption>(sort);
+  const [genresList, setGenresList] = useState<IGenresDetails[]>(DEFAULT_GENRE);
 
   const handleChange = (event: ChangeEvent, value: number) => {
     setPage(value);
+    setSearchParams((prevParams) => {
+      const newParams = new URLSearchParams(prevParams);
+      newParams.set('page', JSON.stringify(value));
+      return newParams;
+    });
   };
 
   useEffect(() => {
@@ -61,6 +58,7 @@ export const ListOfMovies = () => {
       setSearchParams((prevParams) => {
         const newParams = new URLSearchParams(prevParams);
         newParams.set('sort', JSON.stringify(sort));
+        newParams.set('page', JSON.stringify(1));
         return newParams;
       });
       setPage(1);
@@ -69,7 +67,9 @@ export const ListOfMovies = () => {
     const handleChangeActiveGenre = (genre: IGenresDetails) => {
       setActiveGenre(genre);
       setSearchParams((prevParams) => {
-        const newParams = { ...prevParams, genre: JSON.stringify(genre) };
+        const newParams = new URLSearchParams(prevParams);
+        newParams.set('genre', JSON.stringify(genre));
+        newParams.set('page', JSON.stringify(1));
         return newParams;
       });
       setPage(1);
@@ -119,7 +119,7 @@ export const ListOfMovies = () => {
       <Box pt={1}>
         <Pagination
           count={movieList?.total_pages}
-          page={page}
+          page={Number(page)}
           color="primary"
           onChange={handleChange}
           size="large"
