@@ -17,15 +17,17 @@ export const ListOfMovies = () => {
   const [movieList, setMovieList] = useState<IResponseList<IMovieDiscover[]>>();
 
   const [searchParams, setSearchParams] = useSearchParams();
-  const sort = JSON.parse(searchParams.get('sort')) || SORT_BY[0];
-  const genre = JSON.parse(searchParams.get('genre')) || DEFAULT_GENRE[0];
+  const sortParam = searchParams.get('sort');
+  const sort = sortParam ? JSON.parse(sortParam) : SORT_BY[0];
+  const genreParam = searchParams.get('genre');
+  const genre = genreParam ? JSON.parse(genreParam) : DEFAULT_GENRE[0];
   const selectedPage = searchParams.get('page') || 1;
   const [page, setPage] = useState(selectedPage);
   const [activeGenre, setActiveGenre] = useState<IGenresDetails>(genre);
   const [activeSortBy, setActiveSortBy] = useState<TOption>(sort);
   const [genresList, setGenresList] = useState<IGenresDetails[]>(DEFAULT_GENRE);
 
-  const handleChange = (event: ChangeEvent, value: number) => {
+  const handleChange = (e: ChangeEvent<unknown>, value: number) => {
     setPage(value);
     setSearchParams((prevParams) => {
       const newParams = new URLSearchParams(prevParams);
@@ -64,8 +66,10 @@ export const ListOfMovies = () => {
       setPage(1);
     };
 
-    const handleChangeActiveGenre = (genre: IGenresDetails) => {
-      setActiveGenre(genre);
+    const handleChangeActiveGenre = (genre: TOption) => {
+      if ('id' in genre && 'name' in genre) {
+        setActiveGenre(genre);
+      }
       setSearchParams((prevParams) => {
         const newParams = new URLSearchParams(prevParams);
         newParams.set('genre', JSON.stringify(genre));

@@ -31,7 +31,7 @@ export const ReleaseCalendar = () => {
   const [movieList, setMovieList] = useState<IResponseList<IMovieDiscover[]>>();
   const [page, setPage] = useState(1);
 
-  const handleChange = (event: ChangeEvent, value: number) => {
+  const handleChange = (event: ChangeEvent<unknown>, value: number) => {
     setPage(value);
   };
   const theme = useTheme();

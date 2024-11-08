@@ -1,11 +1,12 @@
 import { Box, Typography, useTheme } from '@mui/material';
 import { MovieDetails } from '../../../types/movieTypes';
+import { FC } from 'react';
 
 interface IMovieDesc {
   movie: MovieDetails;
 }
 
-export const MovieDesc: React.FC<IMovieDesc> = ({ movie }) => {
+export const MovieDesc: FC<IMovieDesc> = ({ movie }) => {
   const getYear = movie?.release_date.slice(0, 4);
   const theme = useTheme();
 

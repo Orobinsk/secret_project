@@ -2,7 +2,7 @@ import { Box, Button, Menu, MenuItem } from '@mui/material';
 import { FC, useState, MouseEvent } from 'react';
 import { theme } from '../../../providers/theme/theme';
 
-export type TOption = { label: string; value: string } | { id: number; name: string };
+export type TOption = { label: string; value: string } | { id: number | null; name: string };
 
 interface DropDownMenuProps {
   items: TOption[];
