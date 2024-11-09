@@ -32,12 +32,14 @@ export const FilmPage = () => {
   const [openTrailer, setOpenTrailer] = useState(false);
 
   useEffect(() => {
-    getMovie({
-      id,
-      params: { [API_PARAMS.APPEND]: PARAMS },
-    }).then((data) => {
-      setMovie(data);
-    });
+    if (id) {
+      getMovie({
+        id,
+        params: { [API_PARAMS.APPEND]: PARAMS },
+      }).then((data) => {
+        setMovie(data);
+      });
+    }
   }, [id]);
 
   const details = useMemo(
@@ -88,7 +90,8 @@ export const FilmPage = () => {
     [key: string]: string[];
   }
   const renderCrew = () => {
-    const crewDepartments = movie?.credits?.crew.reduce<CrewDepartments>((acc, crew) => {
+    if (!movie?.credits?.crew) return null;
+    const crewDepartments = movie.credits.crew.reduce<CrewDepartments>((acc, crew) => {
       acc[crew.known_for_department] = acc[crew.known_for_department] || [];
       acc[crew.known_for_department].push(crew.name);
       return acc;
@@ -149,23 +152,26 @@ export const FilmPage = () => {
       ),
     );
 
-    return uniqueNotes.map((note, index) => (
-      <Grid container key={index} mb={1} alignItems="center">
-        <Grid item xs={6}>
-          <Typography fontSize="15px" color="#9ab">
-            {note}
-          </Typography>
+    return uniqueNotes.map((note, index) => {
+      const releaseYear =
+        movie?.release_dates?.results
+          .find((result) => result.release_dates.some((date) => date.note === note))
+          ?.release_dates.find((date) => date.note === note)
+          ?.release_date.slice(0, 4) || '';
+
+      return (
+        <Grid container key={index} mb={1} alignItems="center">
+          <Grid item xs={6}>
+            <Typography fontSize="15px" color="#9ab">
+              {note}
+            </Typography>
+          </Grid>
+          <Grid item xs={6}>
+            <LabelButton label={releaseYear} />
+          </Grid>
         </Grid>
-        <Grid item xs={6}>
-          <LabelButton
-            label={movie.release_dates.results
-              .find((result) => result.release_dates.some((date) => date.note === note))
-              ?.release_dates.find((date) => date.note === note)
-              ?.release_date.slice(0, 4)}
-          />
-        </Grid>
-      </Grid>
-    ));
+      );
+    });
   };
 
   return (
@@ -189,8 +195,8 @@ export const FilmPage = () => {
         <Box sx={styles.backdropNone} />
       )}
       <Grid item xs={12} sm={4} md={3} lg={3} mb={2}>
-        <PosterCard movie={movie} showBorder={false} />
-        {movie?.videos?.results.length > 0 && (
+        {movie && <PosterCard movie={movie} showBorder={false} />}
+        {movie && movie.videos && movie?.videos.results.length > 0 && (
           <>
             <Box sx={styles.previewWrapper} onClick={toggleTrailerModal}>
               <img
@@ -209,7 +215,7 @@ export const FilmPage = () => {
         )}
       </Grid>
       <Grid item xs={12} sm={8} md={9} lg={9}>
-        <MovieDesc movie={movie} />
+        {movie && <MovieDesc movie={movie} />}
         <Grid container borderBottom="1px solid #9ab" display="flex">
           {renderLabels()}
         </Grid>

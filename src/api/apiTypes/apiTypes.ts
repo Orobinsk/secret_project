@@ -34,7 +34,7 @@ export type TMovieEndpoint =
   | 'videos';
 
 export interface IGetMoviesListParams {
-  params?: { [key: string]: number | string };
+  params?: { [key: string]: number | string | null };
 }
 
 export interface IGetMovieParams extends IGetMoviesListParams {

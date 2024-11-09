@@ -10,6 +10,7 @@ import { IMovieDiscover } from '../../types/movieTypes';
 import { createSearchStyles } from './searchResultsStyles';
 import { FilterButton } from '../../UIKit/FilterButton/FilterButton';
 import { MediaCard } from '../../components/MediaCard/MediaCard';
+import { TSearchEndpoint } from '../../api/apiTypes/apiSearchTypes';
 
 export const mediaNames = {
   movie: 'Movie',
@@ -17,6 +18,12 @@ export const mediaNames = {
   collection: 'Collection',
   series: 'Series',
   cast: 'Cast, Crew or Studios',
+};
+
+type SubFilterItem<T> = {
+  label: string;
+  endpoint: TSearchEndpoint;
+  setter: (data: IResponseList<T>) => void;
 };
 
 export const SearchResult = () => {
@@ -30,7 +37,7 @@ export const SearchResult = () => {
   const [searchSeries, setSearchSeries] = useState<IResponseList<ISearchTv[]>>();
   const [activeLabel, setActiveLabel] = useState<string | null>(mediaNames.movie);
 
-  const subFiltersItem = [
+  const subFiltersItem: SubFilterItem<any>[] = [
     {
       label: mediaNames.movie,
       endpoint: API_SEARCH_ENDPOINTS.MOVIE,
@@ -59,7 +66,9 @@ export const SearchResult = () => {
   ];
 
   useEffect(() => {
-    const currentFilter = subFiltersItem.find((item) => item.label === activeLabel);
+    const currentFilter = subFiltersItem.find(
+      (item) => item.label === activeLabel,
+    ) as SubFilterItem<any>;
     if (currentFilter) {
       getSearch({
         endpoint: currentFilter.endpoint,
@@ -73,10 +82,16 @@ export const SearchResult = () => {
   };
 
   function filterActors() {
-    return searchPerson?.results?.filter((person) => person.known_for_department === 'Acting');
+    const actors = searchPerson?.results?.filter(
+      (person) => person.known_for_department === 'Acting',
+    );
+    return actors || [];
   }
   function filterCast() {
-    return searchPerson?.results?.filter((person) => person.known_for_department !== 'Acting');
+    const cast = searchPerson?.results?.filter(
+      (person) => person.known_for_department !== 'Acting',
+    );
+    return cast || [];
   }
 
   return (
@@ -90,16 +105,18 @@ export const SearchResult = () => {
             <FilterButton onChange={handleChange} item={subFiltersItem.map((item) => item.label)} />
           </Box>
         </Box>
-        {activeLabel === mediaNames.movie && searchMovie?.results?.length > 0 && (
+        {activeLabel === mediaNames.movie && searchMovie && searchMovie?.results?.length > 0 && (
           <MediaCard media={searchMovie.results} mediaName={mediaNames.movie} />
         )}
-        {activeLabel === mediaNames.series && searchSeries?.results?.length > 0 && (
+        {activeLabel === mediaNames.series && searchSeries && searchSeries?.results?.length > 0 && (
           <MediaCard media={searchSeries.results} mediaName={mediaNames.series} />
         )}
-        {activeLabel === mediaNames.collection && searchCollection?.results?.length > 0 && (
-          <MediaCard media={searchCollection.results} mediaName={mediaNames.collection} />
-        )}
-        {activeLabel === mediaNames.actor && filterActors()?.length > 0 && (
+        {activeLabel === mediaNames.collection &&
+          searchCollection &&
+          searchCollection?.results?.length > 0 && (
+            <MediaCard media={searchCollection.results} mediaName={mediaNames.collection} />
+          )}
+        {activeLabel === mediaNames.actor && filterActors().length > 0 && (
           <MediaCard media={filterActors()} mediaName={mediaNames.actor} />
         )}
         {activeLabel === mediaNames.cast && filterCast()?.length > 0 && (
