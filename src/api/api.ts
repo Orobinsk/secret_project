@@ -1,5 +1,11 @@
 import { IMovieDiscover, MovieDetails } from '../types/movieTypes';
+import { IPersonDetailsResults } from '../types/personTypes';
 import { IGetGenres, IGetGenresParams } from './apiTypes/apiGenresTypes';
+import {
+  IGetPersonParams,
+  IPersonEndpointTypeMap,
+  TPersonEndpoint,
+} from './apiTypes/apiPersonTypes';
 import { ISearchParams, TSearchEndpoint, TSearchResponse } from './apiTypes/apiSearchTypes';
 import {
   IGetMoviesListParams,
@@ -86,6 +92,31 @@ export async function getImageConfig(): Promise<IImageConfig> {
 export async function getGenres({ params }: IGetGenresParams = {}): Promise<IGetGenres> {
   try {
     const response = await apiTMDB.get<IGetGenres>('/genre/movie/list', {
+      params,
+    });
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+}
+
+export async function getPerson(id: IGetPersonParams): Promise<IPersonDetailsResults>;
+export async function getPerson<E extends TPersonEndpoint>({
+  id,
+  endpoint,
+  params,
+}: IGetPersonParams): Promise<IPersonEndpointTypeMap[E]>;
+
+export async function getPerson<E extends TPersonEndpoint>({
+  id,
+  endpoint,
+  params,
+}: IGetPersonParams): Promise<IPersonEndpointTypeMap[E]> {
+  const currentEndpoint = `person/${id}${endpoint ? `/${endpoint}` : ''}`;
+
+  try {
+    const response = await apiTMDB.get<IPersonEndpointTypeMap[E]>(currentEndpoint, {
       params,
     });
     return response.data;

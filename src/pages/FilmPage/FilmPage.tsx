@@ -12,6 +12,7 @@ import { createFilmPageStyles } from './createFilmPageStyles';
 import { ImageConfig } from '../../providers/ImageConfigProvider/ImageConfigContexts';
 import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline';
 import { MovieTrailerModal } from './components/MovieTrailerModal/MovieTrailerModal';
+import { Link as RouterLink } from 'react-router-dom';
 
 const LABELS = ['cast', 'crew', 'details', 'genres', 'releases'];
 const PARAMS = [
@@ -83,7 +84,9 @@ export const FilmPage = () => {
   const renderCast = () =>
     movie?.credits?.cast.map((member, index) => (
       <Grid item key={index}>
-        <LabelButton label={member.name} />
+        <RouterLink to={`/person/${member.id}`}>
+          <LabelButton label={member.name} />
+        </RouterLink>
       </Grid>
     ));
   interface CrewDepartments {

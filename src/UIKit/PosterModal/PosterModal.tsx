@@ -9,6 +9,7 @@ import modalStyles from './modalStyles';
 import { IPoster } from '../../types/movieTypes';
 import { ImageConfig } from '../../providers/ImageConfigProvider/ImageConfigContexts';
 import { imageSizes } from '../../constants';
+import { ImagesResults } from '../../types/personTypes';
 
 export const PosterModal = ({
   open,
@@ -17,7 +18,7 @@ export const PosterModal = ({
 }: {
   open: boolean;
   handleClose: () => void;
-  posters: IPoster[];
+  posters: IPoster[] | ImagesResults[];
   children?: React.ReactNode;
 }) => {
   const theme = useTheme();
@@ -71,7 +72,11 @@ export const PosterModal = ({
 
         {posters.length > 0 && posters[currentIndex] && (
           <img
-            src={`${imageConfig.images.secure_base_url}${imageSizes.original}${posters[currentIndex].file_path}`}
+            src={
+              'profiles' in posters[currentIndex]
+                ? `${imageConfig.images.secure_base_url}${imageSizes.original}${(posters[currentIndex] as ImagesResults).profiles[0].file_path}`
+                : `${imageConfig.images.secure_base_url}${imageSizes.original}${(posters[currentIndex] as IPoster).file_path}`
+            }
             alt="Poster"
             style={styles.modalImage}
           />
