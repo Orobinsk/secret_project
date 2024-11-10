@@ -1,11 +1,12 @@
 import {
-  IAuthorDetails,
+  IReviewDetails,
   ICredits,
   IImage,
   ILists,
   IMovieDiscover,
   IRelease,
   ITrailerResponse,
+  MovieDetails,
 } from '../../types/movieTypes';
 
 export interface IResponseList<T> {
@@ -15,23 +16,16 @@ export interface IResponseList<T> {
   total_pages: number;
 }
 export interface IMovieEndpointTypeMap {
-  reviews: IResponseList<IAuthorDetails[]>;
+  reviews: IResponseList<IReviewDetails[]>;
   credits: ICredits;
   release_dates: IRelease;
   images: IImage[];
-  lists?: ILists;
+  lists: ILists;
   upcoming: IResponseList<IMovieDiscover[]>;
   videos: ITrailerResponse;
 }
 
-export type TMovieEndpoint =
-  | 'release_dates'
-  | 'credits'
-  | 'reviews'
-  | 'images'
-  | 'lists'
-  | 'upcoming'
-  | 'videos';
+export type TMovieEndpoint = keyof IMovieEndpointTypeMap;
 
 export interface IGetMoviesListParams {
   params?: { [key: string]: number | string | null };
@@ -41,6 +35,9 @@ export interface IGetMovieParams extends IGetMoviesListParams {
   id: number | string;
   endpoint?: TMovieEndpoint;
 }
+
+export type GetMovieResponse<E extends keyof IMovieEndpointTypeMap | undefined> =
+  E extends keyof IMovieEndpointTypeMap ? IMovieEndpointTypeMap[E] : MovieDetails;
 
 export interface IImageConfig {
   images: {

@@ -1,5 +1,5 @@
-import { IMovieDiscover, MovieDetails } from '../types/movieTypes';
 import { IPersonDetailsResults } from '../types/personTypes';
+import { IMovieDiscover } from '../types/movieTypes';
 import { IGetGenres, IGetGenresParams } from './apiTypes/apiGenresTypes';
 import {
   IGetPersonParams,
@@ -9,11 +9,11 @@ import {
 import { ISearchParams, TSearchEndpoint, TSearchResponse } from './apiTypes/apiSearchTypes';
 import {
   IGetMoviesListParams,
-  TMovieEndpoint,
   IResponseList,
   IGetMovieParams,
   IMovieEndpointTypeMap,
   IImageConfig,
+  GetMovieResponse,
 } from './apiTypes/apiTypes';
 import { apiTMDB } from './base';
 
@@ -33,23 +33,16 @@ export async function getMovieList({ params }: IGetMoviesListParams = {}): Promi
 }
 
 //схема - https://developer.themoviedb.org/reference/movie-details
-// Перегрузка функции. Применена потому что нужно получать разные типы с эндпоинтом и без
-export async function getMovie(id: IGetMovieParams): Promise<MovieDetails>;
-export async function getMovie<E extends TMovieEndpoint>({
-  id,
-  endpoint,
-  params,
-}: IGetMovieParams): Promise<IMovieEndpointTypeMap[E]>;
 
-export async function getMovie<E extends TMovieEndpoint>({
+export async function getMovie<E extends keyof IMovieEndpointTypeMap | undefined = undefined>({
   id,
   endpoint,
   params,
-}: IGetMovieParams): Promise<IMovieEndpointTypeMap[E]> {
+}: IGetMovieParams & { endpoint?: E }): Promise<GetMovieResponse<E>> {
   const currentEndpoint = `movie/${id}${endpoint ? `/${endpoint}` : ''}`;
 
   try {
-    const response = await apiTMDB.get<IMovieEndpointTypeMap[E]>(currentEndpoint, {
+    const response = await apiTMDB.get<GetMovieResponse<E>>(currentEndpoint, {
       params,
     });
     return response.data;
