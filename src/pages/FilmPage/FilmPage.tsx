@@ -1,4 +1,4 @@
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { Box, Button, Grid, Typography } from '@mui/material';
 import { useContext, useEffect, useMemo, useState } from 'react';
 import { getMovie } from '../../api/api';
@@ -13,6 +13,7 @@ import { ImageConfig } from '../../providers/ImageConfigProvider/ImageConfigCont
 import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline';
 import { MovieTrailerModal } from './components/MovieTrailerModal/MovieTrailerModal';
 import { Link as RouterLink } from 'react-router-dom';
+import { IGenresDetails } from '../../api/apiTypes/apiGenresTypes';
 
 const LABELS = ['cast', 'crew', 'details', 'genres', 'releases'];
 const PARAMS = [
@@ -31,6 +32,7 @@ export const FilmPage = () => {
   const [activeLabel, setActiveLabel] = useState<string | null>(LABELS[0]);
   const imageConfig = useContext(ImageConfig);
   const [openTrailer, setOpenTrailer] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (id) {
@@ -67,6 +69,10 @@ export const FilmPage = () => {
 
   const handleButtonClick = (label: string) => {
     setActiveLabel(label);
+  };
+
+  const handleNavigateToList = (genre: IGenresDetails) => {
+    navigate(`/lists?genre=${encodeURIComponent(JSON.stringify(genre))}`);
   };
 
   const renderLabels = () =>
@@ -141,7 +147,7 @@ export const FilmPage = () => {
   const renderGenres = () =>
     movie?.genres.map((genre, index) => (
       <Grid item key={index}>
-        <LabelButton label={genre.name} />
+        <LabelButton changeLabel={() => handleNavigateToList(genre)} label={genre.name} />
       </Grid>
     ));
 
