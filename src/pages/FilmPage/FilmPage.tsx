@@ -5,7 +5,7 @@ import { getMovie } from '../../api/api';
 import { PosterCard } from '../../components/posterCard/PosterCard';
 import { MovieDesc } from './components/MovieDesc';
 import { MovieReviews } from './components/MovieReviews';
-import { API_PARAMS, imageSizes, MOVIE_ENDPOINTS } from '../../constants';
+import { API_PARAMS, imageSizes, LANGUAGE, MOVIE_ENDPOINTS } from '../../constants';
 import { LabelButton } from '../../UIKit/LabelButton/LabelButton';
 import { MovieDetails } from '../../types/movieTypes';
 import { createFilmPageStyles } from './createFilmPageStyles';
@@ -36,7 +36,10 @@ export const FilmPage = () => {
     if (id) {
       getMovie({
         id,
-        params: { [API_PARAMS.APPEND]: PARAMS },
+        params: {
+          [API_PARAMS.APPEND]: PARAMS,
+          [API_PARAMS.LANGUAGE]: LANGUAGE.EN,
+        },
       }).then((data) => {
         setMovie(data);
       });

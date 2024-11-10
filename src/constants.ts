@@ -48,8 +48,12 @@ export const API_MOVIE_LIST_PARAMS = {
 export const API_PARAMS = {
   PAGE: 'page',
   APPEND: 'append_to_response',
+  LANGUAGE: 'language',
 };
 
+export const LANGUAGE = {
+  EN: 'en,',
+};
 export const API_SEARCH_ENDPOINTS = {
   MOVIE: 'movie',
   COLLECTION: 'collection',
