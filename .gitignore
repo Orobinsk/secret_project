@@ -2,4 +2,4 @@
 node_modules
 .idea
 .env
-echo .DS_Store >> .gitignore
+.DS_Store
