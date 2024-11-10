@@ -3,6 +3,7 @@ import HtmlWebpackPlugin from 'html-webpack-plugin';
 import { BuildOptions } from './types/config';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import ReactRefreshWebpackPlugin from '@pmmmwh/react-refresh-webpack-plugin';
+import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
 
 export function buildPlugins({ mode, patchs }: BuildOptions): Configuration['plugins'] {
   const isDev = mode === 'development';
@@ -25,9 +26,8 @@ export function buildPlugins({ mode, patchs }: BuildOptions): Configuration['plu
   if (isDev) {
     plugins.push(
       new webpack.ProgressPlugin(),
-      //проверка типов отдельным процессом. (из-за этого запуск стал сильно дольше)
-      // new ForkTsCheckerWebpackPlugin(),
       new ReactRefreshWebpackPlugin(),
+      new BundleAnalyzerPlugin({ openAnalyzer: false }),
     );
   }
 

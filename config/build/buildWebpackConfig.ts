@@ -22,6 +22,12 @@ export function buildWebpackConfig(options: BuildOptions): webpack.Configuration
       rules: buildLoaders(options),
     },
     resolve: buildResolve(),
+    optimization: {
+      splitChunks: {
+        chunks: 'all',
+        automaticNameDelimiter: '-',
+      },
+    },
     devtool: isDev ? 'eval-cheap-module-source-map' : 'source-map',
     devServer: isDev ? buildDevServer(options) : undefined,
   };
