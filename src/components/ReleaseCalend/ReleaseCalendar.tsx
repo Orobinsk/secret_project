@@ -1,4 +1,4 @@
-import { Box, Grid, Pagination, Typography, useTheme } from '@mui/material';
+import { Box, Grid, Pagination, Skeleton, Typography, useTheme } from '@mui/material';
 import { ChangeEvent, useContext, useEffect, useState } from 'react';
 import { getMovieList } from '../../api/api';
 import { IMovieDiscover } from '../../types/movieTypes';
@@ -8,7 +8,7 @@ import { ImageConfig } from '../../providers/ImageConfigProvider/ImageConfigCont
 import { Link as RouterLink } from 'react-router-dom';
 import { createReleaseCalendarStyles } from './createReleaseCalendarStyles';
 import Noimg from '../../assets/noimg.svg';
-
+const SKELETON = new Array(20).fill(null);
 const MONTHNAMES = [
   'January',
   'February',
@@ -56,48 +56,70 @@ export const ReleaseCalendar = () => {
         <Grid item xs={12}>
           <Typography sx={styles.releaseHeader}>NEXT BIG RELEASES</Typography>
         </Grid>
+        {movieList?.results
+          ? movieList?.results.map((movie, index) => {
+              const releaseDate = movie?.release_date;
+              const month = releaseDate ? releaseDate.split('-')[1] : '';
+              const day = releaseDate ? releaseDate.split('-')[2] : '';
+              const monthName = month ? MONTHNAMES[Number(month) - 1] : '';
 
-        {movieList?.results.slice(0, 10).map((movie, index) => {
-          const releaseDate = movie?.release_date;
-          const month = releaseDate ? releaseDate.split('-')[1] : '';
-          const day = releaseDate ? releaseDate.split('-')[2] : '';
-          const monthName = month ? MONTHNAMES[Number(month) - 1] : '';
+              return (
+                <Grid item xs={12} sm={6} key={movie.id}>
+                  <Grid container spacing={1} sx={styles.paperStyles}>
+                    <Grid item xs={10} sx={{ display: 'flex', alignItems: 'center' }}>
+                      <Typography sx={styles.typographyStyles}>
+                        {(page - 1) * 10 + index + 1}.
+                      </Typography>
+                      <RouterLink to={`film/${movie.id}`} style={{ textDecoration: 'none' }}>
+                        {movie.poster_path ? (
+                          <img
+                            src={`${imageConfig.images.secure_base_url}${imageSizes.verySmall}${movie.poster_path}`}
+                            alt="poster"
+                            style={styles.imgStyles}
+                          />
+                        ) : (
+                          <Noimg style={styles.imgStyles} />
+                        )}
+                      </RouterLink>
+                      <RouterLink to={`/film/${movie.id}`} style={{ textDecoration: 'none' }}>
+                        <Typography sx={styles.movieTitle}>{movie.title.toUpperCase()}</Typography>
+                      </RouterLink>
+                    </Grid>
 
-          return (
-            <Grid item xs={12} sm={6} key={movie.id}>
-              <Grid container spacing={1} sx={styles.paperStyles}>
-                <Grid item xs={10} sx={{ display: 'flex', alignItems: 'center' }}>
-                  <Typography sx={styles.typographyStyles}>
-                    {(page - 1) * 10 + index + 1}.
-                  </Typography>
-                  <RouterLink to={`/film/${movie.id}`} style={{ textDecoration: 'none' }}>
-                    {movie.poster_path ? (
-                      <img
-                        src={`${imageConfig.images.secure_base_url}${imageSizes.verySmall}${movie.poster_path}`}
-                        alt="no poster"
-                        style={styles.imgStyles}
-                      />
-                    ) : (
-                      <Noimg style={styles.imgStyles} />
-                    )}
-                  </RouterLink>
-                  <RouterLink to={`/film/${movie.id}`} style={{ textDecoration: 'none' }}>
-                    <Typography sx={styles.movieTitle}>{movie.title.toUpperCase()}</Typography>
-                  </RouterLink>
+                    <Grid item xs={2} sx={styles.releaseDateContainer}>
+                      <Typography variant="body2" sx={styles.releaseDay}>
+                        {day}
+                      </Typography>
+                      <Typography variant="body2" sx={styles.releaseMonth}>
+                        {monthName.toUpperCase()}
+                      </Typography>
+                    </Grid>
+                  </Grid>
                 </Grid>
+              );
+            })
+          : SKELETON.map((item, index) => (
+              <Grid item xs={12} sm={6} key={index}>
+                <Grid container spacing={1} sx={styles.skeletonContainer}>
+                  <Grid item xs={12} sx={styles.skeletonItem}>
+                    <Typography sx={styles.skeletonTypography}>
+                      {(page - 1) * 10 + index + 1}.
+                    </Typography>
+                    <Box sx={styles.skeletonImageContainer}>
+                      <Skeleton variant="rectangular" width="60px" height={100} />
+                    </Box>
+                    <Box sx={styles.skeletonTextContainer}>
+                      <Skeleton variant="text" />
+                    </Box>
 
-                <Grid item xs={2} sx={styles.releaseDateContainer}>
-                  <Typography variant="body2" sx={styles.releaseDay}>
-                    {day}
-                  </Typography>
-                  <Typography variant="body2" sx={styles.releaseMonth}>
-                    {monthName.toUpperCase()}
-                  </Typography>
+                    <Box sx={styles.skeletonTextColumn}>
+                      <Skeleton variant="text" width={20} sx={styles.skeletonTextSmall} />
+                      <Skeleton variant="text" width={70} sx={styles.skeletonTextSmall} />
+                    </Box>
+                  </Grid>
                 </Grid>
               </Grid>
-            </Grid>
-          );
-        })}
+            ))}
       </Grid>
       <Box pt={1}>
         <Pagination
