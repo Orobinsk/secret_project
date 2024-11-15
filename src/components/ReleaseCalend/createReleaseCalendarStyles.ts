@@ -68,6 +68,7 @@ export const createReleaseCalendarStyles = (theme: Theme) => ({
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
+    minHeight: '120px',
   },
   releaseDay: {
     color: theme.palette.primary.contrastText,
@@ -81,5 +82,40 @@ export const createReleaseCalendarStyles = (theme: Theme) => ({
     [theme.breakpoints.down('md')]: {
       fontSize: '10px',
     },
+  },
+  skeletonContainer: {
+    display: 'flex',
+    alignItems: 'center',
+    borderBottom: `1px solid ${theme.palette.text.secondary}`,
+    minHeight: '120px',
+  },
+  skeletonItem: {
+    display: 'flex',
+    alignItems: 'center',
+  },
+  skeletonTypography: {
+    color: theme.palette.text.secondary,
+    paddingRight: '8px',
+    minWidth: '40px',
+    textAlign: 'center',
+  },
+  skeletonImageContainer: {
+    minWidth: '60px',
+    marginRight: '8px',
+  },
+  skeletonTextContainer: {
+    paddingLeft: '24px',
+    width: '100%',
+    marginRight: 20,
+  },
+  skeletonTextColumn: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexDirection: 'column',
+    minHeight: '100px',
+  },
+  skeletonTextSmall: {
+    paddingLeft: '24px',
   },
 });
