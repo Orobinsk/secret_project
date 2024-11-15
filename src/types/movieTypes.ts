@@ -28,8 +28,9 @@ export interface MovieDetails {
     id: number;
     name: string;
   }[];
-  homepage?: string;
-  imdb_id?: string;
+  homepage: string;
+  id: number;
+  imdb_id: string;
   original_language: string;
   original_title: string;
   overview: string;
@@ -61,7 +62,7 @@ export interface MovieDetails {
   vote_count: number;
 
   // эти поля приходят при использовании параметра append
-  reviews?: IResponseList<IAuthorDetails[]>;
+  reviews?: IResponseList<IReviewDetails[]>;
   credits?: ICredits;
   release_dates?: IRelease;
   images?: IImage;
@@ -69,7 +70,7 @@ export interface MovieDetails {
   videos?: ITrailerResponse;
 }
 
-export interface IAuthorDetails {
+export interface IReviewDetails {
   author: string;
   author_details: IDetails;
   content: string;

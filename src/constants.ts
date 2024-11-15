@@ -5,7 +5,7 @@ export const MOVIE_ENDPOINTS = {
   IMAGES: 'images',
   LISTS: 'lists',
   VIDEOS: 'videos',
-};
+} as const;
 
 export enum SORT_BY_OPTIONS {
   ORIGINAL_TITLE_ASC = 'original_title.asc',
