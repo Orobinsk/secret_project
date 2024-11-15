@@ -7,27 +7,43 @@ import { ICollection, ISearchPerson, ISearchTv } from '../../types/searchTypes';
 import Nophoto from '../../assets/nophoto.svg';
 import { FC } from 'react';
 import { useMediaDetails } from './useMediaDetails';
+import { mediaNames } from './../../pages/SearchResult/SearchResult';
 
-type MediaItem = IMovieDiscover | ISearchPerson | ICollection | ISearchTv;
+type TMediaItem = IMovieDiscover | ISearchPerson | ICollection | ISearchTv;
+type TMediaNames = (typeof mediaNames)[keyof typeof mediaNames];
 
 interface MediaListProps {
-  media: MediaItem[];
+  mediaList: TMediaItem[];
   mediaName: string;
 }
+const getLink = (mediaName: TMediaNames) => {
+  switch (mediaName) {
+    case mediaNames.actor:
+    case mediaNames.cast:
+      return '/person/';
+    case mediaNames.movie:
+      return '/film/';
+    default:
+      return '/';
+  }
+};
 
-export const MediaCard: FC<MediaListProps> = ({ media, mediaName }) => {
+export const MediaCard: FC<MediaListProps> = ({ mediaList, mediaName }) => {
   const theme = useTheme();
   const styles = createSearchStyles(theme);
 
   return (
     <>
-      {media.map((film: MediaItem) => {
-        const { imageSource, titleSource, overviewSource } = useMediaDetails(film, mediaName);
+      {mediaList.map((mediaItem: TMediaItem) => {
+        const { imageSource, titleSource, overviewSource } = useMediaDetails(mediaItem, mediaName);
 
         return (
-          <Grid key={film.id} item xs={12}>
+          <Grid key={mediaItem.id} item xs={12}>
             <Box sx={styles.gridItemStyles}>
-              <RouterLink to={`/film/${film.id}`} style={styles.routerLinkStyles}>
+              <RouterLink
+                to={`${getLink(mediaName)}${mediaItem.id}`}
+                style={styles.routerLinkStyles}
+              >
                 <Box sx={styles.imgWrapperStyles}>
                   {imageSource ? (
                     <img src={imageSource} alt="poster" style={styles.imgStyles} />

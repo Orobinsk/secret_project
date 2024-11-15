@@ -106,21 +106,21 @@ export const SearchResult = () => {
           </Box>
         </Box>
         {activeLabel === mediaNames.movie && searchMovie && searchMovie?.results?.length > 0 && (
-          <MediaCard media={searchMovie.results} mediaName={mediaNames.movie} />
+          <MediaCard mediaList={searchMovie.results} mediaName={mediaNames.movie} />
         )}
         {activeLabel === mediaNames.series && searchSeries && searchSeries?.results?.length > 0 && (
-          <MediaCard media={searchSeries.results} mediaName={mediaNames.series} />
+          <MediaCard mediaList={searchSeries.results} mediaName={mediaNames.series} />
         )}
         {activeLabel === mediaNames.collection &&
           searchCollection &&
           searchCollection?.results?.length > 0 && (
-            <MediaCard media={searchCollection.results} mediaName={mediaNames.collection} />
+            <MediaCard mediaList={searchCollection.results} mediaName={mediaNames.collection} />
           )}
         {activeLabel === mediaNames.actor && filterActors().length > 0 && (
-          <MediaCard media={filterActors()} mediaName={mediaNames.actor} />
+          <MediaCard mediaList={filterActors()} mediaName={mediaNames.actor} />
         )}
         {activeLabel === mediaNames.cast && filterCast()?.length > 0 && (
-          <MediaCard media={filterCast()} mediaName={mediaNames.cast} />
+          <MediaCard mediaList={filterCast()} mediaName={mediaNames.cast} />
         )}
       </Grid>
       <Grid item sx={styles.filterDrid}>
