@@ -106,7 +106,7 @@ export const MovieReviews: FC<IMovieReviews> = ({ movie }) => {
             </Grid>
           ))}
       </Grid>
-      {reviews?.total_pages && reviews?.total_pages > 1 && (
+      {reviews && reviews?.total_pages > 1 && (
         <Grid item>
           <Pagination
             count={reviews?.total_pages}
