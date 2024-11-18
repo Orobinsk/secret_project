@@ -188,6 +188,7 @@ export const FilmPage = () => {
 
   return (
     <Grid
+      data-testid="film-page"
       container
       spacing={1}
       sx={{

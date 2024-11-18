@@ -4,7 +4,7 @@ import { Nav } from './nav/nav';
 
 export const App = () => {
   return (
-    <Container maxWidth="lg">
+    <Container maxWidth="lg" data-testid="app">
       <Nav />
       <Outlet />
     </Container>
