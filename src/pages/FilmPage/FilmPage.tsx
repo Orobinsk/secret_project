@@ -1,5 +1,5 @@
 import { useNavigate, useParams } from 'react-router-dom';
-import { Box, Button, Grid, Typography } from '@mui/material';
+import { Box, Button, Grid, Skeleton, Typography } from '@mui/material';
 import { useContext, useEffect, useMemo, useState } from 'react';
 import { getMovie } from '../../api/api';
 import { PosterCard } from '../../components/posterCard/PosterCard';
@@ -14,6 +14,7 @@ import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline';
 import { MovieTrailerModal } from './components/MovieTrailerModal/MovieTrailerModal';
 import { Link as RouterLink } from 'react-router-dom';
 import { IGenresDetails } from '../../api/apiTypes/apiGenresTypes';
+import { Player } from '../../components/Player';
 
 const LABELS = ['cast', 'crew', 'details', 'genres', 'releases'];
 const PARAMS = [
@@ -91,13 +92,19 @@ export const FilmPage = () => {
     ));
 
   const renderCast = () =>
-    movie?.credits?.cast.map((member, index) => (
-      <Grid item key={index}>
-        <RouterLink to={`/person/${member.id}`}>
-          <LabelButton label={member.name} />
-        </RouterLink>
-      </Grid>
-    ));
+    movie?.credits?.cast.length
+      ? movie.credits.cast.map((member, index) => (
+          <Grid item key={index}>
+            <RouterLink to={`/person/${member.id}`}>
+              <LabelButton label={member.name} />
+            </RouterLink>
+          </Grid>
+        ))
+      : Array.from({ length: 6 }).map((_, index) => (
+          <Grid item key={index}>
+            <Skeleton sx={{ m: '2px' }} width="120px" height="40px" />
+          </Grid>
+        ));
   interface CrewDepartments {
     [key: string]: string[];
   }
@@ -191,7 +198,7 @@ export const FilmPage = () => {
       container
       spacing={1}
       sx={{
-        marginTop: movie?.backdrop_path ? '300px' : 0,
+        marginTop: !movie || movie?.backdrop_path ? '300px' : 0,
         ...styles.container,
       }}
     >
@@ -207,7 +214,25 @@ export const FilmPage = () => {
         <Box sx={styles.backdropNone} />
       )}
       <Grid item xs={12} sm={4} md={3} lg={3} mb={2}>
-        {movie && <PosterCard movie={movie} showBorder={false} />}
+        {movie ? (
+          <PosterCard movie={movie} showBorder={false} />
+        ) : (
+          <>
+            <Skeleton height="420px" width="100%" variant="rounded" sx={{ borderRadius: '10px' }} />
+            <Grid
+              item
+              display="flex"
+              justifyContent="center"
+              height="56px"
+              alignItems="center"
+              gap={2}
+            >
+              {Array.from({ length: 3 }).map((_, index) => (
+                <Skeleton variant="circular" key={index} sx={{ p: 2 }} width="30px" height="30px" />
+              ))}
+            </Grid>
+          </>
+        )}
         {movie && movie.videos && movie?.videos.results.length > 0 && (
           <>
             <Box sx={styles.previewWrapper} onClick={toggleTrailerModal}>
@@ -227,7 +252,7 @@ export const FilmPage = () => {
         )}
       </Grid>
       <Grid item xs={12} sm={8} md={9} lg={9}>
-        {movie && <MovieDesc movie={movie} />}
+        <MovieDesc movie={movie} />
         <Grid container borderBottom="1px solid #9ab" display="flex">
           {renderLabels()}
         </Grid>
@@ -237,10 +262,13 @@ export const FilmPage = () => {
           {activeLabel === 'details' && renderDetails()}
           {activeLabel === 'genres' && renderGenres()}
           {activeLabel === 'releases' && renderReleases()}
-          {movie ? (
-            <MovieReviews movie={movie} />
-          ) : (
-            <Typography>No movie details available.</Typography>
+          {movie && (
+            <Box width="100%" mt={1} sx={{ aspectRatio: 16 / 9 }}>
+              <Player imdbId={movie.imdb_id} />
+            </Box>
+          )}
+          {movie && movie.reviews && movie.id && (
+            <MovieReviews id={movie.id} reviews={movie.reviews} />
           )}
         </Grid>
       </Grid>

@@ -77,7 +77,9 @@ export const Carousel = () => {
   const HeaderButtons = () => (
     <Grid container justifyContent="space-between" borderBottom="1px solid #89a">
       <Grid item>
-        <Button sx={styles.headerBtnStyles}>POPULAR FILMS THIS WEEK</Button>
+        <RouterLink to="/lists">
+          <Button sx={styles.headerBtnStyles}>POPULAR FILMS THIS WEEK</Button>
+        </RouterLink>
       </Grid>
       <Grid item>
         <RouterLink to="/lists">
