@@ -119,7 +119,7 @@ export const ActorsPage = () => {
   );
 
   return (
-    <Container sx={styles.containerStyles}>
+    <Container sx={styles.containerStyles} data-testid="actors-page">
       <Grid container spacing={4}>
         <Grid item xs={12} sm={4}>
           <ActorImage />

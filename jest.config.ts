@@ -81,7 +81,9 @@ const config: Config = {
   // maxWorkers: "50%",
 
   // A map from regular expressions to module names or to arrays of module names that allow to stub out resources with a single module
-  // moduleNameMapper: {},
+  moduleNameMapper: {
+    '\\.(svg|jpg|png)$': '<rootDir>/src/fileMock.js', // это мок для всех SVG файлов, позволяющий тестировать компонент, не пытаясь загрузить фактический SVG
+  },
 
   // An array of regexp pattern strings, matched against all module paths before considered 'visible' to the module loader
   // modulePathIgnorePatterns: [],

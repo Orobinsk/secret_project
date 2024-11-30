@@ -80,7 +80,7 @@ export const ListOfMovies = () => {
     };
 
     return (
-      <Grid item sx={styles.itemWrapperStyles}>
+      <Grid item sx={styles.itemWrapperStyles} data-testid="list-page">
         <Typography sx={styles.headerTypographyStyles}>FILMS</Typography>
         <Box display="flex" justifyContent="center">
           <DropDownMenu onChange={handleChangeSort} items={SORT_BY} activeItem={sort} />

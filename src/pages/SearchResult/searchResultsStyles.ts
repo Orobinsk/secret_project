@@ -1,6 +1,7 @@
 import { Theme } from '@mui/material/styles';
 
 export const createSearchStyles = (theme: Theme) => ({
+  layout: { width: '100%', display: 'flex', flexWrap: 'nowrap', margin: '10px' },
   filterDrid: {
     maxWidth: '200px',
     minWidth: '200px',

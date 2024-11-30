@@ -95,7 +95,7 @@ export const SearchResult = () => {
   }
 
   return (
-    <Grid container spacing={1} width="100%" display="flex" flexWrap="nowrap" margin="10px">
+    <Grid container spacing={1} sx={styles.layout} data-testid="search-page">
       <Grid flexGrow="1" item>
         <Box sx={styles.movieListHeader}>
           <Typography sx={styles.headerTextStyle}>
