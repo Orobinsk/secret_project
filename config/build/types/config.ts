@@ -4,6 +4,7 @@ export interface buildPatchs {
   entry: string;
   build: string;
   html: string;
+  public: string;
 }
 
 export interface BuildEnv {

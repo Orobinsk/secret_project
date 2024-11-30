@@ -244,6 +244,10 @@ export const FilmPage = () => {
               />
               <PlayCircleOutlineIcon sx={styles.playPreviewIcon} />
             </Box>
+            <Typography color="primary.light">{movie.videos.results[0].type}</Typography>
+            <Typography color="primary.main">
+              {movie.videos.results[0].published_at.split('T')[0]}
+            </Typography>
             <MovieTrailerModal
               open={openTrailer}
               onClose={toggleTrailerModal}

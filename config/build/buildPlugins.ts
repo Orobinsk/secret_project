@@ -4,6 +4,7 @@ import { BuildOptions } from './types/config';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import ReactRefreshWebpackPlugin from '@pmmmwh/react-refresh-webpack-plugin';
 import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
+import CopyWebpackPlugin from 'copy-webpack-plugin';
 
 export function buildPlugins({ mode, patchs }: BuildOptions): Configuration['plugins'] {
   const isDev = mode === 'development';
@@ -20,6 +21,18 @@ export function buildPlugins({ mode, patchs }: BuildOptions): Configuration['plu
 
     new webpack.DefinePlugin({
       'process.env.TMDB_KEY': JSON.stringify(process.env.TMDB_KEY),
+    }),
+
+    new CopyWebpackPlugin({
+      patterns: [
+        {
+          from: patchs.public,
+          to: patchs.build,
+          globOptions: {
+            ignore: ['**/index.html'],
+          },
+        },
+      ],
     }),
   ];
 
