@@ -1,20 +1,18 @@
-import { Button, Grid, Pagination, PaginationItem, Rating, Typography } from '@mui/material';
+import { Grid, Pagination, PaginationItem, Rating, Typography } from '@mui/material';
 import Avatar from '../../../assets/nophoto.png';
-import { IReviewDetails, MovieDetails } from '../../../types/movieTypes';
+import { MovieDetails } from '../../../types/movieTypes';
 import { ChangeEvent, FC, useContext, useEffect, useState } from 'react';
 import { ImageConfig } from '../../../providers/ImageConfigProvider/ImageConfigContexts';
 import { API_PARAMS, imageSizes, MOVIE_ENDPOINTS } from '../../../constants';
 import { getMovie } from '../../../api/api';
-import { IResponseList } from '../../../api/apiTypes/apiTypes';
 
 interface IMovieReviews {
-  movie: MovieDetails;
+  id: MovieDetails['id'];
+  reviews: MovieDetails['reviews'];
 }
 
-export const MovieReviews: FC<IMovieReviews> = ({ movie }) => {
-  const [reviews, setReviews] = useState<IResponseList<IReviewDetails[]> | undefined>(
-    movie.reviews,
-  );
+export const MovieReviews: FC<IMovieReviews> = ({ id, reviews }) => {
+  const [allReviews, setAllReviews] = useState<MovieDetails['reviews'] | undefined>(reviews);
   const [page, setPage] = useState<number | null>(null);
   const imageConfig = useContext(ImageConfig);
 
@@ -23,58 +21,22 @@ export const MovieReviews: FC<IMovieReviews> = ({ movie }) => {
   };
 
   useEffect(() => {
-    if (movie.id && page) {
+    if (id && page) {
       getMovie({
-        id: movie.id,
+        id,
         endpoint: MOVIE_ENDPOINTS.REVIEW,
         params: { [API_PARAMS.PAGE]: page },
       }).then((data) => {
-        setReviews(data);
+        setAllReviews(data);
       });
     }
-  }, [movie.id, page]);
+  }, [id, page]);
 
   return (
-    <Grid container direction="column">
-      {reviews?.results && reviews.results.length > 0 && (
-        <Grid
-          container
-          justifyContent="space-between"
-          sx={{ borderBottom: '1px solid #89a', mb: 2 }}
-        >
-          <Grid item>
-            <Button
-              sx={{
-                fontSize: '15px',
-                color: '#89a',
-                ':hover': {
-                  color: '#FFFF',
-                },
-              }}
-              disableRipple
-            >
-              Popular reviews
-            </Button>
-          </Grid>
-          <Grid item>
-            <Button
-              sx={{
-                color: '#89a',
-                fontSize: '15px',
-                ':hover': {
-                  color: '#FFFF',
-                },
-              }}
-              disableRipple
-            >
-              MORE
-            </Button>
-          </Grid>
-        </Grid>
-      )}
-      <Grid container direction="column">
-        {reviews?.results &&
-          reviews.results.map((review) => (
+    <Grid container direction="column" borderTop="1px solid" borderColor="primary.main" mt={2}>
+      <Grid container direction="column" mt={1}>
+        {allReviews?.results &&
+          allReviews.results.map((review) => (
             <Grid key={review.id} container direction="row" alignItems="flex-start" mb={2}>
               <Grid item>
                 <img
@@ -106,10 +68,10 @@ export const MovieReviews: FC<IMovieReviews> = ({ movie }) => {
             </Grid>
           ))}
       </Grid>
-      {reviews && reviews?.total_pages > 1 && (
+      {allReviews && allReviews?.total_pages > 1 && (
         <Grid item>
           <Pagination
-            count={reviews?.total_pages}
+            count={allReviews?.total_pages}
             page={Number(page) || 1}
             color="primary"
             onChange={handleChangePage}

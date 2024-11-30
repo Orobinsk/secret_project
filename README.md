@@ -4,7 +4,7 @@
 
 ## Стек технологий:
 
-- Webpack
+- Webpack (настроен с нуля для сборки, включая поддержку TypeScript, CSS и оптимизацию бандлов)
 - React
 - TypeScript
 - React Router DOM
