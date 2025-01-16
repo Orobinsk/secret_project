@@ -1,4 +1,4 @@
-import { FC, ReactNode, useState, useEffect } from 'react';
+import { FC, ReactNode, useState, useLayoutEffect } from 'react';
 import { SnackbarContext } from './SnackbarContext';
 import { Alert, Snackbar } from '@mui/material';
 import { setupAxiosInterceptors } from '../../api/base';
@@ -16,7 +16,7 @@ export const SnackbarProvider: FC<{ children: ReactNode }> = ({ children }) => {
     setOpen(false);
   };
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     setupAxiosInterceptors(showError);
   }, []);
 
