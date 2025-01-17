@@ -51,7 +51,7 @@ export const ReleaseCalendar = () => {
   }, [page]);
 
   return (
-    <Box display="flex" flexDirection="column" alignItems="center">
+    <Box display="flex" flexDirection="column" alignItems="center" mb={4}>
       <Grid container spacing={1} mt={2} justifyContent="flex-start" alignItems="flex-start">
         <Grid item xs={12}>
           <Typography sx={styles.releaseHeader}>NEXT BIG RELEASES</Typography>
