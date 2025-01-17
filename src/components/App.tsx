@@ -12,6 +12,7 @@ export const App = () => {
         flexDirection: 'column',
         minHeight: '100vh',
       }}
+      data-testid="app"
     >
       <Container maxWidth="lg" sx={{ flex: 1 }}>
         <ScrollToTop />
