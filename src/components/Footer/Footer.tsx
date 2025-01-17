@@ -23,8 +23,8 @@ const menuItem = {
 const boxStyle = {
   bgcolor: '#2D3440',
   minHeight: '200px',
+  width: '100%',
   p: 1,
-  mt: 3,
 };
 
 const containerStyle = {
