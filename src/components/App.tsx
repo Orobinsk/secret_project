@@ -14,12 +14,20 @@ export const App = () => {
       }}
       data-testid="app"
     >
-      <Container maxWidth="lg" sx={{ flex: 1 }}>
-        <ScrollToTop />
-        <Nav />
-        <Outlet />
-      </Container>
-      <Footer />
+      <header>
+        <Container maxWidth="lg" sx={{ flex: 1 }}>
+          <Nav />
+        </Container>
+      </header>
+      <main>
+        <Container maxWidth="lg" sx={{ flex: 1 }}>
+          <Outlet />
+        </Container>
+      </main>
+      <footer>
+        <Footer />
+      </footer>
+      <ScrollToTop />
     </Box>
   );
 };

@@ -22,7 +22,6 @@ const menuItem = {
 
 const boxStyle = {
   bgcolor: '#2D3440',
-  minHeight: '200px',
   width: '100%',
   p: 1,
 };
@@ -30,7 +29,7 @@ const boxStyle = {
 const containerStyle = {
   display: 'flex',
   alignItems: 'center',
-  [theme.breakpoints.down('md')]: {
+  [theme.breakpoints.down('sm')]: {
     flexDirection: 'column',
   },
 };
