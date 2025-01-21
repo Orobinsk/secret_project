@@ -19,6 +19,7 @@ export const createNavStyles = (theme: Theme) => ({
     width: '100%',
     justifyContent: 'space-between',
     zIndex: 100,
+    mb: 4,
   },
 
   menuContainer: {
