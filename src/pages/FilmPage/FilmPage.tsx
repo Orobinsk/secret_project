@@ -33,6 +33,7 @@ export const FilmPage = () => {
   const [activeLabel, setActiveLabel] = useState<string | null>(LABELS[0]);
   const imageConfig = useContext(ImageConfig);
   const [openTrailer, setOpenTrailer] = useState(false);
+  const [showLabels, setShowLabels] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -73,10 +74,19 @@ export const FilmPage = () => {
 
   const handleButtonClick = (label: string) => {
     setActiveLabel(label);
+    setShowLabels(false);
   };
 
   const handleNavigateToList = (genre: IGenresDetails) => {
     navigate(`/lists?genre=${encodeURIComponent(JSON.stringify(genre))}`);
+  };
+
+  const moreButton = () => {
+    return (
+      <Button onClick={() => setShowLabels((prev) => !prev)} sx={styles.moreBtnStyles}>
+        {showLabels ? 'HIDE' : 'MORE'}
+      </Button>
+    );
   };
 
   const renderLabels = () =>
@@ -91,20 +101,35 @@ export const FilmPage = () => {
       </Grid>
     ));
 
-  const renderCast = () =>
-    movie?.credits?.cast.length
-      ? movie.credits.cast.map((member, index) => (
-          <Grid item key={index}>
-            <RouterLink to={`/person/${member.id}`}>
-              <LabelButton label={member.name} />
-            </RouterLink>
-          </Grid>
-        ))
-      : Array.from({ length: 6 }).map((_, index) => (
-          <Grid item key={index}>
-            <Skeleton sx={{ m: '2px' }} width="120px" height="40px" />
-          </Grid>
-        ));
+  const renderCast = () => {
+    if (!movie?.credits?.cast?.length) {
+      return Array.from({ length: 6 }).map((_, index) => (
+        <Grid item key={index}>
+          <Skeleton sx={{ m: '2px' }} width="120px" height="40px" />
+        </Grid>
+      ));
+    }
+
+    return (
+      <Box
+        sx={{
+          maxHeight: !showLabels ? '40px' : 'none',
+          overflow: !showLabels ? 'hidden' : 'visible',
+        }}
+      >
+        <Grid container sx={{ alignItems: 'center' }}>
+          {movie.credits.cast.map((member, index) => (
+            <Grid item key={index}>
+              <RouterLink to={`/person/${member.id}`}>
+                <LabelButton label={member.name} />
+              </RouterLink>
+            </Grid>
+          ))}
+        </Grid>
+      </Box>
+    );
+  };
+
   interface CrewDepartments {
     [key: string]: string[];
   }
@@ -117,49 +142,74 @@ export const FilmPage = () => {
     }, {});
 
     return (
-      <Grid container>
-        {Object.keys(crewDepartments).map((department, index) => (
-          <Grid container key={index} mb={1}>
-            <Grid item xs={4}>
-              <Typography fontSize="15px" color="#9ab">
-                {department}
-              </Typography>
+      <Box
+        sx={{
+          maxHeight: !showLabels ? '40px' : 'none',
+          overflow: !showLabels ? 'hidden' : 'visible',
+        }}
+      >
+        <Grid container>
+          {Object.keys(crewDepartments).map((department, index) => (
+            <Grid container key={index} mb={1}>
+              <Grid item xs={4}>
+                <Typography fontSize="15px" color="#9ab">
+                  {department}
+                </Typography>
+              </Grid>
+              <Grid item xs={8}>
+                {crewDepartments[department].map((name: string, i: number) => (
+                  <LabelButton key={i} label={name} />
+                ))}
+              </Grid>
             </Grid>
-            <Grid item xs={8}>
-              {crewDepartments[department].map((name: string, i: number) => (
-                <LabelButton key={i} label={name} />
-              ))}
-            </Grid>
-          </Grid>
-        ))}
-      </Grid>
+          ))}
+        </Grid>
+      </Box>
     );
   };
 
-  const renderDetails = () =>
-    details.map((detail, index) => (
-      <Grid container key={index}>
-        {Array.isArray(detail.name) && detail.name.length > 0 && detail.title && (
-          <Grid container alignItems="center">
-            <Grid item xs={2}>
-              <Typography fontSize="15px" color="#9ab">
-                {detail.title}
-              </Typography>
+  const renderDetails = () => (
+    <Box
+      sx={{
+        maxHeight: !showLabels ? '40px' : 'none',
+        overflow: !showLabels ? 'hidden' : 'visible',
+      }}
+    >
+      {details.map((detail, index) => (
+        <Grid container key={index}>
+          {Array.isArray(detail.name) && detail.name.length > 0 && detail.title && (
+            <Grid container>
+              <Grid item xs={2}>
+                <Typography fontSize="15px" color="#9ab">
+                  {detail.title}
+                </Typography>
+              </Grid>
+              <Grid item xs={10} pl={2}>
+                {detail.name.map((name, i) => name && <LabelButton key={i} label={name} />)}
+              </Grid>
             </Grid>
-            <Grid item xs={10}>
-              {detail.name.map((name, i) => name && <LabelButton key={i} label={name} />)}
-            </Grid>
-          </Grid>
-        )}
-      </Grid>
-    ));
+          )}
+        </Grid>
+      ))}
+    </Box>
+  );
 
-  const renderGenres = () =>
-    movie?.genres.map((genre, index) => (
-      <Grid item key={index}>
-        <LabelButton changeLabel={() => handleNavigateToList(genre)} label={genre.name} />
-      </Grid>
-    ));
+  const renderGenres = () => (
+    <Box
+      sx={{
+        maxHeight: !showLabels ? '40px' : 'none',
+        overflow: !showLabels ? 'hidden' : 'visible',
+        display: 'flex',
+        flexDirection: 'row',
+      }}
+    >
+      {movie?.genres.map((genre, index) => (
+        <Grid item key={index}>
+          <LabelButton changeLabel={() => handleNavigateToList(genre)} label={genre.name} />
+        </Grid>
+      ))}{' '}
+    </Box>
+  );
 
   const renderReleases = () => {
     const uniqueNotes = Array.from(
@@ -171,26 +221,38 @@ export const FilmPage = () => {
       ),
     );
 
-    return uniqueNotes.map((note, index) => {
-      const releaseYear =
-        movie?.release_dates?.results
-          .find((result) => result.release_dates.some((date) => date.note === note))
-          ?.release_dates.find((date) => date.note === note)
-          ?.release_date.slice(0, 4) || '';
+    return (
+      <Box
+        sx={{
+          maxHeight: !showLabels ? '40px' : 'none',
+          overflow: !showLabels ? 'hidden' : 'visible',
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '10px',
+        }}
+      >
+        {uniqueNotes.map((note, index) => {
+          const releaseYear =
+            movie?.release_dates?.results
+              .find((result) => result.release_dates.some((date) => date.note === note))
+              ?.release_dates.find((date) => date.note === note)
+              ?.release_date.slice(0, 4) || '';
 
-      return (
-        <Grid container key={index} mb={1} alignItems="center">
-          <Grid item xs={6}>
-            <Typography fontSize="15px" color="#9ab">
-              {note}
-            </Typography>
-          </Grid>
-          <Grid item xs={6}>
-            <LabelButton label={releaseYear} />
-          </Grid>
-        </Grid>
-      );
-    });
+          return (
+            <Grid container key={index} mb={1} alignItems="center">
+              <Grid item xs={6}>
+                <Typography fontSize="15px" color="#9ab">
+                  {note}
+                </Typography>
+              </Grid>
+              <Grid item xs={6}>
+                <LabelButton label={releaseYear} />
+              </Grid>
+            </Grid>
+          );
+        })}
+      </Box>
+    );
   };
 
   return (
@@ -262,11 +324,19 @@ export const FilmPage = () => {
           {renderLabels()}
         </Grid>
         <Grid container margin="10px 0">
-          {activeLabel === 'cast' && renderCast()}
-          {activeLabel === 'crew' && renderCrew()}
-          {activeLabel === 'details' && renderDetails()}
-          {activeLabel === 'genres' && renderGenres()}
-          {activeLabel === 'releases' && renderReleases()}
+          <Box
+            sx={{
+              maxHeight: !showLabels ? '40px' : 'none',
+              overflow: !showLabels ? 'hidden' : 'visible',
+            }}
+          >
+            {activeLabel === 'cast' && renderCast()}
+            {activeLabel === 'crew' && renderCrew()}
+            {activeLabel === 'details' && renderDetails()}
+            {activeLabel === 'genres' && renderGenres()}
+            {activeLabel === 'releases' && renderReleases()}
+          </Box>
+          {moreButton()}
           {movie && (
             <Box width="100%" mt={1} sx={{ aspectRatio: 16 / 9 }}>
               <Player imdbId={movie.imdb_id} />
