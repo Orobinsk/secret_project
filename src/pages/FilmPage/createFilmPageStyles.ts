@@ -57,4 +57,18 @@ export const createFilmPageStyles = () => ({
     color: 'secondary.dark',
     fontSize: '50px',
   },
+  moreBtnStyles: {
+    width: '100%',
+    margin: '2px',
+    padding: '5px',
+    fontSize: '15px',
+    color: 'white',
+    bgcolor: 'transparent',
+    border: 'none',
+    borderBottom: '1px solid #9ab',
+    borderRadius: 0,
+    '&:hover': {
+      color: '#00e054',
+    },
+  },
 });
