@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { Box, Container, Grid, Pagination, Typography } from '@mui/material';
+import { Container, Grid, Typography } from '@mui/material';
 
 import { getPerson } from '../../api/api';
 import { PERSON_ENDPOINTS } from '../../api/apiTypes/apiPersonTypes';
@@ -9,7 +9,7 @@ import { PosterModal } from '../../UIKit/PosterModal/PosterModal';
 import { createActorsPageStyles } from './CreateActorsPageStyles';
 import { ImageConfig } from '../../providers/ImageConfigProvider/ImageConfigContexts';
 import { IPersonDetailsResults } from '../../types/personTypes';
-import { MovieBox } from '../../components/MovieBox/MovieBox';
+import { ActorsMovies } from './ActorsMovies';
 
 const PARAMS = [
   PERSON_ENDPOINTS.IMAGES,
@@ -17,7 +17,6 @@ const PARAMS = [
   PERSON_ENDPOINTS.TV_CREDITS,
 ].join(',');
 const styles = createActorsPageStyles();
-const itemsPerPage = 20;
 
 export const ActorsPage = () => {
   const { id } = useParams<{ id: string }>();
@@ -26,11 +25,6 @@ export const ActorsPage = () => {
   const [open, setOpen] = useState(false);
   const handleClickOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-  const [page, setPage] = useState(1);
-
-  const handleChange = (event: React.ChangeEvent<unknown>, value: number) => {
-    setPage(value);
-  };
 
   useEffect(() => {
     const idNumber = Number(id);
@@ -41,12 +35,6 @@ export const ActorsPage = () => {
       setActor(data);
     });
   }, [id]);
-
-  const movies = actor?.movie_credits?.cast || [];
-  const totalPages = Math.ceil(movies.length / itemsPerPage);
-  const startIndex = (page - 1) * itemsPerPage;
-  const endIndex = startIndex + itemsPerPage;
-  const currentMovies = movies.slice(startIndex, endIndex);
 
   const ActorImage = () => {
     const profiles = actor?.images?.profiles || [];
@@ -139,16 +127,7 @@ export const ActorsPage = () => {
           <ActorInfo />
         </Grid>
         <Grid item xs={12} sm={8}>
-          <Box display="flex" flexDirection="column" alignItems="center">
-            <MovieBox movie={currentMovies} />
-            <Pagination
-              count={totalPages}
-              page={page}
-              color="primary"
-              onChange={handleChange}
-              sx={{ mt: 1 }}
-            />
-          </Box>
+          {actor?.movie_credits?.cast && <ActorsMovies movies={actor.movie_credits.cast} />}
         </Grid>
       </Grid>
     </Container>
