@@ -5,6 +5,7 @@ import { App } from '../../components/App';
 import { SearchResult } from '../../pages/SearchResult/SearchResult';
 import { ListOfMovies } from '../../pages/ListOfMovies/ListOfMovies';
 import { ActorsPage } from '../../pages/ActorsPage/ActorsPage';
+import { AboutProject } from '../../pages/AboutProject/AboutProject';
 
 export const Router = () => {
   return (
@@ -15,7 +16,7 @@ export const Router = () => {
         <Route path="search" element={<SearchResult />} />
         <Route path="lists" element={<ListOfMovies />} />
         <Route path="person/:id" element={<ActorsPage />} />
-
+        <Route path="about" element={<AboutProject />} />
         <Route path="*" element={<Navigate to="/" />} />
       </Route>
     </Routes>

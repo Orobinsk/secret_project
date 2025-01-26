@@ -20,3 +20,7 @@ export const setupAxiosInterceptors = (showError: (message: string) => void) => 
     },
   );
 };
+
+export const gitHub = axios.create({
+  baseURL: 'https://api.github.com',
+});

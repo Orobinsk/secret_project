@@ -19,7 +19,11 @@ export const App = () => {
           <Nav />
         </Container>
       </header>
-      <main>
+      <main
+        style={{
+          flex: 1,
+        }}
+      >
         <Container maxWidth="lg" sx={{ flex: 1 }}>
           <Outlet />
         </Container>

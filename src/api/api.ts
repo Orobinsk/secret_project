@@ -15,7 +15,7 @@ import {
   IImageConfig,
   GetMovieResponse,
 } from './apiTypes/apiTypes';
-import { apiTMDB } from './base';
+import { apiTMDB, gitHub } from './base';
 
 //схема - https://developer.themoviedb.org/reference/discover-movie
 export async function getMovieList({ params }: IGetMoviesListParams = {}): Promise<
@@ -118,3 +118,18 @@ export async function getPerson<E extends TPersonEndpoint>({
     throw error;
   }
 }
+
+//Запрос к АПИ гитхаба
+
+export const getGitHubProfileImages = async (usernames: string[]): Promise<string[]> => {
+  try {
+    const profileRequests = usernames.map((username) =>
+      gitHub.get(`/users/${username}`).then((response) => response.data.avatar_url),
+    );
+
+    return await Promise.all(profileRequests);
+  } catch (error) {
+    console.error('Error while fetching profile data:', error);
+    return [];
+  }
+};
