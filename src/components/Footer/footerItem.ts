@@ -9,11 +9,7 @@ export const itemFooter: IItemFooter[] = [
     link: '/',
   },
   {
-    title: 'About',
-    link: '/',
-  },
-  {
-    title: 'API',
-    link: '/',
+    title: 'About the Project',
+    link: '/about',
   },
 ];
