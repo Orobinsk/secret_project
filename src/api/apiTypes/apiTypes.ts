@@ -8,6 +8,15 @@ import {
   ITrailerResponse,
   MovieDetails,
 } from '../../types/movieTypes';
+import {
+  IAccountStates,
+  IAggregateCredits,
+  IAlternativeTitles,
+  IChanges,
+  IContentRatings,
+  IImages,
+  SeriesDetails,
+} from '../../types/seriesTypes';
 
 export interface IResponseList<T> {
   page: number;
@@ -50,4 +59,17 @@ export interface IImageConfig {
     still_sizes: string[];
   };
   change_keys: string[];
+}
+
+export type GetSeriesResponse<E extends keyof ISeriesEndpointTypeMap | undefined> =
+  E extends keyof ISeriesEndpointTypeMap ? ISeriesEndpointTypeMap[E] : SeriesDetails;
+
+export interface ISeriesEndpointTypeMap {
+  account_states?: IAccountStates;
+  aggregate_credits?: IAggregateCredits;
+  alternative_titles?: IAlternativeTitles;
+  changes?: IChanges;
+  content_ratings?: IContentRatings;
+  credits?: ICredits;
+  images?: IImages;
 }

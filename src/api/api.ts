@@ -14,6 +14,8 @@ import {
   IMovieEndpointTypeMap,
   IImageConfig,
   GetMovieResponse,
+  ISeriesEndpointTypeMap,
+  GetSeriesResponse,
 } from './apiTypes/apiTypes';
 import { apiTMDB, gitHub } from './base';
 
@@ -133,3 +135,23 @@ export const getGitHubProfileImages = async (usernames: string[]): Promise<strin
     return [];
   }
 };
+
+//запрос сериалов
+
+export async function getSeries<E extends keyof ISeriesEndpointTypeMap | undefined = undefined>({
+  id,
+  endpoint,
+  params,
+}: IGetMovieParams & { endpoint?: E }): Promise<GetSeriesResponse<E>> {
+  const currentEndpoint = `tv/${id}${endpoint ? `/${endpoint}` : ''}`;
+
+  try {
+    const response = await apiTMDB.get<GetSeriesResponse<E>>(currentEndpoint, {
+      params,
+    });
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+}
