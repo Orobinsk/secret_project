@@ -23,6 +23,8 @@ const getLink = (mediaName: TMediaNames) => {
       return '/person/';
     case mediaNames.movie:
       return '/film/';
+    case mediaNames.series:
+      return '/tv/';
     default:
       return '/';
   }
